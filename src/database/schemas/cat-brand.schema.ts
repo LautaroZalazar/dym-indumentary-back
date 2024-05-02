@@ -3,10 +3,10 @@ import { HydratedDocument } from "mongoose";
 
 export type CatBrandDocument = HydratedDocument<CatBrand>;
 
-@Schema()
+@Schema({ collection: 'cat_brands', timestamps: true })
 export class CatBrand {
-    @Prop()
-    name: string;
+  @Prop()
+  name: string;
 }
 
 export const CatBrandSchema = SchemaFactory.createForClass(CatBrand);

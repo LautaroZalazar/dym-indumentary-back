@@ -8,37 +8,37 @@ import { CatBrand } from './cat-brand.schema';
 
 export type ProductDocument = HydratedDocument<Product>;
 
-@Schema()
+@Schema({ collection: 'products', timestamps: true })
 export class Product {
-    @Prop()
-    name: string;
+  @Prop()
+  name: string;
 
-    @Prop()
-    price: number;
+  @Prop()
+  price: number;
 
-    @Prop()
-    description: string;
+  @Prop()
+  description: string;
 
-    @Prop()
-    stock: number;
+  @Prop()
+  stock: number;
 
-    @Prop()
-    gender: string;
+  @Prop()
+  gender: string;
 
-    @Prop([String])
-    image: string[];
+  @Prop([String])
+  image: string[];
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'CatBrand' })
-    brand: CatBrand;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'CatBrand' })
+  brand: CatBrand;
 
-    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'CatCategory' })
-    category: CatCategory;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'CatCategory' })
+  category: CatCategory;
 
-    @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'CatSize' }] })
-    size: CatSize[];
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'CatSize' }] })
+  size: CatSize[];
 
-    @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'CatColor' }] })
-    color: CatColor[];
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'CatColor' }] })
+  color: CatColor[];
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
