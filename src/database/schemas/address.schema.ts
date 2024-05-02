@@ -3,22 +3,22 @@ import { HydratedDocument } from "mongoose";
 
 export type AddressDocument = HydratedDocument<Address>;
 
-@Schema()
+@Schema({ collection: 'addresses', timestamps: true })
 export class Address {
-    @Prop()
-    street: string;
+  @Prop()
+  street: string;
 
-    @Prop()
-    number: number;
+  @Prop()
+  number: number;
 
-    @Prop()
-    city: string;
+  @Prop()
+  city: string;
 
-    @Prop()
-    state: string;
+  @Prop()
+  state: string;
 
-    @Prop()
-    zip: string;
+  @Prop()
+  zip: string;
 }
 
 export const AddressSchema = SchemaFactory.createForClass(Address);

@@ -3,10 +3,10 @@ import { HydratedDocument } from "mongoose";
 
 export type CatColorDocument = HydratedDocument<CatColor>;
 
-@Schema()
+@Schema({ collection: 'cat_colors', timestamps: true })
 export class CatColor {
-    @Prop()
-    name: string;
+  @Prop()
+  name: string;
 }
 
 export const CatColorSchema = SchemaFactory.createForClass(CatColor);

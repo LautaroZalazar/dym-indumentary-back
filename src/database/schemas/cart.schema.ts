@@ -3,16 +3,23 @@ import { HydratedDocument } from "mongoose";
 
 export type ProductDocument = HydratedDocument<Cart>;
 
-@Schema()
+@Schema({ collection: 'carts', timestamps: true })
 export class Cart {
-    @Prop({ type: [{ type: { type: String, ref: 'Product', autopopulate: true }, quantity: Number }] })
-    products: { type: string, ref: 'Product', quantity: number }[];
+  @Prop({
+    type: [
+      {
+        type: { type: String, ref: 'Product', autopopulate: true },
+        quantity: Number,
+      },
+    ],
+  })
+  products: { type: string; ref: 'Product'; quantity: number }[];
 
-    @Prop()
-    total: number;
+  @Prop()
+  total: number;
 
-    @Prop()
-    shipping: number;
+  @Prop()
+  shipping: number;
 }
 
 export const CartSchema = SchemaFactory.createForClass(Cart);

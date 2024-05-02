@@ -1,12 +1,12 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument } from "mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
 
 export type CatRoleDocument = HydratedDocument<CatRole>;
 
-@Schema()
+@Schema({ collection: 'cat_roles', timestamps: true })
 export class CatRole {
-    @Prop()
-    name: string;
+  @Prop()
+  name: string;
 }
 
 export const CatRoleSchema = SchemaFactory.createForClass(CatRole);
