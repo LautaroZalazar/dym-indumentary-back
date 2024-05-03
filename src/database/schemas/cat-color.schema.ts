@@ -1,11 +1,11 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument } from "mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
 
 export type CatColorDocument = HydratedDocument<CatColor>;
 
 @Schema({ collection: 'cat_colors', timestamps: true })
 export class CatColor {
-  @Prop()
+  @Prop({ unique: true })
   name: string;
 }
 

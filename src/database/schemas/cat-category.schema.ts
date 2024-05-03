@@ -1,11 +1,11 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument } from "mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
 
 export type CatCategoryDocument = HydratedDocument<CatCategory>;
 
 @Schema({ collection: 'cat_categories', timestamps: true })
 export class CatCategory {
-  @Prop()
+  @Prop({ unique: true })
   name: string;
 
   @Prop()
