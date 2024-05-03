@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CatRoleSchema } from '../schemas/role.schema';
+import { CatRoleSchema } from '../schemas/cat-role.schema';
 import { ICatRoleRepository } from '@/catalogs/domain/repositories/cat-role.interface.repository';
 import { CatRoleModel } from '@/catalogs/domain/models/cat-role.model';
 
@@ -25,7 +25,7 @@ export class CatRoleRepository implements ICatRoleRepository {
       const schema = new this.catRoleModel(catRole.toJSON());
       const saved = await schema.save();
 
-      if (!saved) throw new Error('Error al crear el registro');
+      if (!saved) throw new Error('Error creating the role');
 
       return CatRoleModel.hydrate(saved);
     } catch (error) {

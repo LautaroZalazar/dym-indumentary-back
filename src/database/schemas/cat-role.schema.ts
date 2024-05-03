@@ -5,7 +5,7 @@ export type CatRoleDocument = HydratedDocument<CatRole>;
 
 @Schema({ collection: 'cat_roles', timestamps: true })
 export class CatRole {
-  @Prop()
+  @Prop({ unique: true })
   name: string;
 }
 
