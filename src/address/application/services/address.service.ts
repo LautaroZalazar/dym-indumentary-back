@@ -7,7 +7,6 @@ import {
 } from '@/address/domain/types/address.types';
 import SymbolsAddress from '@/address/symbols-address';
 import { Inject, Injectable } from '@nestjs/common';
-import { query } from 'express';
 
 @Injectable()
 export class AddressService implements IAddressService {
