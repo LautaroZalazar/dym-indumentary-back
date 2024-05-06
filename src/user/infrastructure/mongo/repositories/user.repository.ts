@@ -80,6 +80,7 @@ export class UserRepository implements IUserRepository {
         password: userObj.password || existingUser.password,
         phone: userObj.phone || existingUser.phone,
         isActive: userObj.isActive || existingUser.isActive,
+        newsletter: userObj.newsletter || existingUser.newsletter,
         address: existingUser.address,
         role: existingUser.role,
         cart: existingUser.cart,

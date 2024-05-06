@@ -3,6 +3,7 @@ export interface IUserCreate {
   email: string;
   password: string;
   phone: string;
+  newsletter: boolean;
 }
 
 export interface IUserUpdate {
@@ -11,4 +12,5 @@ export interface IUserUpdate {
   password: string;
   phone: string;
   isActive: boolean;
+  newsletter: boolean;
 }

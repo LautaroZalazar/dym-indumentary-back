@@ -3,6 +3,7 @@ import SymbolsUser from '@/user/symbols-user';
 import { UserRepository } from '../mongo/repositories/user.repository';
 import SymbolsCatalogs from '@/catalogs/symbols-catalogs';
 import { CatRoleRepository } from '../mongo/repositories/cat-role.repository';
+import EventEmitter from 'events';
 
 export const userService = {
   provide: SymbolsUser.IUserService,

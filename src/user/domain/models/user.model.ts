@@ -10,6 +10,7 @@ export class UserModel extends BaseModel {
   private _password: string;
   private _phone: string;
   private _isActive: boolean;
+  private _newsletter: boolean;
   private _address: AddressModel;
   private _role: CatRoleModel;
   private _cart: CartModel;
@@ -23,6 +24,7 @@ export class UserModel extends BaseModel {
       password: this._password,
       phone: this._phone,
       isActive: this._isActive,
+      newsletter: this._newsletter,
       address: this._address ? this._address.toJSON() : null,
       role: this._role ? this._role.toJSON() : null,
       cart: this._cart ? this._cart.toJSON() : null,
@@ -41,6 +43,7 @@ export class UserModel extends BaseModel {
     newUser._password = user.password;
     newUser._phone = user.phone;
     newUser._isActive = user.isActive;
+    newUser._newsletter = user.newsletter;
 
     return newUser;
   }
@@ -53,6 +56,7 @@ export class UserModel extends BaseModel {
     newUser._password = user.password;
     newUser._phone = user.phone;
     newUser._isActive = user.isActive;
+    newUser._newsletter = user.newsletter;
     newUser._address = user.address ? AddressModel.hydrate(user.address) : null;
     newUser._role = user.role ? CatRoleModel.hydrate(user.role) : null;
     newUser._cart = user.cart ? CartModel.hydrate(user.cart) : null;
