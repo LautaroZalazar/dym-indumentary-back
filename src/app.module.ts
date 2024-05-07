@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { CoreModule } from './core/core.module';
 import { CatalogsModule } from './catalogs/catalogs.module';
 import { AddressModule } from './address/address.module';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AddressModule } from './address/address.module';
     CoreModule,
     CatalogsModule,
     AddressModule,
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

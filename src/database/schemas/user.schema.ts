@@ -23,6 +23,9 @@ export class User {
   @Prop()
   isActive: boolean;
 
+  @Prop({ default: false })
+  newsletter: boolean;
+
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Address' })
   address: Address;
 

@@ -5,12 +5,14 @@ import { IUserService } from '@/user/domain/services/user.interface.service';
 import { IUserCreate, IUserUpdate } from '@/user/domain/types/user.types';
 import SymbolsUser from '@/user/symbols-user';
 import { Inject, Injectable } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class UserService implements IUserService {
   constructor(
     @Inject(SymbolsUser.IUserRepository)
     private readonly userRepository: IUserRepository,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   async create(user: IUserCreate): Promise<UserModel> {
@@ -28,6 +30,12 @@ export class UserService implements IUserService {
       });
 
       const userSave = await this.userRepository.create(userModel);
+
+      if (userSave.toJSON().newsletter)
+        this.eventEmitter.emit('newslatter-suscription-notification.created', {
+          email: userSave.toJSON().email,
+          name: userSave.toJSON().name,
+        });
 
       return userSave;
     } catch (error) {
