@@ -10,7 +10,6 @@ import {
   Put,
   UseGuards,
   Req,
-  Res,
 } from '@nestjs/common';
 import { CreateUserDTO, GetUserDTO, UpdateUserDTO } from '../dtos/user.dto';
 import SymbolsUser from '@/user/symbols-user';
