@@ -7,6 +7,7 @@ import { CoreModule } from './core/core.module';
 import { CatalogsModule } from './catalogs/catalogs.module';
 import { AddressModule } from './address/address.module';
 import { NotificationModule } from './notification/notification.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { NotificationModule } from './notification/notification.module';
     CatalogsModule,
     AddressModule,
     NotificationModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
