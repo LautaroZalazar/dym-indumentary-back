@@ -9,8 +9,10 @@ import {
   Inject,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateShippingDTO, GetShippingDTO } from '../dtos/cat-shipping.dto';
+import { AuthGuards } from '@/auth/infrastructure/nest/guards/auth.guard';
 
 @Controller('shipping')
 export class CatShippingController {
@@ -19,6 +21,7 @@ export class CatShippingController {
     private readonly catShippingService: ICatShippingService,
   ) {}
 
+  @UseGuards(AuthGuards)
   @Post()
   async create(@Body() body: CreateShippingDTO) {
     try {

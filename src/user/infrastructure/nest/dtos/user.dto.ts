@@ -31,10 +31,6 @@ export class CreateUserDTO {
 export class GetUserDTO {
   @IsString()
   @IsOptional()
-  id: string;
-
-  @IsString()
-  @IsOptional()
   email: string;
 }
 
