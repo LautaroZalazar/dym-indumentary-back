@@ -24,8 +24,8 @@ import { JwtStrategy } from './infrastructure/nest/strategies/jwt.strategy';
     MongooseModule.forFeature([userSchema, sessionSchema]),
     JwtModule.register({
       global: true,
-      secret: config().app.jwt.secret, // Aquí debes proporcionar tu clave secreta
-      signOptions: { expiresIn: config().app.jwt.expiresIn }, // Opciones de firma del token
+      secret: config().app.jwt.secret,
+      signOptions: { expiresIn: config().app.jwt.expiresIn },
     }),
   ],
   providers: [
