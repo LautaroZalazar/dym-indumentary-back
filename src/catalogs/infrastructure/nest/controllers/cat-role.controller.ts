@@ -9,8 +9,10 @@ import {
   Query,
   HttpException,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateRoleDTO, GetRoleByNameDTO } from '../dtos/cat-role.dto';
+import { AuthGuards } from '@/auth/infrastructure/nest/guards/auth.guard';
 
 @Controller('role')
 export class CatRoleController {
@@ -29,6 +31,7 @@ export class CatRoleController {
     }
   }
 
+  @UseGuards(AuthGuards)
   @Post()
   async createRole(@Body() body: CreateRoleDTO) {
     try {

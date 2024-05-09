@@ -1,6 +1,6 @@
 import { CartModel } from './cart.model';
-import { BaseModel } from './base.model';
-import { Identifier } from '../value-objects/identifier';
+import { Identifier } from '@/core/domain/value-objects/identifier';
+import { BaseModel } from '@/core/domain/models/base.model';
 import { AddressModel } from './address.model';
 import { CatRoleModel } from './cat-role.model';
 

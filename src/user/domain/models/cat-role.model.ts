@@ -1,5 +1,5 @@
-import { Identifier } from '../../../user/domain/value-objects/identifier';
-import { BaseModel } from '../../../user/domain/models/base.model';
+import { Identifier } from '@/core/domain/value-objects/identifier';
+import { BaseModel } from '@/core/domain/models/base.model';
 
 export class CatRoleModel extends BaseModel {
   private _name: string;

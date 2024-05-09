@@ -9,8 +9,10 @@ import {
   Inject,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateCategoryDTO, GetCategoryrDTO } from '../dtos/cat-category.dto';
+import { AuthGuards } from '@/auth/infrastructure/nest/guards/auth.guard';
 
 @Controller('category')
 export class CatCategoryController {
@@ -19,6 +21,7 @@ export class CatCategoryController {
     private readonly catCategoryService: ICatCategoryService,
   ) {}
 
+  @UseGuards(AuthGuards)
   @Post()
   async create(@Body() body: CreateCategoryDTO) {
     try {
