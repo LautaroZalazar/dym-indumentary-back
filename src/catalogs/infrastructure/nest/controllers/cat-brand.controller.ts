@@ -9,8 +9,10 @@ import {
   Inject,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateBrandDTO, GetBrandDTO } from '../dtos/cat-brand.dto';
+import { AuthGuards } from '@/auth/infrastructure/nest/guards/auth.guard';
 
 @Controller('brand')
 export class CatBrandController {
@@ -19,6 +21,7 @@ export class CatBrandController {
     private readonly catBrandService: ICatBrandService,
   ) {}
 
+  @UseGuards(AuthGuards)
   @Post()
   async create(@Body() body: CreateBrandDTO) {
     try {

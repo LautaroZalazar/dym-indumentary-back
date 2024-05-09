@@ -15,11 +15,14 @@ export class AddressService implements IAddressService {
     private readonly addressRepository: IAddressRepository,
   ) {}
 
-  async create(address: IAddressCreate): Promise<AddressModel> {
+  async create(_id: string, address: IAddressCreate): Promise<AddressModel> {
     try {
       const addressModel = AddressModel.create(address);
 
-      const addressSave = await this.addressRepository.create(addressModel);
+      const addressSave = await this.addressRepository.create(
+        _id,
+        addressModel,
+      );
 
       return addressSave;
     } catch (error) {}

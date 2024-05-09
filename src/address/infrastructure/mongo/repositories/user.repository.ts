@@ -35,10 +35,7 @@ export class UserRepository implements IUserRepository {
 
   async findByEmail(email: string): Promise<UserModel> {
     try {
-      const found = await this.userModel
-        .findOne({ email })
-        .populate('role')
-        .populate('address');
+      const found = await this.userModel.findOne({ email }).populate('role');
 
       return found && UserModel.hydrate(found);
     } catch (error) {
@@ -48,10 +45,7 @@ export class UserRepository implements IUserRepository {
 
   async findById(id: string): Promise<UserModel> {
     try {
-      const found = await this.userModel
-        .findById(id)
-        .populate('role')
-        .populate('address');
+      const found = await this.userModel.findById(id).populate('role');
 
       if (!found) {
         throw new Error(`The user with ID ${id} does not exist`);
@@ -64,10 +58,7 @@ export class UserRepository implements IUserRepository {
 
   async findAll(): Promise<UserModel[]> {
     try {
-      const findAll = await this.userModel
-        .find()
-        .populate('role')
-        .populate('address');
+      const findAll = await this.userModel.find().populate('role');
 
       return findAll && findAll.map((user) => UserModel.hydrate(user));
     } catch (error) {
@@ -77,10 +68,7 @@ export class UserRepository implements IUserRepository {
 
   async update(id: string, user: UserModel): Promise<UserModel> {
     try {
-      const existingUser = await this.userModel
-        .findById(id)
-        .populate('role')
-        .populate('address');
+      const existingUser = await this.userModel.findById(id).populate('role');
       if (!existingUser) {
         throw new Error('User not found');
       }

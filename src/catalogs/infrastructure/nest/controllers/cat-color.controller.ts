@@ -9,8 +9,10 @@ import {
   Inject,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateColorDTO, GetColorDTO } from '../dtos/cat-color.dto';
+import { AuthGuards } from '@/auth/infrastructure/nest/guards/auth.guard';
 
 @Controller('color')
 export class CatColorController {
@@ -19,6 +21,7 @@ export class CatColorController {
     private readonly catColorService: ICatColorService,
   ) {}
 
+  @UseGuards(AuthGuards)
   @Post()
   async create(@Body() body: CreateColorDTO) {
     try {

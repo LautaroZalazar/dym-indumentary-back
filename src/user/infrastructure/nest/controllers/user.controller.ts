@@ -8,10 +8,14 @@ import {
   Get,
   Query,
   Put,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { CreateUserDTO, GetUserDTO, UpdateUserDTO } from '../dtos/user.dto';
 import SymbolsUser from '@/user/symbols-user';
 import { IUserService } from '@/user/domain/services/user.interface.service';
+import { AuthGuards } from '@/auth/infrastructure/nest/guards/auth.guard';
+import { IUserRequest } from '@/core/infrastructure/nest/dtos/custom-request/user.request';
 
 @Controller('user')
 export class UserController {
@@ -29,17 +33,14 @@ export class UserController {
     }
   }
 
+  @UseGuards(AuthGuards)
   @Get()
-  async findUser(@Query() query: GetUserDTO) {
+  async findUser(@Query() query: GetUserDTO, @Req() req: IUserRequest) {
     try {
-      const { id, email } = query;
-
-      if (id) {
-        return await this.userService.findById(id);
-      }
+      const { email } = query;
 
       if (email) {
-        return await this.userService.findByEmail(email);
+        return await this.userService.findByEmail(req.user.email);
       }
 
       return await this.userService.findAll();
@@ -48,11 +49,24 @@ export class UserController {
     }
   }
 
-  @Put()
-  async updateUser(@Body() body: UpdateUserDTO, @Query() query: GetUserDTO) {
+  @UseGuards(AuthGuards)
+  @Get('detail')
+  async findUserById(@Req() req: IUserRequest) {
     try {
-      const { id } = query;
-      return await this.userService.update(id, body);
+      const { _id } = req.user;
+
+      return await this.userService.findById(_id);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @UseGuards(AuthGuards)
+  @Put()
+  async updateUser(@Body() body: UpdateUserDTO, @Req() req: IUserRequest) {
+    try {
+      const { _id } = req.user;
+      return await this.userService.update(_id, body);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
