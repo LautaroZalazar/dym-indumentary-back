@@ -8,6 +8,7 @@ import { CatalogsModule } from './catalogs/catalogs.module';
 import { AddressModule } from './address/address.module';
 import { NotificationModule } from './notification/notification.module';
 import { AuthModule } from './auth/auth.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -18,8 +19,9 @@ import { AuthModule } from './auth/auth.module';
     AddressModule,
     NotificationModule,
     AuthModule,
+    ProductModule
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
