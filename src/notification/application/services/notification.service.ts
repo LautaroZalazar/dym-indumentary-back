@@ -20,4 +20,18 @@ export class NotificationService implements INotificationService {
       throw new Error(error);
     }
   }
+
+  async newsletterWithdrawalNotification(
+    name: string,
+    paymentOrderNumber: string,
+  ): Promise<any> {
+    try {
+      return await this.emailAdapter.newsletterWithdrawal(
+        name,
+        paymentOrderNumber,
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }

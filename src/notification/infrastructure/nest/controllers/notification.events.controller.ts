@@ -17,4 +17,18 @@ export class NotificationEventController {
       name,
     );
   }
+
+  @OnEvent('newslatter-withdrawal-notification')
+  async newsletterWithdrawalTemplate({
+    name,
+    paymentOrderNumber,
+  }: {
+    name: string;
+    paymentOrderNumber: string;
+  }) {
+    await this.notificationService.newsletterWithdrawalNotification(
+      name,
+      paymentOrderNumber,
+    );
+  }
 }
