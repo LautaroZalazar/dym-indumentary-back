@@ -7,6 +7,7 @@ import {
   catRoleRepository,
 } from './infrastructure/constants/custom-provider';
 import {
+  cartSchema,
   roleSchema,
   userSchema,
 } from './infrastructure/constants/custom-schema';
@@ -14,7 +15,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([userSchema, roleSchema]),
+    MongooseModule.forFeature([userSchema, roleSchema, cartSchema]),
     EventEmitterModule.forRoot(),
   ],
   controllers: [UserController],

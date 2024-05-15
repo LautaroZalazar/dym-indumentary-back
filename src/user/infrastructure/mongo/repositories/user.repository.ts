@@ -7,21 +7,36 @@ import { UserModel } from '@/user/domain/models/user.model';
 import SymbolsCatalogs from '@/catalogs/symbols-catalogs';
 import { ICatRoleRepository } from '@/user/domain/repositories/cat-role.interfate.respository';
 import { TypeRoles } from '@/core/domain/enums/type-roles.enum';
+import { CartSchema } from '../schemas/cart.schema';
+import { CartModel } from '@/user/domain/models/cart.model';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
   constructor(
     @InjectModel('User') private readonly userModel: Model<UserSchema>,
+    @InjectModel('Cart') private readonly cartModel: Model<CartSchema>,
     @Inject(SymbolsCatalogs.ICatRoleRepository)
     private readonly catRoleRepository: ICatRoleRepository,
   ) {}
 
   async create(user: UserModel): Promise<UserModel> {
     try {
+      const cartSchema = new this.cartModel({
+        products: [],
+        total: 0,
+        shippingCost: 0,
+      });
+      const saveCart = await cartSchema.save();
+
+      if (!saveCart) {
+        throw new Error("Couldn't save the cart");
+      }
+
       const userRole = await this.catRoleRepository.findByName(TypeRoles.USER);
       user.addRole(userRole);
 
       const schema = new this.userModel(user.toJSON());
+      schema.cart = saveCart;
       const saved = await schema.save();
 
       if (!saved) {
@@ -51,7 +66,8 @@ export class UserRepository implements IUserRepository {
       const found = await this.userModel
         .findById(id)
         .populate('role')
-        .populate('address');
+        .populate('address')
+        .populate('cart');
 
       if (!found) {
         throw new Error(`The user with ID ${id} does not exist`);
@@ -67,7 +83,8 @@ export class UserRepository implements IUserRepository {
       const findAll = await this.userModel
         .find()
         .populate('role')
-        .populate('address');
+        .populate('address')
+        .populate('cart');
 
       return findAll && findAll.map((user) => UserModel.hydrate(user));
     } catch (error) {
@@ -80,7 +97,8 @@ export class UserRepository implements IUserRepository {
       const existingUser = await this.userModel
         .findById(id)
         .populate('role')
-        .populate('address');
+        .populate('address')
+        .populate('cart');
       if (!existingUser) {
         throw new Error('User not found');
       }

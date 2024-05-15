@@ -1,9 +1,9 @@
+import { Product } from '@/database/schemas/product.schema';
 import { Identifier } from '@/core/domain/value-objects/identifier';
 import { BaseModel } from '@/core/domain/models/base.model';
-import { ProductModel } from './product.model';
 
 export class CartModel extends BaseModel {
-  private _products: ProductModel[];
+  private _products: Product[];
   private _total: number;
   private _shippingCost: number;
 
@@ -29,9 +29,7 @@ export class CartModel extends BaseModel {
   static hydrate(cart: any): CartModel {
     const newCart = new CartModel(new Identifier(cart._id));
 
-    newCart._products = cart.products
-      ? cart.products.map((p: any) => ProductModel.hydrate(p.product))
-      : [];
+    newCart._products = cart.products ? cart.products : [];
     newCart._total = cart.total;
     newCart._shippingCost = cart.shippingCost;
 

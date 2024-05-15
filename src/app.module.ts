@@ -9,6 +9,7 @@ import { AddressModule } from './address/address.module';
 import { NotificationModule } from './notification/notification.module';
 import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './product/product.module';
+import { CartModule } from './cart/carts.module';
 
 @Module({
   imports: [
@@ -19,9 +20,10 @@ import { ProductModule } from './product/product.module';
     AddressModule,
     NotificationModule,
     AuthModule,
-    ProductModule
+    ProductModule,
+    CartModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
