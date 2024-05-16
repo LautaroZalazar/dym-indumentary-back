@@ -9,8 +9,10 @@ import {
   HttpException,
   HttpStatus,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateSizeDTO, GetSizeDTO } from '../dtos/cat-size.dto';
+import { AuthGuards } from '@/auth/infrastructure/nest/guards/auth.guard';
 
 @Controller('size')
 export class CatSizeController {
@@ -19,6 +21,7 @@ export class CatSizeController {
     private readonly catSizeService: ICatSizeService,
   ) {}
 
+  @UseGuards(AuthGuards)
   @Post()
   async createSize(@Body() body: CreateSizeDTO) {
     try {

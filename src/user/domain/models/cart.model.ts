@@ -1,11 +1,11 @@
-import { Product } from '@/database/schemas/product.schema';
-import { BaseModel } from './base.model';
-import { Identifier } from '../value-objects/identifier';
+import { Identifier } from '@/core/domain/value-objects/identifier';
+import { BaseModel } from '@/core/domain/models/base.model';
+import { ProductModel } from './product.model';
 
 export class CartModel extends BaseModel {
-  private _products: Product[];
+  private _products: ProductModel[];
   private _total: number;
-  private _shipping: number;
+  private _shippingCost: number;
 
   public toJSON() {
     const aggregate = this._id ? { _id: this._id.toValue() } : {};
@@ -13,7 +13,7 @@ export class CartModel extends BaseModel {
       ...aggregate,
       products: this._products ? this._products : null,
       total: this._total,
-      shipping: this._shipping,
+      shippingCost: this._shippingCost,
     };
   }
 
@@ -21,7 +21,7 @@ export class CartModel extends BaseModel {
     const newCart = new CartModel(new Identifier(cart._id));
 
     newCart._total = cart.total;
-    newCart._shipping = cart.shipping;
+    newCart._shippingCost = cart.shippingCost;
 
     return newCart;
   }
@@ -29,9 +29,11 @@ export class CartModel extends BaseModel {
   static hydrate(cart: any): CartModel {
     const newCart = new CartModel(new Identifier(cart._id));
 
-    newCart._products = cart.products ? cart.products.map() : [];
+    newCart._products = cart.products
+      ? cart.products.map((p: any) => ProductModel.hydrate(p.product))
+      : [];
     newCart._total = cart.total;
-    newCart._shipping = cart.shipping;
+    newCart._shippingCost = cart.shippingCost;
 
     return newCart;
   }

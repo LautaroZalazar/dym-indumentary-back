@@ -1,25 +1,30 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument } from "mongoose";
+import * as mongoose from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
+import { Product } from './product.schema';
 
-export type ProductDocument = HydratedDocument<Cart>;
+export type CartDocument = HydratedDocument<Cart>;
 
 @Schema({ collection: 'carts', timestamps: true })
 export class Cart {
   @Prop({
     type: [
       {
-        type: { type: String, ref: 'Product', autopopulate: true },
+        product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
         quantity: Number,
       },
     ],
   })
-  products: { type: string; ref: 'Product'; quantity: number }[];
+  products: {
+    product: Product;
+    quantity: number;
+  }[];
 
   @Prop()
   total: number;
 
-  @Prop()
-  shipping: number;
+  @Prop({ alias: 'shipping_cost' })
+  shippingCost: number;
 }
 
 export const CartSchema = SchemaFactory.createForClass(Cart);

@@ -1,6 +1,5 @@
-import { Identifier } from '../value-objects/identifier';
-import { BaseModel } from './base.model';
-
+import { Identifier } from '@/core/domain/value-objects/identifier';
+import { BaseModel } from '@/core/domain/models/base.model';
 export class AddressModel extends BaseModel {
   private _street: string;
   private _number: number;

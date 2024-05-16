@@ -8,27 +8,27 @@ import {
 
 export class CreateUserDTO {
   @IsString()
-  @IsNotEmpty({ message: 'El nombre del usuario es requerido' })
+  @IsNotEmpty({ message: 'The user name is required' })
   name: string;
 
   @IsEmail()
-  @IsNotEmpty({ message: 'El email del usuario es requerido' })
+  @IsNotEmpty({ message: 'The user email is required' })
   email: string;
 
   @IsString()
-  @IsNotEmpty({ message: 'El celular del usuario es requerido' })
+  @IsNotEmpty({ message: 'The user phone is required' })
   phone: string;
 
   @IsString()
-  @IsNotEmpty({ message: 'La contraseña del usuario es requerido' })
+  @IsNotEmpty({ message: 'The user password is required' })
   password: string;
+
+  @IsBoolean()
+  @IsNotEmpty({ message: 'The user newsletter is required' })
+  newsletter: boolean;
 }
 
 export class GetUserDTO {
-  @IsString()
-  @IsOptional()
-  id: string;
-
   @IsString()
   @IsOptional()
   email: string;
@@ -54,4 +54,8 @@ export class UpdateUserDTO {
   @IsBoolean()
   @IsOptional()
   isActive: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  newsletter: boolean;
 }
