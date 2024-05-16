@@ -1,15 +1,5 @@
 {
   "version": 2,
-  "env": {
-    "APP_NAME": "dym-indumentary-back",
-    "PORT": 3000,
-    "APP_GLOBAL_PREFIX": "api/v1",
-    "NODE_ENV": "dev",
-    "APP_DB": "mongo",
-    "JWT_SECRET": "jFUJ02eXBRepEejSFC0wZucC0QbPb7",
-    "JWT_EXPIRATION_TIME": "1h",
-    "MONGO_URI": "mongodb+srv://dymindumentariasoporte:so8F7ejzFZry5GTJ@prod.7r7aj2z.mongodb.net/"
-  },
   "builds": [
     {
       "src": "src/main.ts",
