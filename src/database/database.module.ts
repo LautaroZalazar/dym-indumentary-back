@@ -1,4 +1,4 @@
-import config from "@/config";
+import config from "../config";
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 
