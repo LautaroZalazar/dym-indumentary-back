@@ -3,7 +3,7 @@ import config from '@/config';
 let whiteListDev: string[] = [];
 
 if (config().app.env === 'dev') {
-    whiteListDev = ['http://localhost:3000', 'https://localhost:5173'];
+    whiteListDev = ['http://localhost:3000', 'http://localhost:5173'];
 }
 
 const whiteList = [
