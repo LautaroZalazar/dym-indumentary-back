@@ -4,7 +4,7 @@ export default registerAs('config', () => {
   return {
     app: {
       appName: process.env.APP_NAME,
-      app_port: process.env.APP_PORT,
+      app_port: process.env.PORT,
       api_key: process.env.APP_API_KEY,
       app_global_prefix: process.env.APP_GLOBAL_PREFIX,
       jwt: {
