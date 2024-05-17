@@ -1,3 +1,3 @@
-import { CatCategory as CoreCatCategory } from 'src/database/schemas/cat-category.schema';
+import { CatCategory as CoreCatCategory } from '../../../../database/schemas/cat-category.schema';
 
-export class CatCategorySchema extends CoreCatCategory { }
+export class CatCategorySchema extends CoreCatCategory {}

@@ -1,5 +1,7 @@
-import { ICatSizeService } from 'src/catalogs/domain/services/cat-size.interface.service';
-import SymbolsCatalogs from 'src/catalogs/symbols-catalogs';
+import { ICatSizeService } from '../../../domain/services/cat-size.interface.service';
+import SymbolsCatalogs from '../../../symbols-catalogs';
+import { CreateSizeDTO, GetSizeDTO } from '../dtos/cat-size.dto';
+import { AuthGuards } from '../../../../auth/infrastructure/nest/guards/auth.guard';
 import {
   Body,
   Controller,
@@ -11,15 +13,13 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { CreateSizeDTO, GetSizeDTO } from '../dtos/cat-size.dto';
-import { AuthGuards } from 'src/auth/infrastructure/nest/guards/auth.guard';
 
 @Controller('size')
 export class CatSizeController {
   constructor(
     @Inject(SymbolsCatalogs.ICatSizeService)
     private readonly catSizeService: ICatSizeService,
-  ) { }
+  ) {}
 
   @UseGuards(AuthGuards)
   @Post()

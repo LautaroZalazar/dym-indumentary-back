@@ -1,7 +1,7 @@
-import { CatBrandModel } from 'src/catalogs/domain/models/cat-brand.model';
-import { ICatBrandRepository } from 'src/catalogs/domain/repositories/cat-brand.interface.repository';
-import { ICatBrandService } from 'src/catalogs/domain/services/cat-brand.interface.service';
-import SymbolsCatalogs from 'src/catalogs/symbols-catalogs';
+import { CatBrandModel } from '../../domain/models/cat-brand.model';
+import { ICatBrandRepository } from '../../domain/repositories/cat-brand.interface.repository';
+import { ICatBrandService } from '../../domain/services/cat-brand.interface.service';
+import SymbolsCatalogs from '../../symbols-catalogs';
 import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class CatBrandService implements ICatBrandService {
   constructor(
     @Inject(SymbolsCatalogs.ICatBrandRepository)
     private readonly catBrandRepository: ICatBrandRepository,
-  ) { }
+  ) {}
 
   async create(brand: string): Promise<CatBrandModel> {
     try {

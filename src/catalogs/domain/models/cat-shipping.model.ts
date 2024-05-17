@@ -1,5 +1,5 @@
-import { Identifier } from 'src/core/domain/value-objects/identifier';
-import { BaseModel } from 'src/core/domain/models/base.model';
+import { Identifier } from '../../../core/domain/value-objects/identifier';
+import { BaseModel } from '../../../core/domain/models/base.model';
 
 export class CatShippingModel extends BaseModel {
   private _name: string;

@@ -1,5 +1,7 @@
-import { ICatShippingService } from 'src/catalogs/domain/services/cat-shipping.interface.service';
-import SymbolsCatalogs from 'src/catalogs/symbols-catalogs';
+import { ICatShippingService } from '../../../domain/services/cat-shipping.interface.service';
+import SymbolsCatalogs from '../../../symbols-catalogs';
+import { CreateShippingDTO, GetShippingDTO } from '../dtos/cat-shipping.dto';
+import { AuthGuards } from '../../../../auth/infrastructure/nest/guards/auth.guard';
 import {
   Body,
   Controller,
@@ -11,15 +13,13 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { CreateShippingDTO, GetShippingDTO } from '../dtos/cat-shipping.dto';
-import { AuthGuards } from 'src/auth/infrastructure/nest/guards/auth.guard';
 
 @Controller('shipping')
 export class CatShippingController {
   constructor(
     @Inject(SymbolsCatalogs.ICatShippingService)
     private readonly catShippingService: ICatShippingService,
-  ) { }
+  ) {}
 
   @UseGuards(AuthGuards)
   @Post()
