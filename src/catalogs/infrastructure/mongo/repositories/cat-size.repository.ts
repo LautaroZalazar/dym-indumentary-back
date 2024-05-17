@@ -1,15 +1,15 @@
-import { ICatSizeRepository } from 'src/catalogs/domain/repositories/cat-size.interface.repository';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CatSizeSchema } from '../schemas/cat-size.schema';
-import { CatSizeModel } from 'src/catalogs/domain/models/cat-size.model';
+import { CatSizeModel } from '../../../domain/models/cat-size.model';
+import { ICatSizeRepository } from '../../../domain/repositories/cat-size.interface.repository';
 
 @Injectable()
 export class CatSizeRepository implements ICatSizeRepository {
   constructor(
     @InjectModel('CatSize') private readonly catSizeModel: Model<CatSizeSchema>,
-  ) { }
+  ) {}
 
   async create(catSize: CatSizeModel): Promise<CatSizeModel> {
     try {

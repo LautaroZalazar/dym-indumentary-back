@@ -1,5 +1,7 @@
-import { ICatBrandService } from 'src/catalogs/domain/services/cat-brand.interface.service';
-import SymbolsCatalogs from 'src/catalogs/symbols-catalogs';
+import { ICatBrandService } from '../../../domain/services/cat-brand.interface.service';
+import SymbolsCatalogs from '../../../symbols-catalogs';
+import { CreateBrandDTO, GetBrandDTO } from '../dtos/cat-brand.dto';
+import { AuthGuards } from '../../../../auth/infrastructure/nest/guards/auth.guard';
 import {
   Body,
   Controller,
@@ -11,15 +13,13 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { CreateBrandDTO, GetBrandDTO } from '../dtos/cat-brand.dto';
-import { AuthGuards } from 'src/auth/infrastructure/nest/guards/auth.guard';
 
 @Controller('brand')
 export class CatBrandController {
   constructor(
     @Inject(SymbolsCatalogs.ICatBrandService)
     private readonly catBrandService: ICatBrandService,
-  ) { }
+  ) {}
 
   @UseGuards(AuthGuards)
   @Post()

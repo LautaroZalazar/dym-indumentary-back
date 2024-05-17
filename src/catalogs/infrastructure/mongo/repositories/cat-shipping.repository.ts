@@ -1,16 +1,16 @@
-import { ICatShippingRepository } from 'src/catalogs/domain/repositories/cat-shipping.interface.repository';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CatShippingSchema } from '../schemas/cat-shipping.schema';
-import { CatShippingModel } from 'src/catalogs/domain/models/cat-shipping.model';
+import { CatShippingModel } from '../../../domain/models/cat-shipping.model';
+import { ICatShippingRepository } from '../../../domain/repositories/cat-shipping.interface.repository';
 
 @Injectable()
 export class CatShippingRepository implements ICatShippingRepository {
   constructor(
     @InjectModel('CatShipping')
     private readonly catShippingModel: Model<CatShippingSchema>,
-  ) { }
+  ) {}
 
   async create(shipping: CatShippingModel): Promise<CatShippingModel> {
     try {

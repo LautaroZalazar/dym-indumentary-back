@@ -1,15 +1,15 @@
-import SymbolsCatalogs from 'src/catalogs/symbols-catalogs';
-import { CatRoleService } from 'src/catalogs/application/services/cat-role.service';
+import SymbolsCatalogs from '../../symbols-catalogs';
+import { CatRoleService } from '../../application/services/cat-role.service';
+import { CatColorService } from '../../application/services/cat-color.service';
+import { CatSizeService } from '../../application/services/cat-size.service';
+import { CatCategoryService } from '../../application/services/cat-category.service';
+import { CatShippingService } from '../../application/services/cat-shipping.service';
+import { CatBrandService } from '../../application/services/cat-brand.service';
 import { CatRoleRepository } from '../mongo/repositories/cat-role.repository';
-import { CatSizeService } from 'src/catalogs/application/services/cat-size.service';
 import { CatSizeRepository } from '../mongo/repositories/cat-size.repository';
-import { CatColorService } from 'src/catalogs/application/services/cat-color.service';
 import { CatColorRepository } from '../mongo/repositories/cat-color.repository';
-import { CatCategoryService } from 'src/catalogs/application/services/cat-category.service';
 import { CatCategoryRepository } from '../mongo/repositories/cat-category.repository';
-import { CatBrandService } from 'src/catalogs/application/services/cat-brand.service';
 import { CatBrandRepository } from '../mongo/repositories/cat-brand.repository';
-import { CatShippingService } from 'src/catalogs/application/services/cat-shipping.service';
 import { CatShippingRepository } from '../mongo/repositories/cat-shipping.repository';
 
 export const catRoleService = {

@@ -1,5 +1,7 @@
-import { ICatRoleService } from 'src/catalogs/domain/services/cat-role.interface.service';
-import SymbolsCatalogs from 'src/catalogs/symbols-catalogs';
+import { ICatRoleService } from '../../../domain/services/cat-role.interface.service';
+import SymbolsCatalogs from '../../../symbols-catalogs';
+import { CreateRoleDTO, GetRoleByNameDTO } from '../dtos/cat-role.dto';
+import { AuthGuards } from '../../../../auth/infrastructure/nest/guards/auth.guard';
 import {
   Body,
   Controller,
@@ -11,15 +13,13 @@ import {
   HttpStatus,
   UseGuards,
 } from '@nestjs/common';
-import { CreateRoleDTO, GetRoleByNameDTO } from '../dtos/cat-role.dto';
-import { AuthGuards } from 'src/auth/infrastructure/nest/guards/auth.guard';
 
 @Controller('role')
 export class CatRoleController {
   constructor(
     @Inject(SymbolsCatalogs.ICatRoleService)
     private readonly catRoleService: ICatRoleService,
-  ) { }
+  ) {}
 
   @Get()
   async getByName(@Query() query: GetRoleByNameDTO) {
