@@ -7,6 +7,7 @@ if (config().app.env === 'dev') {
 }
 
 const whiteList = [
+    'https://dym-indumentary-front.vercel.app/',
     ...whiteListDev,
 ];
 
