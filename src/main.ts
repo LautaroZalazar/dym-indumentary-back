@@ -5,7 +5,7 @@ import { corsOptions } from './config/cors';
 import { ValidationPipe } from '@nestjs/common';
 import { json, urlencoded } from 'express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import config from 'src/config';
+import config from './config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -29,13 +29,13 @@ bootstrap()
   .then(() => {
     console.log(
       'Listening on: http://localhost:' +
-      config().app.app_port +
-      '/' +
-      config().app.app_global_prefix,
+        config().app.app_port +
+        '/' +
+        config().app.app_global_prefix,
     );
     console.log('Server started successfully 🎸 ');
   })
   .catch((e) => {
     console.log('Server failed to start');
     console.log(e);
-  })
+  });

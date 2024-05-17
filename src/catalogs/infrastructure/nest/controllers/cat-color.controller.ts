@@ -2,6 +2,7 @@ import { ICatColorService } from '../../../domain/services/cat-color.interface.s
 import SymbolsCatalogs from '../../../symbols-catalogs';
 import { CreateColorDTO, GetColorDTO } from '../dtos/cat-color.dto';
 import { AuthGuards } from '../../../../auth/infrastructure/nest/guards/auth.guard';
+import { RoleGuards } from '../../../../auth/infrastructure/nest/guards/role.guard';
 import {
   Body,
   Controller,
@@ -21,7 +22,7 @@ export class CatColorController {
     private readonly catColorService: ICatColorService,
   ) {}
 
-  @UseGuards(AuthGuards)
+  @UseGuards(AuthGuards, RoleGuards)
   @Post()
   async create(@Body() body: CreateColorDTO) {
     try {

@@ -15,6 +15,8 @@ import {
   catBrandRepository,
   catShippingService,
   catShippingRepository,
+  userService,
+  userRepository,
 } from './infrastructure/constants/custom-provider';
 import {
   roleSchema,
@@ -23,6 +25,8 @@ import {
   categorySchema,
   brandSchema,
   shippingSchema,
+  userSchema,
+  cartSchema,
 } from './infrastructure/constants/custom-schema';
 import { CatColorController } from './infrastructure/nest/controllers/cat-color.controller';
 import { CatCategoryController } from './infrastructure/nest/controllers/cat-category.controller';
@@ -38,6 +42,8 @@ import { CatShippingController } from './infrastructure/nest/controllers/cat-shi
       categorySchema,
       brandSchema,
       shippingSchema,
+      userSchema,
+      cartSchema,
     ]),
   ],
   controllers: [
@@ -61,6 +67,8 @@ import { CatShippingController } from './infrastructure/nest/controllers/cat-shi
     catBrandRepository,
     catShippingService,
     catShippingRepository,
+    userService,
+    userRepository,
   ],
   exports: [],
 })

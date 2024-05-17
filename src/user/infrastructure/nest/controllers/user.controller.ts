@@ -16,13 +16,14 @@ import SymbolsUser from '../../../symbols-user';
 import { IUserService } from '../../../domain/services/user.interface.service';
 import { AuthGuards } from '../../../../auth/infrastructure/nest/guards/auth.guard';
 import { IUserRequest } from '../../../../core/infrastructure/nest/dtos/custom-request/user.request';
+import { RoleGuards } from '../../../../auth/infrastructure/nest/guards/role.guard';
 
 @Controller('user')
 export class UserController {
   constructor(
     @Inject(SymbolsUser.IUserService)
     private readonly userService: IUserService,
-  ) { }
+  ) {}
 
   @Post()
   async createUser(@Body() body: CreateUserDTO) {
@@ -33,7 +34,7 @@ export class UserController {
     }
   }
 
-  @UseGuards(AuthGuards)
+  @UseGuards(AuthGuards, RoleGuards)
   @Get()
   async findUser(@Query() query: GetUserDTO, @Req() req: IUserRequest) {
     try {

@@ -2,6 +2,7 @@ import { ICatSizeService } from '../../../domain/services/cat-size.interface.ser
 import SymbolsCatalogs from '../../../symbols-catalogs';
 import { CreateSizeDTO, GetSizeDTO } from '../dtos/cat-size.dto';
 import { AuthGuards } from '../../../../auth/infrastructure/nest/guards/auth.guard';
+import { RoleGuards } from '../../../../auth/infrastructure/nest/guards/role.guard';
 import {
   Body,
   Controller,
@@ -21,7 +22,7 @@ export class CatSizeController {
     private readonly catSizeService: ICatSizeService,
   ) {}
 
-  @UseGuards(AuthGuards)
+  @UseGuards(AuthGuards, RoleGuards)
   @Post()
   async createSize(@Body() body: CreateSizeDTO) {
     try {
