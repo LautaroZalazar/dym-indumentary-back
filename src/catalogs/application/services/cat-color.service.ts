@@ -1,7 +1,7 @@
-import { CatColorModel } from '@/catalogs/domain/models/cat-color.model';
-import { ICatColorRepository } from '@/catalogs/domain/repositories/cat-color.interface.repository';
-import { ICatColorService } from '@/catalogs/domain/services/cat-color.interface.service';
-import SymbolsCatalogs from '@/catalogs/symbols-catalogs';
+import { CatColorModel } from 'src/catalogs/domain/models/cat-color.model';
+import { ICatColorRepository } from 'src/catalogs/domain/repositories/cat-color.interface.repository';
+import { ICatColorService } from 'src/catalogs/domain/services/cat-color.interface.service';
+import SymbolsCatalogs from 'src/catalogs/symbols-catalogs';
 import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class CatColorService implements ICatColorService {
   constructor(
     @Inject(SymbolsCatalogs.ICatColorRepository)
     private readonly catColorRepository: ICatColorRepository,
-  ) {}
+  ) { }
 
   async create(color: string): Promise<CatColorModel> {
     try {

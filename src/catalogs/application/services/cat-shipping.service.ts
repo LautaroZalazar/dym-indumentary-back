@@ -1,7 +1,7 @@
-import { CatShippingModel } from '@/catalogs/domain/models/cat-shipping.model';
-import { ICatShippingRepository } from '@/catalogs/domain/repositories/cat-shipping.interface.repository';
-import { ICatShippingService } from '@/catalogs/domain/services/cat-shipping.interface.service';
-import SymbolsCatalogs from '@/catalogs/symbols-catalogs';
+import { CatShippingModel } from 'src/catalogs/domain/models/cat-shipping.model';
+import { ICatShippingRepository } from 'src/catalogs/domain/repositories/cat-shipping.interface.repository';
+import { ICatShippingService } from 'src/catalogs/domain/services/cat-shipping.interface.service';
+import SymbolsCatalogs from 'src/catalogs/symbols-catalogs';
 import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class CatShippingService implements ICatShippingService {
   constructor(
     @Inject(SymbolsCatalogs.ICatShippingRepository)
     private readonly catShippingRepository: ICatShippingRepository,
-  ) {}
+  ) { }
 
   async create(shipping: string): Promise<CatShippingModel> {
     try {

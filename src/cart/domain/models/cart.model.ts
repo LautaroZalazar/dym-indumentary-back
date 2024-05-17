@@ -1,6 +1,6 @@
-import { Product } from '@/database/schemas/product.schema';
-import { Identifier } from '@/core/domain/value-objects/identifier';
-import { BaseModel } from '@/core/domain/models/base.model';
+import { Product } from 'src/database/schemas/product.schema';
+import { Identifier } from 'src/core/domain/value-objects/identifier';
+import { BaseModel } from 'src/core/domain/models/base.model';
 
 export class CartModel extends BaseModel {
   private _products: Product[];

@@ -1,11 +1,11 @@
-import config from '@/config';
-import { IEmailAdapter } from '@/notification/domain/adapter/email.interface.adapter';
+import config from 'src/config';
+import { IEmailAdapter } from 'src/notification/domain/adapter/email.interface.adapter';
 import { Resend } from 'resend';
 import { newsletterSuscriptionTemplate } from './newslatter-suscription.template';
 import { newsletterWithdrawalTemplate } from './newslatter-withdrawal.template';
 
 export class ResendProvider implements IEmailAdapter {
-  constructor() {}
+  constructor() { }
 
   async newsletterSuscriptionEmail(email: string, name: string): Promise<any> {
     try {

@@ -1,5 +1,5 @@
-import { ICatColorService } from '@/catalogs/domain/services/cat-color.interface.service';
-import SymbolsCatalogs from '@/catalogs/symbols-catalogs';
+import { ICatColorService } from 'src/catalogs/domain/services/cat-color.interface.service';
+import SymbolsCatalogs from 'src/catalogs/symbols-catalogs';
 import {
   Body,
   Controller,
@@ -12,14 +12,14 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CreateColorDTO, GetColorDTO } from '../dtos/cat-color.dto';
-import { AuthGuards } from '@/auth/infrastructure/nest/guards/auth.guard';
+import { AuthGuards } from 'src/auth/infrastructure/nest/guards/auth.guard';
 
 @Controller('color')
 export class CatColorController {
   constructor(
     @Inject(SymbolsCatalogs.ICatColorService)
     private readonly catColorService: ICatColorService,
-  ) {}
+  ) { }
 
   @UseGuards(AuthGuards)
   @Post()

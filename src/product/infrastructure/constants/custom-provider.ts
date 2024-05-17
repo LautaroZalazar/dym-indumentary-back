@@ -1,5 +1,5 @@
-import { ProductService } from "@/product/application/services/product.service";
-import SymbolsProduct from "@/product/symbols-product";
+import { ProductService } from "src/product/application/services/product.service";
+import SymbolsProduct from "src/product/symbols-product";
 import { ProductRepository } from "../mongo/repositories/product.repository";
 
 export const productService = {

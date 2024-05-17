@@ -1,3 +1,3 @@
-import { CatRole as CoreCatRole } from '@/database/schemas/cat-role.schema';
+import { CatRole as CoreCatRole } from 'src/database/schemas/cat-role.schema';
 
-export class CatRoleSchema extends CoreCatRole {}
+export class CatRoleSchema extends CoreCatRole { }

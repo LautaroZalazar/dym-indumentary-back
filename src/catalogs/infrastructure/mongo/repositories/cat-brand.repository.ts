@@ -2,15 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CatBrandSchema } from '../schemas/cat-brand.schema';
-import { CatBrandModel } from '@/catalogs/domain/models/cat-brand.model';
-import { ICatBrandRepository } from '@/catalogs/domain/repositories/cat-brand.interface.repository';
+import { CatBrandModel } from 'src/catalogs/domain/models/cat-brand.model';
+import { ICatBrandRepository } from 'src/catalogs/domain/repositories/cat-brand.interface.repository';
 
 @Injectable()
 export class CatBrandRepository implements ICatBrandRepository {
   constructor(
     @InjectModel('CatBrand')
     private readonly catBrandModel: Model<CatBrandSchema>,
-  ) {}
+  ) { }
 
   async create(brand: CatBrandModel): Promise<CatBrandModel> {
     try {

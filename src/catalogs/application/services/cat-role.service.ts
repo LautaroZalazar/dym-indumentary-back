@@ -1,7 +1,7 @@
-import { CatRoleModel } from '@/catalogs/domain/models/cat-role.model';
-import { ICatRoleRepository } from '@/catalogs/domain/repositories/cat-role.interface.repository';
-import { ICatRoleService } from '@/catalogs/domain/services/cat-role.interface.service';
-import SymbolsCatalogs from '@/catalogs/symbols-catalogs';
+import { CatRoleModel } from 'src/catalogs/domain/models/cat-role.model';
+import { ICatRoleRepository } from 'src/catalogs/domain/repositories/cat-role.interface.repository';
+import { ICatRoleService } from 'src/catalogs/domain/services/cat-role.interface.service';
+import SymbolsCatalogs from 'src/catalogs/symbols-catalogs';
 import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class CatRoleService implements ICatRoleService {
   constructor(
     @Inject(SymbolsCatalogs.ICatRoleRepository)
     private readonly catRoleRepository: ICatRoleRepository,
-  ) {}
+  ) { }
 
   async getByName(name: string): Promise<CatRoleModel> {
     try {

@@ -1,9 +1,9 @@
-import { hashPassword } from '@/core/domain/utils/bcrypt.util';
-import { UserModel } from '@/user/domain/models/user.model';
-import { IUserRepository } from '@/user/domain/repositories/user.interface.repository';
-import { IUserService } from '@/user/domain/services/user.interface.service';
-import { IUserCreate, IUserUpdate } from '@/user/domain/types/user.types';
-import SymbolsUser from '@/user/symbols-user';
+import { hashPassword } from 'src/core/domain/utils/bcrypt.util'
+import { UserModel } from 'src/user/domain/models/user.model'
+import { IUserRepository } from 'src/user/domain/repositories/user.interface.repository'
+import { IUserService } from 'src/user/domain/services/user.interface.service'
+import { IUserCreate, IUserUpdate } from 'src/user/domain/types/user.types'
+import SymbolsUser from 'src/user/symbols-user'
 import { Inject, Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
@@ -13,7 +13,7 @@ export class UserService implements IUserService {
     @Inject(SymbolsUser.IUserRepository)
     private readonly userRepository: IUserRepository,
     private readonly eventEmitter: EventEmitter2,
-  ) {}
+  ) { }
 
   async create(user: IUserCreate): Promise<UserModel> {
     try {
