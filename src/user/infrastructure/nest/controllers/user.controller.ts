@@ -12,7 +12,7 @@ import {
   Req,
 } from '@nestjs/common';
 import { CreateUserDTO, GetUserDTO, UpdateUserDTO } from '../dtos/user.dto';
-import SymbolsUser from 'src/user/symbols-user';
+import SymbolsUser from '../../../symbols-user';
 import { IUserService } from 'src/user/domain/services/user.interface.service';
 import { AuthGuards } from 'src/auth/infrastructure/nest/guards/auth.guard';
 import { IUserRequest } from 'src/core/infrastructure/nest/dtos/custom-request/user.request';
