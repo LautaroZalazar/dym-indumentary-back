@@ -1,4 +1,4 @@
-import { ProductRelationDTO, ProductUpdateDTO } from "src/product/infrastructure/nest/dtos/product.dto";
+import { ProductRelationDTO, ProductUpdateDTO } from "../../../product/infrastructure/nest/dtos/product.dto";
 import { ProductModel } from "../models/product.model";
 
 export interface IProductRepository {

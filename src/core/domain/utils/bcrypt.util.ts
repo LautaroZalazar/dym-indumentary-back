@@ -1,4 +1,4 @@
-import { UserModel } from 'src/auth/domain/models/user.model';
+import { UserModel } from '../../../auth/domain/models/user.model';
 import * as bcrypt from 'bcrypt';
 
 export const hashPassword = async (password: string): Promise<string> => {

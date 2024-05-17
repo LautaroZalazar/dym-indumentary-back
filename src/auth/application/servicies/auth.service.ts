@@ -1,12 +1,12 @@
-import { SessionModel } from 'src/auth/domain/models/session.model'
-import { IUserRepository } from 'src/auth/domain/repositories/user.interface.repository'
-import { IAuthService } from 'src/auth/domain/services/auth.interface.service'
-import { ITokenService } from 'src/auth/domain/services/token.interface.service'
-import { ILogIn } from 'src/auth/domain/types/auth.type'
-import { IAuthResponse } from 'src/auth/domain/types/response-auth.type'
-import SymbolsAuth from 'src/auth/symbols-auth'
-import { comparePassword } from 'src/core/domain/utils/bcrypt.util'
-import SymbolsUser from 'src/user/symbols-user'
+import { SessionModel } from '../../../auth/domain/models/session.model'
+import { IUserRepository } from '../../../auth/domain/repositories/user.interface.repository'
+import { IAuthService } from '../../../auth/domain/services/auth.interface.service'
+import { ITokenService } from '../../../auth/domain/services/token.interface.service'
+import { ILogIn } from '../../../auth/domain/types/auth.type'
+import { IAuthResponse } from '../../../auth/domain/types/response-auth.type'
+import SymbolsAuth from '../../../auth/symbols-auth'
+import { comparePassword } from '../../../core/domain/utils/bcrypt.util'
+import SymbolsUser from '../../../user/symbols-user'
 import { Inject, Injectable } from '@nestjs/common';
 import { BadRequestError } from 'passport-headerapikey';
 

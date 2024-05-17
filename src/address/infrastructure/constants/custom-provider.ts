@@ -1,5 +1,5 @@
-import { AddressService } from 'src/address/application/services/address.service';
-import SymbolsAddress from 'src/address/symbols-address';
+import { AddressService } from '../../../address/application/services/address.service';
+import SymbolsAddress from '../../../address/symbols-address';
 import { AddressRepository } from '../mongo/repositories/address.repository';
 
 export const addressService = {

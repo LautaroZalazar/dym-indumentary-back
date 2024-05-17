@@ -3,8 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CartSchema } from '../schema/cart.schema';
 import { ProductSchema } from '../schema/product.schema';
-import { ICartRepository } from 'src/cart/domain/repositories/cart.interface.repository';
-import { CartModel } from 'src/cart/domain/models/cart.model';
+import { ICartRepository } from '../../../../cart/domain/repositories/cart.interface.repository';
+import { CartModel } from '../../../../cart/domain/models/cart.model';
 import {
   AddProductToCartDTO,
   RemoveProductCartDTO,

@@ -1,5 +1,5 @@
-import { IAddressService } from 'src/address/domain/services/address.interface.service';
-import SymbolsAddress from 'src/address/symbols-address';
+import { IAddressService } from '../../../../address/domain/services/address.interface.service';
+import SymbolsAddress from '../../../../address/symbols-address';
 import {
   Body,
   Controller,
@@ -18,9 +18,9 @@ import {
   GetAddressDTO,
   UpdateAddressDTO,
 } from '../dtos/address.dto';
-import { AddressModel } from 'src/address/domain/models/address.model';
-import { AuthGuards } from 'src/auth/infrastructure/nest/guards/auth.guard';
-import { IUserRequest } from 'src/core/infrastructure/nest/dtos/custom-request/user.request';
+import { AddressModel } from '../../../../address/domain/models/address.model';
+import { AuthGuards } from '../../../../auth/infrastructure/nest/guards/auth.guard';
+import { IUserRequest } from '../../../../core/infrastructure/nest/dtos/custom-request/user.request';
 
 @Controller('address')
 export class AddressController {

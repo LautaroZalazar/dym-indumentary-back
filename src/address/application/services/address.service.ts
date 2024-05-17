@@ -1,11 +1,11 @@
-import { AddressModel } from 'src/address/domain/models/address.model';
-import { IAddressRepository } from 'src/address/domain/repositories/address.interface.repository';
-import { IAddressService } from 'src/address/domain/services/address.interface.service';
+import { AddressModel } from '../../../address/domain/models/address.model';
+import { IAddressRepository } from '../../../address/domain/repositories/address.interface.repository';
+import { IAddressService } from '../../../address/domain/services/address.interface.service';
 import {
   IAddressCreate,
   IAddressUpdate,
-} from 'src/address/domain/types/address.types';
-import SymbolsAddress from 'src/address/symbols-address';
+} from '../../../address/domain/types/address.types';
+import SymbolsAddress from '../../../address/symbols-address';
 import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()

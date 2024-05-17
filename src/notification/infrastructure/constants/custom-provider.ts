@@ -1,5 +1,5 @@
-import { NotificationService } from 'src/notification/application/services/notification.service';
-import SymbolsNotification from 'src/notification/symbols-notification';
+import { NotificationService } from '../../../notification/application/services/notification.service';
+import SymbolsNotification from '../../../notification/symbols-notification';
 import { ResendProvider } from '../provider/resend/resend.provider';
 
 export const notificationService = {

@@ -1,6 +1,6 @@
-import { IEmailAdapter } from 'src/notification/domain/adapter/email.interface.adapter';
-import { INotificationService } from 'src/notification/domain/services/notification.interface.service';
-import SymbolsNotification from 'src/notification/symbols-notification';
+import { IEmailAdapter } from '../../../notification/domain/adapter/email.interface.adapter';
+import { INotificationService } from '../../../notification/domain/services/notification.interface.service';
+import SymbolsNotification from '../../../notification/symbols-notification';
 import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()

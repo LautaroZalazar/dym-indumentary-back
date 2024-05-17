@@ -1,5 +1,5 @@
-import { CartService } from 'src/cart/application/cart.service';
-import SymbolsCart from 'src/cart/symbols-cart';
+import { CartService } from '../../../cart/application/cart.service';
+import SymbolsCart from '../../../cart/symbols-cart';
 import { CartRepository } from '../mongo/repositories/cart.repository';
 
 export const cartService = {

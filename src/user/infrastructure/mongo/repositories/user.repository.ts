@@ -1,12 +1,12 @@
 import { UserSchema } from '../schemas/user.schema';
-import { IUserRepository } from 'src/user/domain/repositories/user.interface.repository';
+import { IUserRepository } from '../../../../user/domain/repositories/user.interface.repository';
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { UserModel } from 'src/user/domain/models/user.model';
-import SymbolsCatalogs from 'src/catalogs/symbols-catalogs';
-import { ICatRoleRepository } from 'src/user/domain/repositories/cat-role.interfate.respository';
-import { TypeRoles } from 'src/core/domain/enums/type-roles.enum';
+import { UserModel } from '../../../../user/domain/models/user.model';
+import SymbolsCatalogs from '../../../../catalogs/symbols-catalogs';
+import { ICatRoleRepository } from '../../../../user/domain/repositories/cat-role.interfate.respository';
+import { TypeRoles } from '../../../../core/domain/enums/type-roles.enum';
 import { CartSchema } from '../schemas/cart.schema';
 
 @Injectable()
