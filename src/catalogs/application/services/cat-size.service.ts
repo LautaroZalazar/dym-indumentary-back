@@ -1,7 +1,7 @@
-import { CatSizeModel } from '@/catalogs/domain/models/cat-size.model';
-import { ICatSizeRepository } from '@/catalogs/domain/repositories/cat-size.interface.repository';
-import { ICatSizeService } from '@/catalogs/domain/services/cat-size.interface.service';
-import SymbolsCatalogs from '@/catalogs/symbols-catalogs';
+import { CatSizeModel } from 'src/catalogs/domain/models/cat-size.model';
+import { ICatSizeRepository } from 'src/catalogs/domain/repositories/cat-size.interface.repository';
+import { ICatSizeService } from 'src/catalogs/domain/services/cat-size.interface.service';
+import SymbolsCatalogs from 'src/catalogs/symbols-catalogs';
 import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class CatSizeService implements ICatSizeService {
   constructor(
     @Inject(SymbolsCatalogs.ICatSizeRepository)
     private readonly catSizeRepository: ICatSizeRepository,
-  ) {}
+  ) { }
 
   async create(size: string): Promise<CatSizeModel> {
     try {

@@ -14,7 +14,7 @@ import {
   userService,
 } from './infrastructure/constants/custom-provider';
 import { JwtModule } from '@nestjs/jwt';
-import config from '@/config';
+import config from 'src/config';
 import { HeaderApiKeyStrategy } from './infrastructure/nest/strategies/header-apikey.strategy';
 import { ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './infrastructure/nest/strategies/jwt.strategy';
@@ -42,4 +42,4 @@ import { JwtStrategy } from './infrastructure/nest/strategies/jwt.strategy';
   controllers: [authController],
   exports: [],
 })
-export class AuthModule {}
+export class AuthModule { }

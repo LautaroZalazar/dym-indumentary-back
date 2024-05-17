@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CatSizeSchema } from '../schemas/cat-size.schema';
-import { ICatSizeRepository } from '@/product/domain/repositories/cat-size.interface.repository';
-import { CatSizeModel } from '@/product/domain/models/cat-size.model';
+import { ICatSizeRepository } from 'src/product/domain/repositories/cat-size.interface.repository';
+import { CatSizeModel } from 'src/product/domain/models/cat-size.model';
 
 @Injectable()
 export class CatSizeRepository implements ICatSizeRepository {

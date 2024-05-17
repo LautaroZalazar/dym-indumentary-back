@@ -1,5 +1,5 @@
-import { ICatCategoryService } from '@/catalogs/domain/services/cat-category.interface.service';
-import SymbolsCatalogs from '@/catalogs/symbols-catalogs';
+import { ICatCategoryService } from 'src/catalogs/domain/services/cat-category.interface.service';
+import SymbolsCatalogs from 'src/catalogs/symbols-catalogs';
 import {
   Body,
   Controller,
@@ -12,14 +12,14 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CreateCategoryDTO, GetCategoryrDTO } from '../dtos/cat-category.dto';
-import { AuthGuards } from '@/auth/infrastructure/nest/guards/auth.guard';
+import { AuthGuards } from 'src/auth/infrastructure/nest/guards/auth.guard';
 
 @Controller('category')
 export class CatCategoryController {
   constructor(
     @Inject(SymbolsCatalogs.ICatCategoryService)
     private readonly catCategoryService: ICatCategoryService,
-  ) {}
+  ) { }
 
   @UseGuards(AuthGuards)
   @Post()

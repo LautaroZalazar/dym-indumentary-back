@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CatRoleSchema } from '../schemas/cat-role.schema';
-import { ICatRoleRepository } from '@/catalogs/domain/repositories/cat-role.interface.repository';
-import { CatRoleModel } from '@/catalogs/domain/models/cat-role.model';
+import { ICatRoleRepository } from 'src/catalogs/domain/repositories/cat-role.interface.repository';
+import { CatRoleModel } from 'src/catalogs/domain/models/cat-role.model';
 
 @Injectable()
 export class CatRoleRepository implements ICatRoleRepository {
   constructor(
     @InjectModel('CatRole') private readonly catRoleModel: Model<CatRoleSchema>,
-  ) {}
+  ) { }
 
   async findByName(name: string): Promise<CatRoleModel> {
     try {

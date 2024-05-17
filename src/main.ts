@@ -5,7 +5,7 @@ import { corsOptions } from './config/cors';
 import { ValidationPipe } from '@nestjs/common';
 import { json, urlencoded } from 'express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import config from '@/config';
+import config from 'src/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

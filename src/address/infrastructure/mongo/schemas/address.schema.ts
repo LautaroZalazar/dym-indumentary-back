@@ -1,3 +1,3 @@
-import { Address as CoreAddressSchema } from '@/database/schemas/address.schema';
+import { Address as CoreAddressSchema } from 'src/database/schemas/address.schema';
 
-export class AddressSchema extends CoreAddressSchema {}
+export class AddressSchema extends CoreAddressSchema { }

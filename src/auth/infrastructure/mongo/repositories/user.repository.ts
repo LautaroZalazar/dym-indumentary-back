@@ -2,18 +2,18 @@ import { UserSchema } from '../schemas/user.schema';
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { IUserRepository } from '@/auth/domain/repositories/user.interface.repository';
-import { UserModel } from '@/auth/domain/models/user.model';
-import SymbolsAuth from '@/auth/symbols-auth';
-import { ISessionRepository } from '@/auth/domain/repositories/session.interface.repository';
-import { SessionModel } from '@/auth/domain/models/session.model';
+import { IUserRepository } from 'src/auth/domain/repositories/user.interface.repository';
+import { UserModel } from 'src/auth/domain/models/user.model';
+import SymbolsAuth from 'src/auth/symbols-auth';
+import { ISessionRepository } from 'src/auth/domain/repositories/session.interface.repository';
+import { SessionModel } from 'src/auth/domain/models/session.model';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
   constructor(
     @InjectModel('User') private readonly userModel: Model<UserSchema>,
     @Inject(SymbolsAuth.ISessionRepository) private readonly sessionRepository: ISessionRepository
-  ) {}
+  ) { }
 
   async findByEmail(email: string): Promise<UserModel> {
     try {
@@ -26,7 +26,7 @@ export class UserRepository implements IUserRepository {
   }
 
   async addSession(user: UserModel, session: SessionModel): Promise<UserModel> {
-    const userSchema = await (await this.userModel.findOne({email: user.toJSON().email})).populate('role')
+    const userSchema = await (await this.userModel.findOne({ email: user.toJSON().email })).populate('role')
     const sessionSchema = await this.sessionRepository.create(session)
     userSchema.session.push(sessionSchema)
     await userSchema.save();

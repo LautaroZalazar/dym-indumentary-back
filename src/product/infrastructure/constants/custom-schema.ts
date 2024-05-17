@@ -1,8 +1,8 @@
-import { CatBrand, CatBrandSchema } from "@/database/schemas/cat-brand.schema";
-import { CatCategory, CatCategorySchema } from "@/database/schemas/cat-category.schema";
-import { CatColor, CatColorSchema } from "@/database/schemas/cat-color.schema";
-import { CatSize, CatSizeSchema } from "@/database/schemas/cat-size.schema";
-import { Product, ProductSchema } from "@/database/schemas/product.schema";
+import { CatBrand, CatBrandSchema } from "src/database/schemas/cat-brand.schema";
+import { CatCategory, CatCategorySchema } from "src/database/schemas/cat-category.schema";
+import { CatColor, CatColorSchema } from "src/database/schemas/cat-color.schema";
+import { CatSize, CatSizeSchema } from "src/database/schemas/cat-size.schema";
+import { Product, ProductSchema } from "src/database/schemas/product.schema";
 
 export const productSchema = {
     name: Product.name,

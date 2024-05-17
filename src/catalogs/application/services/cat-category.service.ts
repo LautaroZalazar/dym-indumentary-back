@@ -1,8 +1,8 @@
-import { CatCategoryModel } from '@/catalogs/domain/models/cat-category.model';
-import { ICatCategoryRepository } from '@/catalogs/domain/repositories/cat-category.interface.repository';
-import { ICatCategoryService } from '@/catalogs/domain/services/cat-category.interface.service';
-import { ICatCategoryCreate } from '@/catalogs/domain/types/cat-category.types';
-import SymbolsCatalogs from '@/catalogs/symbols-catalogs';
+import { CatCategoryModel } from 'src/catalogs/domain/models/cat-category.model';
+import { ICatCategoryRepository } from 'src/catalogs/domain/repositories/cat-category.interface.repository';
+import { ICatCategoryService } from 'src/catalogs/domain/services/cat-category.interface.service';
+import { ICatCategoryCreate } from 'src/catalogs/domain/types/cat-category.types';
+import SymbolsCatalogs from 'src/catalogs/symbols-catalogs';
 import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class CatCategoryService implements ICatCategoryService {
   constructor(
     @Inject(SymbolsCatalogs.ICatCategoryRepository)
     private readonly catCategoryRepository: ICatCategoryRepository,
-  ) {}
+  ) { }
 
   async create(category: ICatCategoryCreate): Promise<CatCategoryModel> {
     try {

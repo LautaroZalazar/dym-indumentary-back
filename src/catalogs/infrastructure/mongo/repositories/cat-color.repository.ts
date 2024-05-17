@@ -1,8 +1,8 @@
-import { ICatColorRepository } from '@/catalogs/domain/repositories/cat-color.interface.repository';
+import { ICatColorRepository } from 'src/catalogs/domain/repositories/cat-color.interface.repository';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CatColorSchema } from '../schemas/cat-color.schema';
-import { CatColorModel } from '@/catalogs/domain/models/cat-color.model';
+import { CatColorModel } from 'src/catalogs/domain/models/cat-color.model';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class CatColorRepository implements ICatColorRepository {
   constructor(
     @InjectModel('CatColor')
     private readonly catColorModel: Model<CatColorSchema>,
-  ) {}
+  ) { }
 
   async create(catColor: CatColorModel): Promise<CatColorModel> {
     try {

@@ -1,8 +1,9 @@
 import { CartModel } from '../models/cart.model';
+//TODO: Quitar DTO's de domain y usar interfaces
 import {
   AddProductToCartDTO,
   RemoveProductCartDTO,
-} from '@/cart/infrastructure/nest/dtos/cart.dto';
+} from "../../infrastructure/nest/dtos/cart.dto"
 
 export interface ICartRepository {
   findById(id: string): Promise<CartModel>;

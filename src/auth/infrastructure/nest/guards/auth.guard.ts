@@ -1,4 +1,4 @@
-import config from '@/config';
+import config from 'src/config';
 import {
   CanActivate,
   ExecutionContext,
@@ -10,7 +10,7 @@ import { Request } from 'express';
 
 @Injectable()
 export class AuthGuards implements CanActivate {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(private readonly jwtService: JwtService) { }
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);

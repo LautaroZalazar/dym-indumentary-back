@@ -1,11 +1,11 @@
-import { AddressModel } from '@/address/domain/models/address.model';
-import { IAddressRepository } from '@/address/domain/repositories/address.interface.repository';
-import { IAddressService } from '@/address/domain/services/address.interface.service';
+import { AddressModel } from 'src/address/domain/models/address.model';
+import { IAddressRepository } from 'src/address/domain/repositories/address.interface.repository';
+import { IAddressService } from 'src/address/domain/services/address.interface.service';
 import {
   IAddressCreate,
   IAddressUpdate,
-} from '@/address/domain/types/address.types';
-import SymbolsAddress from '@/address/symbols-address';
+} from 'src/address/domain/types/address.types';
+import SymbolsAddress from 'src/address/symbols-address';
 import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class AddressService implements IAddressService {
   constructor(
     @Inject(SymbolsAddress.IAddressRepository)
     private readonly addressRepository: IAddressRepository,
-  ) {}
+  ) { }
 
   async create(_id: string, address: IAddressCreate): Promise<AddressModel> {
     try {
@@ -25,7 +25,7 @@ export class AddressService implements IAddressService {
       );
 
       return addressSave;
-    } catch (error) {}
+    } catch (error) { }
   }
 
   async findById(id: string): Promise<AddressModel> {

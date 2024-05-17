@@ -3,8 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CatCategorySchema } from '../schemas/cat-category.schema';
-import { ICatCategoryRepository } from '@/product/domain/repositories/cat-category.interface.repository';
-import { CatCategoryModel } from '@/product/domain/models/cat-category.model';
+import { ICatCategoryRepository } from 'src/product/domain/repositories/cat-category.interface.repository';
+import { CatCategoryModel } from 'src/product/domain/models/cat-category.model';
 
 
 @Injectable()

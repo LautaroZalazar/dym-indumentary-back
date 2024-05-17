@@ -1,8 +1,8 @@
-import { ProductModel } from "@/product/domain/models/product.model";
-import { IProductRepository } from "@/product/domain/repositories/product.interface.repository";
-import { IProductService } from "@/product/domain/services/product.interface.service";
-import { IProductCreate, IProductUpdate } from "@/product/domain/types/product.type";
-import SymbolsProduct from "@/product/symbols-product";
+import { ProductModel } from "src/product/domain/models/product.model";
+import { IProductRepository } from "src/product/domain/repositories/product.interface.repository";
+import { IProductService } from "src/product/domain/services/product.interface.service";
+import { IProductCreate, IProductUpdate } from "src/product/domain/types/product.type";
+import SymbolsProduct from "src/product/symbols-product";
 import { Inject, Injectable } from "@nestjs/common";
 
 @Injectable()

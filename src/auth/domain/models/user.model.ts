@@ -1,6 +1,6 @@
-import { BaseModel } from '@/core/domain/models/base.model';
+import { Identifier } from 'src/core/domain/value-objects/identifier';
+import { BaseModel } from 'src/core/domain/models/base.model';
 import { SessionModel } from './session.model';
-import { Identifier } from '@/core/domain/value-objects/identifier';
 import { CatRoleModel } from './cat-role.model';
 
 export class UserModel extends BaseModel {
@@ -34,7 +34,7 @@ export class UserModel extends BaseModel {
   }
 
   get infoAuth() {
-    return { name: this._name, roles: this._role};
+    return { name: this._name, roles: this._role };
   }
 
   static create(user: any): UserModel {

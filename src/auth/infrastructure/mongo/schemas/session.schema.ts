@@ -1,3 +1,3 @@
-import { Session as CoreSession } from "@/database/schemas/session.schema";
+import { Session as CoreSession } from "src/database/schemas/session.schema";
 
-export class SessionSchema extends CoreSession{}
+export class SessionSchema extends CoreSession { }
