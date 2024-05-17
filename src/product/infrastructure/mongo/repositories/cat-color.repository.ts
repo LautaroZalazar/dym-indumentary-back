@@ -4,8 +4,8 @@ import { Model } from 'mongoose';
 import { CatColorSchema } from '../schemas/cat-color.schema';
 
 import { Injectable } from '@nestjs/common';
-import { ICatColorRepository } from 'src/product/domain/repositories/cat-color.interface.repository';
-import { CatColorModel } from 'src/product/domain/models/cat-color.model';
+import { ICatColorRepository } from '../../../../product/domain/repositories/cat-color.interface.repository';
+import { CatColorModel } from '../../../../product/domain/models/cat-color.model';
 
 @Injectable()
 export class CatColorRepository implements ICatColorRepository {

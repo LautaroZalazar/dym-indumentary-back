@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { ISessionRepository } from "src/auth/domain/repositories/session.interface.repository";
+import { ISessionRepository } from "../../../../auth/domain/repositories/session.interface.repository";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { SessionSchema } from "../schemas/session.schema";
-import { SessionModel } from "src/auth/domain/models/session.model";
+import { SessionModel } from "../../../../auth/domain/models/session.model";
 
 @Injectable()
 

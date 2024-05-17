@@ -1,5 +1,5 @@
-import { INotificationService } from 'src/notification/domain/services/notification.interface.service';
-import SymbolsNotification from 'src/notification/symbols-notification';
+import { INotificationService } from '../../../../notification/domain/services/notification.interface.service';
+import SymbolsNotification from '../../../../notification/symbols-notification';
 import { Controller, Inject } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 

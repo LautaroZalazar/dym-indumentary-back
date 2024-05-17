@@ -1,10 +1,10 @@
-import { CatBrand } from "src/database/schemas/cat-brand.schema";
-import { CatCategory } from "src/database/schemas/cat-category.schema";
-import { CatColor } from "src/database/schemas/cat-color.schema";
-import { CatSize } from "src/database/schemas/cat-size.schema";
-import { Product } from "src/database/schemas/product.schema";
-import { ProductModel } from "src/product/domain/models/product.model";
-import { IProductRepository } from "src/product/domain/repositories/product.interface.repository";
+import { CatBrand } from "../../../../database/schemas/cat-brand.schema";
+import { CatCategory } from "../../../../database/schemas/cat-category.schema";
+import { CatColor } from "../../../../database/schemas/cat-color.schema";
+import { CatSize } from "../../../../database/schemas/cat-size.schema";
+import { Product } from "../../../../database/schemas/product.schema";
+import { ProductModel } from "../../../../product/domain/models/product.model";
+import { IProductRepository } from "../../../../product/domain/repositories/product.interface.repository";
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";

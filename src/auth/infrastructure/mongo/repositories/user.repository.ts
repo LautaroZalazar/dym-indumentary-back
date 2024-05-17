@@ -2,11 +2,11 @@ import { UserSchema } from '../schemas/user.schema';
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { IUserRepository } from 'src/auth/domain/repositories/user.interface.repository';
-import { UserModel } from 'src/auth/domain/models/user.model';
-import SymbolsAuth from 'src/auth/symbols-auth';
-import { ISessionRepository } from 'src/auth/domain/repositories/session.interface.repository';
-import { SessionModel } from 'src/auth/domain/models/session.model';
+import { IUserRepository } from '../../../../auth/domain/repositories/user.interface.repository';
+import { UserModel } from '../../../../auth/domain/models/user.model';
+import SymbolsAuth from '../../../../auth/symbols-auth';
+import { ISessionRepository } from '../../../../auth/domain/repositories/session.interface.repository';
+import { SessionModel } from '../../../../auth/domain/models/session.model';
 
 @Injectable()
 export class UserRepository implements IUserRepository {

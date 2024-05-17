@@ -1,4 +1,4 @@
-import { IApiKeyService } from 'src/auth/domain/services/api-key.interface.service';
+import { IApiKeyService } from '../../../auth/domain/services/api-key.interface.service';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 

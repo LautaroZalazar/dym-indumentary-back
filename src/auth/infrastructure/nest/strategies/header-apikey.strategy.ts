@@ -1,5 +1,5 @@
-import { IApiKeyService } from "src/auth/domain/services/api-key.interface.service";
-import SymbolsAuth from "src/auth/symbols-auth";
+import { IApiKeyService } from "../../../../auth/domain/services/api-key.interface.service";
+import SymbolsAuth from "../../../../auth/symbols-auth";
 import { Inject, Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import Strategy from "passport-headerapikey";

@@ -1,4 +1,4 @@
-import { DomainException } from "src/core/domain/exceptions/base/domain.exception";
+import { DomainException } from "../../../core/domain/exceptions/base/domain.exception";
 
 export class UserException extends DomainException {
   constructor(message: string) {

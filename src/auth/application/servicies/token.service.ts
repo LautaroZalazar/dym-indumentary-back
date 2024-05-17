@@ -1,7 +1,7 @@
-import { IUserRepository } from 'src/auth/domain/repositories/user.interface.repository';
-import { ITokenService } from 'src/auth/domain/services/token.interface.service';
-import config from 'src/config';
-import SymbolsUser from 'src/user/symbols-user';
+import { IUserRepository } from '../../../auth/domain/repositories/user.interface.repository';
+import { ITokenService } from '../../../auth/domain/services/token.interface.service';
+import config from '../../../config';
+import SymbolsUser from '../../../user/symbols-user';
 import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 

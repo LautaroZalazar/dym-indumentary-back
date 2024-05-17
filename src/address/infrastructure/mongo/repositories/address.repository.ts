@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { AddressSchema } from '../schemas/address.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { IAddressRepository } from 'src/address/domain/repositories/address.interface.repository';
-import { AddressModel } from 'src/address/domain/models/address.model';
+import { IAddressRepository } from '../../../../address/domain/repositories/address.interface.repository';
+import { AddressModel } from '../../../../address/domain/models/address.model';
 import { UserSchema } from '../schemas/user.schema';
 
 @Injectable()

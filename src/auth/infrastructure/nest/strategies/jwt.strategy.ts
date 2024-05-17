@@ -1,6 +1,6 @@
-import config from 'src/config';
-import { IUserService } from 'src/auth/domain/services/user.interface.service';
-import SymbolsUser from 'src/user/symbols-user';
+import config from '../../../../config';
+import { IUserService } from '../../../../auth/domain/services/user.interface.service';
+import SymbolsUser from '../../../../user/symbols-user';
 
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';

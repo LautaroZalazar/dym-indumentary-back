@@ -1,6 +1,6 @@
-import { Cart, CartSchema } from 'src/database/schemas/cart.schema';
-import { Product, ProductSchema } from 'src/database/schemas/product.schema';
-import { User, UserSchema } from 'src/database/schemas/user.schema';
+import { Cart, CartSchema } from '../../../database/schemas/cart.schema';
+import { Product, ProductSchema } from '../../../database/schemas/product.schema';
+import { User, UserSchema } from '../../../database/schemas/user.schema';
 
 export const cartSchema = {
   name: Cart.name,

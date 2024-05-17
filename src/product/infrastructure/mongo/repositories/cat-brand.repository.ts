@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CatBrandSchema } from '../schemas/cat-brand.schema';
-import { ICatBrandRepository } from 'src/product/domain/repositories/cat-brand.interface.repository';
-import { CatBrandModel } from 'src/product/domain/models/cat-brand.model';
+import { ICatBrandRepository } from '../../../../product/domain/repositories/cat-brand.interface.repository';
+import { CatBrandModel } from '../../../../product/domain/models/cat-brand.model';
 
 @Injectable()
 export class CatBrandRepository implements ICatBrandRepository {
