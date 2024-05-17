@@ -1,15 +1,27 @@
-import { CatBrand, CatBrandSchema } from 'src/database/schemas/cat-brand.schema';
+import {
+  CatBrand,
+  CatBrandSchema,
+} from '../../../database/schemas/cat-brand.schema';
 import {
   CatCategory,
   CatCategorySchema,
-} from 'src/database/schemas/cat-category.schema';
-import { CatColor, CatColorSchema } from 'src/database/schemas/cat-color.schema';
-import { CatRole, CatRoleSchema } from 'src/database/schemas/cat-role.schema';
+} from '../../../database/schemas/cat-category.schema';
+import {
+  CatColor,
+  CatColorSchema,
+} from '../../../database/schemas/cat-color.schema';
+import {
+  CatRole,
+  CatRoleSchema,
+} from '../../../database/schemas/cat-role.schema';
 import {
   CatShipping,
   CatShippingSchema,
-} from 'src/database/schemas/cat-shipping.schema';
-import { CatSize, CatSizeSchema } from 'src/database/schemas/cat-size.schema';
+} from '../../../database/schemas/cat-shipping.schema';
+import {
+  CatSize,
+  CatSizeSchema,
+} from '../../../database/schemas/cat-size.schema';
 
 export const roleSchema = {
   name: CatRole.name,
