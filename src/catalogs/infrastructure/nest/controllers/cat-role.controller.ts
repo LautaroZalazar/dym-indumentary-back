@@ -2,6 +2,7 @@ import { ICatRoleService } from '../../../domain/services/cat-role.interface.ser
 import SymbolsCatalogs from '../../../symbols-catalogs';
 import { CreateRoleDTO, GetRoleByNameDTO } from '../dtos/cat-role.dto';
 import { AuthGuards } from '../../../../auth/infrastructure/nest/guards/auth.guard';
+import { RoleGuards } from '../../../../auth/infrastructure/nest/guards/role.guard';
 import {
   Body,
   Controller,
@@ -31,7 +32,7 @@ export class CatRoleController {
     }
   }
 
-  @UseGuards(AuthGuards)
+  @UseGuards(AuthGuards, RoleGuards)
   @Post()
   async createRole(@Body() body: CreateRoleDTO) {
     try {

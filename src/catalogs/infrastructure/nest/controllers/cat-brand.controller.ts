@@ -2,6 +2,7 @@ import { ICatBrandService } from '../../../domain/services/cat-brand.interface.s
 import SymbolsCatalogs from '../../../symbols-catalogs';
 import { CreateBrandDTO, GetBrandDTO } from '../dtos/cat-brand.dto';
 import { AuthGuards } from '../../../../auth/infrastructure/nest/guards/auth.guard';
+import { RoleGuards } from '../../../../auth/infrastructure/nest/guards/role.guard';
 import {
   Body,
   Controller,
@@ -21,7 +22,7 @@ export class CatBrandController {
     private readonly catBrandService: ICatBrandService,
   ) {}
 
-  @UseGuards(AuthGuards)
+  @UseGuards(AuthGuards, RoleGuards)
   @Post()
   async create(@Body() body: CreateBrandDTO) {
     try {
