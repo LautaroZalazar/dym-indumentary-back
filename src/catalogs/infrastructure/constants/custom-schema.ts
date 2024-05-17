@@ -23,6 +23,10 @@ import {
   CatSizeSchema,
 } from '../../../database/schemas/cat-size.schema';
 
+import { User, UserSchema } from '../../../database/schemas/user.schema';
+
+import { Cart, CartSchema } from '../../../database/schemas/cart.schema';
+
 export const roleSchema = {
   name: CatRole.name,
   schema: CatRoleSchema,
@@ -51,4 +55,14 @@ export const brandSchema = {
 export const shippingSchema = {
   name: CatShipping.name,
   schema: CatShippingSchema,
+};
+
+export const userSchema = {
+  name: User.name,
+  schema: UserSchema,
+};
+
+export const cartSchema = {
+  name: Cart.name,
+  schema: CartSchema,
 };

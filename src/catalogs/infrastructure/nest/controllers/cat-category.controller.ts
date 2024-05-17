@@ -2,6 +2,7 @@ import { ICatCategoryService } from '../../../domain/services/cat-category.inter
 import SymbolsCatalogs from '../../../symbols-catalogs';
 import { CreateCategoryDTO, GetCategoryrDTO } from '../dtos/cat-category.dto';
 import { AuthGuards } from '../../../../auth/infrastructure/nest/guards/auth.guard';
+import { RoleGuards } from '../../../../auth/infrastructure/nest/guards/role.guard';
 import {
   Body,
   Controller,
@@ -21,7 +22,7 @@ export class CatCategoryController {
     private readonly catCategoryService: ICatCategoryService,
   ) {}
 
-  @UseGuards(AuthGuards)
+  @UseGuards(AuthGuards, RoleGuards)
   @Post()
   async create(@Body() body: CreateCategoryDTO) {
     try {
