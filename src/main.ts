@@ -9,7 +9,7 @@ import config from './config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  /* app.enableCors(corsOptions); */
+  app.enableCors(corsOptions);
   app.use(json({ limit: '5mb' }));
   app.use(urlencoded({ extended: true, limit: '5mb' }));
   app.useGlobalPipes(new ValidationPipe());
@@ -29,9 +29,9 @@ bootstrap()
   .then(() => {
     console.log(
       'Listening on: http://localhost:' +
-        config().app.app_port +
-        '/' +
-        config().app.app_global_prefix,
+      config().app.app_port +
+      '/' +
+      config().app.app_global_prefix,
     );
     console.log('Server started successfully 🎸 ');
   })
