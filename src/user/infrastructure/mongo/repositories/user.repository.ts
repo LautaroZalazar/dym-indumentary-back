@@ -16,7 +16,7 @@ export class UserRepository implements IUserRepository {
     @InjectModel('Cart') private readonly cartModel: Model<CartSchema>,
     @Inject(SymbolsCatalogs.ICatRoleRepository)
     private readonly catRoleRepository: ICatRoleRepository,
-  ) { }
+  ) {}
 
   async create(user: UserModel): Promise<UserModel> {
     try {
@@ -72,20 +72,6 @@ export class UserRepository implements IUserRepository {
         throw new Error(`The user with ID ${id} does not exist`);
       }
       return UserModel.hydrate(found);
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
-
-  async findAll(): Promise<UserModel[]> {
-    try {
-      const findAll = await this.userModel
-        .find()
-        .populate('role')
-        .populate('address')
-        .populate('cart');
-
-      return findAll && findAll.map((user) => UserModel.hydrate(user));
     } catch (error) {
       throw new Error(error);
     }

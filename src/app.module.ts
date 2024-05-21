@@ -10,6 +10,7 @@ import { NotificationModule } from './notification/notification.module';
 import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './product/product.module';
 import { CartModule } from './cart/carts.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { CartModule } from './cart/carts.module';
     AuthModule,
     ProductModule,
     CartModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],
