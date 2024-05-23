@@ -1,9 +1,6 @@
-import { IProductService } from "../../../../product/domain/services/product.interface.service";
-import SymbolsProduct from "../../../../product/symbols-product";
-import { Body, Controller, Get, Inject, Param, Post, Put, UseGuards } from "@nestjs/common";
-import { ProductCreateDTO, ProductUpdateDTO } from "../dtos/product.dto";
-import { AuthGuards } from "../../../../auth/infrastructure/nest/guards/auth.guard";
-import { RoleGuards } from '../../../../auth/infrastructure/nest/guards/role.guard';
+import { IProductService } from '../../../../product/domain/services/product.interface.service';
+import SymbolsProduct from '../../../../product/symbols-product';
+import { Controller, Get, Inject, Param } from '@nestjs/common';
 
 @Controller('product')
 export class ProductController {
@@ -11,12 +8,6 @@ export class ProductController {
     @Inject(SymbolsProduct.ProductService)
     private readonly productService: IProductService,
   ) {}
-
-  @UseGuards(AuthGuards, RoleGuards)
-  @Post()
-  async create(@Body() product: ProductCreateDTO) {
-    return await this.productService.create(product);
-  }
 
   @Get()
   async findAll() {
@@ -26,11 +17,5 @@ export class ProductController {
   @Get(':id')
   async findById(@Param('id') id: string) {
     return await this.productService.findById(id);
-  }
-
-  @UseGuards(AuthGuards, RoleGuards)
-  @Put(':id')
-  async update(@Param('id') id: string, @Body() product: ProductUpdateDTO) {
-    return await this.productService.update(id, product);
   }
 }
