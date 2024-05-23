@@ -11,7 +11,7 @@ export class TokenService implements ITokenService {
     private readonly jwtService: JwtService,
     @Inject(SymbolsUser.IUserRepository)
     private readonly userRepository: IUserRepository,
-  ) { }
+  ) {}
 
   async generateToken(userEmail: string): Promise<string> {
     const user = await this.userRepository.findByEmail(userEmail);
@@ -20,6 +20,18 @@ export class TokenService implements ITokenService {
     const options = {
       secret: config().app.jwt.secret,
       expiresIn: config().app.jwt.expiresIn,
+    };
+    const token = await this.jwtService.signAsync(payload, options);
+    return token;
+  }
+
+  async recoveryToken(userEmail: string): Promise<string> {
+    const user = await this.userRepository.findByEmail(userEmail);
+    const { _id, email } = user.toJSON();
+    const payload = { _id, email };
+    const options = {
+      secret: config().app.jwt.secret,
+      expiresIn: '10m',
     };
     const token = await this.jwtService.signAsync(payload, options);
     return token;

@@ -3,9 +3,10 @@ import { IEmailAdapter } from '../../../../notification/domain/adapter/email.int
 import { Resend } from 'resend';
 import { newsletterSuscriptionTemplate } from './newslatter-suscription.template';
 import { newsletterWithdrawalTemplate } from './newslatter-withdrawal.template';
+import { recoveryPasswordTemplate } from './recoveryPassword.template';
 
 export class ResendProvider implements IEmailAdapter {
-  constructor() { }
+  constructor() {}
 
   async newsletterSuscriptionEmail(email: string, name: string): Promise<any> {
     try {
@@ -35,6 +36,29 @@ export class ResendProvider implements IEmailAdapter {
         to: ['dym.indumentaria.soporte@gmail.com'],
         subject: 'DYM Indumentaria',
         html: newsletterWithdrawalTemplate(name, orderNumber),
+      });
+
+      if (error) throw new Error('error');
+
+      return data;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async recoveryPasswordEmail(
+    name: string,
+    email: string,
+    token: string,
+  ): Promise<any> {
+    try {
+      const resend = new Resend(config().providerEmail.resend.apyKey);
+
+      const { data, error } = await resend.emails.send({
+        from: 'DYM Indumentaria <onboarding@resend.dev>',
+        to: ['dym.indumentaria.soporte@gmail.com'],
+        subject: 'Recuperación de contraseña',
+        html: recoveryPasswordTemplate(name, token),
       });
 
       if (error) throw new Error('error');
