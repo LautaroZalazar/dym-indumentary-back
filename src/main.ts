@@ -9,7 +9,12 @@ import config from './config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors();
+  app.enableCors({
+    ...corsOptions,
+    allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
   app.use(json({ limit: '5mb' }));
   app.use(urlencoded({ extended: true, limit: '5mb' }));
   app.useGlobalPipes(new ValidationPipe());
