@@ -16,10 +16,6 @@ export class CreateUserDTO {
   email: string;
 
   @IsString()
-  @IsNotEmpty({ message: 'The user phone is required' })
-  phone: string;
-
-  @IsString()
   @IsNotEmpty({ message: 'The user password is required' })
   password: string;
 
