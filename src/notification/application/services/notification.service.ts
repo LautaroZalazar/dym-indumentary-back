@@ -8,7 +8,7 @@ export class NotificationService implements INotificationService {
   constructor(
     @Inject(SymbolsNotification.IEmailAdapter)
     private readonly emailAdapter: IEmailAdapter,
-  ) { }
+  ) {}
 
   async newsletterSuscriptionNotification(
     email: string,
@@ -30,6 +30,18 @@ export class NotificationService implements INotificationService {
         name,
         paymentOrderNumber,
       );
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async recoveryPasswordNotification(
+    name: string,
+    email: string,
+    token: string,
+  ): Promise<any> {
+    try {
+      return await this.emailAdapter.recoveryPasswordEmail(name, email, token);
     } catch (error) {
       throw new Error(error);
     }

@@ -9,6 +9,7 @@ export class UserModel extends BaseModel {
   private _password: string;
   private _phone: string;
   private _isActive: boolean;
+  private _newsletter: boolean;
   private _session: SessionModel[];
   private _role: CatRoleModel;
 
@@ -21,6 +22,7 @@ export class UserModel extends BaseModel {
       password: this._password,
       phone: this._phone,
       isActive: this._isActive,
+      newsletter: this._newsletter,
       session: this._session ? this._session.map((s) => s.toJSON()) : [],
       role: this._role ? this._role.toJSON() : null,
     };
@@ -45,6 +47,7 @@ export class UserModel extends BaseModel {
     newUser._password = user.password;
     newUser._phone = user.phone;
     newUser._isActive = user.isActive;
+    newUser._newsletter = user.newsletter;
 
     return newUser;
   }
@@ -57,6 +60,7 @@ export class UserModel extends BaseModel {
     newUser._password = user.password;
     newUser._phone = user.phone;
     newUser._isActive = user.isActive;
+    newUser._newsletter = user.newsletter;
     newUser._session = user.session
       ? user.session.map((s) => SessionModel.hydrate(s))
       : [];

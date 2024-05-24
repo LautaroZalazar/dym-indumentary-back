@@ -7,13 +7,19 @@ import { UserModel } from '../../../../auth/domain/models/user.model';
 import SymbolsAuth from '../../../../auth/symbols-auth';
 import { ISessionRepository } from '../../../../auth/domain/repositories/session.interface.repository';
 import { SessionModel } from '../../../../auth/domain/models/session.model';
+import {
+  comparePassword,
+  hashPassword,
+} from '../../../../core/domain/utils/bcrypt.util';
+import { BadRequestError } from 'passport-headerapikey';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
   constructor(
     @InjectModel('User') private readonly userModel: Model<UserSchema>,
-    @Inject(SymbolsAuth.ISessionRepository) private readonly sessionRepository: ISessionRepository
-  ) { }
+    @Inject(SymbolsAuth.ISessionRepository)
+    private readonly sessionRepository: ISessionRepository,
+  ) {}
 
   async findByEmail(email: string): Promise<UserModel> {
     try {
@@ -25,11 +31,69 @@ export class UserRepository implements IUserRepository {
     }
   }
 
+  async findById(id: string): Promise<UserModel> {
+    try {
+      const found = await this.userModel
+        .findById(id)
+        .populate('role')
+        .populate('address')
+        .populate('cart');
+
+      if (!found) {
+        throw new Error(`The user with ID ${id} does not exist`);
+      }
+      return UserModel.hydrate(found);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
   async addSession(user: UserModel, session: SessionModel): Promise<UserModel> {
-    const userSchema = await (await this.userModel.findOne({ email: user.toJSON().email })).populate('role')
-    const sessionSchema = await this.sessionRepository.create(session)
-    userSchema.session.push(sessionSchema)
+    const userSchema = await (
+      await this.userModel.findOne({
+        email: user.toJSON().email,
+      })
+    ).populate('role');
+    const sessionSchema = await this.sessionRepository.create(session);
+    userSchema.session.push(sessionSchema);
     await userSchema.save();
     return UserModel.hydrate(userSchema);
+  }
+
+  async updatePassword(password: string, id: string): Promise<UserModel> {
+    try {
+      const existingUser = await this.userModel.findById(id);
+      if (!existingUser) {
+        throw new Error('User not found');
+      }
+
+      const userPassword = UserModel.hydrate(existingUser);
+
+      const compare = await comparePassword(password, userPassword);
+
+      if (compare) {
+        throw new BadRequestError(
+          'The password is the same as the previous password',
+        );
+      }
+
+      const hashedPassword = await hashPassword(password);
+
+      const updated = await this.userModel.findByIdAndUpdate(
+        id,
+        { password: hashedPassword },
+        {
+          new: true,
+        },
+      );
+
+      if (!updated) {
+        throw new Error("Couldn't update the user");
+      }
+
+      return UserModel.hydrate(updated);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }
