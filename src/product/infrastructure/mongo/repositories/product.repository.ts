@@ -28,10 +28,14 @@ export class ProductRepository implements IProductRepository {
     }
   }
 
-  async findAll(): Promise<ProductModel[]> {
+  async findAll(page: number = 1, limit: number = 10): Promise<ProductModel[]> {
     try {
+      const skip = (page - 1) * limit;
+
       const products = await this.productDB
         .find()
+        .skip(skip)
+        .limit(limit)
         .populate('brand')
         .populate('category')
         .populate('size')
