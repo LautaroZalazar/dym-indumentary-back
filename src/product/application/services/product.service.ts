@@ -15,7 +15,7 @@ export class ProductService implements IProductService {
     return await this.productRepository.findById(id);
   }
 
-  async findAll(): Promise<ProductModel[]> {
-    return await this.productRepository.findAll();
+  async findAll(limit: number, page: number): Promise<ProductModel[]> {
+    return await this.productRepository.findAll(limit, page);
   }
 }
