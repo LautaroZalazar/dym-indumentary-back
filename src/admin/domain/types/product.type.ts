@@ -1,25 +1,41 @@
+export interface IStockItemCreate {
+    quantity: number;
+    color: string;
+}
+
+export interface IInventoryItemCreate {
+    size: string;
+    stock: IStockItemCreate[];
+}
+
 export interface IProductCreate {
     name: string;
     price: number;
     description: string;
-    stock: number;
     gender: string;
     image: string[];
     brand: string;
     category: string;
-    size: string[];
-    color: string[];
+    inventory: IInventoryItemCreate[];
+}
+
+export interface IStockItemUpdate {
+    quantity?: number;
+    color?: string;
+}
+
+export interface IInventoryItemUpdate {
+    size?: string;
+    stock?: IStockItemUpdate[];
 }
 
 export interface IProductUpdate {
     name?: string;
     price?: number;
     description?: string;
-    stock?: number;
     gender?: string;
     image?: string[];
     brand?: string;
     category?: string;
-    size?: string[];
-    color?: string[];
+    inventory?: IInventoryItemUpdate[];
 }

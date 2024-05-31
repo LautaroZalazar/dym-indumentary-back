@@ -24,7 +24,7 @@ export class AdminController {
     private readonly productService: IProductService,
     @Inject(SymbolsAdmin.IUserService)
     private readonly userService: IUserService,
-  ) {}
+  ) { }
 
   @UseGuards(AuthGuards, RoleGuards)
   @Post('product')

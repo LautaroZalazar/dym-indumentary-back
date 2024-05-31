@@ -20,9 +20,6 @@ export class Product {
   description: string;
 
   @Prop()
-  stock: number;
-
-  @Prop()
   gender: string;
 
   @Prop([String])
@@ -34,11 +31,14 @@ export class Product {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'CatCategory' })
   category: CatCategory;
 
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'CatSize' }] })
-  size: CatSize[];
-
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'CatColor' }] })
-  color: CatColor[];
+  @Prop({ type: [{ size: { type: mongoose.Schema.Types.ObjectId, ref: 'CatSize' }, stock: [{ quantity: Number, color: { type: mongoose.Schema.Types.ObjectId, ref: 'CatColor' } }] }] })
+  inventory: Array<{
+    size: mongoose.Types.ObjectId,
+    stock: Array<{
+      quantity: number,
+      color: mongoose.Types.ObjectId,
+    }>,
+  }>;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

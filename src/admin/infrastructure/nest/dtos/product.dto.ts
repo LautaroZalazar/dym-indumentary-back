@@ -1,4 +1,27 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
+
+class StockItemUpdateDTO {
+  @IsNumber()
+  @IsOptional()
+  quantity?: number;
+
+  @IsString()
+  @IsOptional()
+  color?: string;
+}
+
+class InventoryItemUpdateDTO {
+  @IsString()
+  @IsOptional()
+  size?: string;
+
+  @ValidateNested({ each: true })
+  @Type(() => StockItemUpdateDTO)
+  @IsArray()
+  @IsOptional()
+  stock?: StockItemUpdateDTO[];
+}
 
 export class ProductUpdateDTO {
   @IsString()
@@ -12,10 +35,6 @@ export class ProductUpdateDTO {
   @IsString()
   @IsOptional()
   description?: string;
-
-  @IsOptional()
-  @IsNumber()
-  stock?: number;
 
   @IsString()
   @IsOptional()
@@ -33,13 +52,33 @@ export class ProductUpdateDTO {
   @IsOptional()
   category?: string;
 
-  @IsString({ each: true })
+  @ValidateNested({ each: true })
+  @Type(() => InventoryItemUpdateDTO)
+  @IsArray()
   @IsOptional()
-  size?: string[];
+  inventory?: InventoryItemUpdateDTO[];
+}
 
-  @IsString({ each: true })
-  @IsOptional()
-  color?: string[];
+class StockItemDTO {
+  @IsString()
+  @IsNotEmpty()
+  color: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  quantity: number;
+}
+
+class InventoryItemDTO {
+  @IsString()
+  @IsNotEmpty()
+  size: string;
+
+  @IsArray()
+  @IsNotEmpty()
+  @ValidateNested({ each: true })
+  @Type(() => StockItemDTO)
+  stock: StockItemDTO[];
 }
 
 export class ProductRelationDTO {
@@ -51,13 +90,11 @@ export class ProductRelationDTO {
   @IsNotEmpty()
   category: string;
 
-  @IsString({ each: true })
+  @IsArray()
   @IsNotEmpty()
-  size: string[];
-
-  @IsString({ each: true })
-  @IsNotEmpty()
-  color: string[];
+  @ValidateNested({ each: true })
+  @Type(() => InventoryItemDTO)
+  inventory: InventoryItemDTO[];
 }
 
 export class ProductCreateDTO extends ProductRelationDTO {
@@ -72,10 +109,6 @@ export class ProductCreateDTO extends ProductRelationDTO {
   @IsString()
   @IsNotEmpty()
   description: string;
-
-  @IsNotEmpty()
-  @IsNumber()
-  stock: number;
 
   @IsString()
   @IsNotEmpty()

@@ -22,7 +22,7 @@ export class ProductRepository implements IProductRepository {
     private readonly catCategoryDB: Model<CatCategorySchema>,
     @InjectModel('CatColor') private readonly catColorDB: Model<CatColorSchema>,
     @InjectModel('CatSize') private readonly catSizeDB: Model<CatSizeSchema>,
-  ) {}
+  ) { }
 
   async create(
     product: ProductModel,
@@ -30,25 +30,33 @@ export class ProductRepository implements IProductRepository {
   ): Promise<ProductModel> {
     try {
       const schema = new this.productDB(product.toJSON());
-      const { brand, category, size, color } = productRelation;
+      const { brand, category, inventory } = productRelation;
 
-      if (brand && category && size && color) {
+      if (brand && category && inventory) {
         const foundBrand = await this.catBrandDB.findById(brand);
         const foundCategory = await this.catCategoryDB.findById(category);
-        const foundSizes = await Promise.all(
-          size.map(async (sizeId) => {
-            return await this.catSizeDB.findById(sizeId);
-          }),
-        );
-        const foundColors = await Promise.all(
-          color.map(async (colorId) => {
-            return await this.catColorDB.findById(colorId);
+
+        const foundInventory = await Promise.all(
+          inventory.map(async (item) => {
+            const foundSize = await this.catSizeDB.findById(item.size);
+            const foundStock = await Promise.all(
+              item.stock.map(async (stockItem) => {
+                const foundColor = await this.catColorDB.findById(stockItem.color);
+                return { ...stockItem, color: foundColor };
+              }),
+            );
+            return { size: foundSize, stock: foundStock };
           }),
         );
         schema.brand = foundBrand;
         schema.category = foundCategory;
-        schema.size = foundSizes;
-        schema.color = foundColors;
+        schema.inventory = foundInventory.map((item) => ({
+          size: item.size._id,
+          stock: item.stock.map((stockItem) => ({
+            quantity: stockItem.quantity,
+            color: stockItem.color._id,
+          })),
+        }));
       }
 
       const saved = await schema.save();
@@ -71,7 +79,6 @@ export class ProductRepository implements IProductRepository {
         name: product.name || existingProduct.name,
         description: product.description || existingProduct.description,
         price: product.price || existingProduct.price,
-        stock: product.stock || existingProduct.stock,
         gender: product.gender || existingProduct.gender,
         image: product.image || existingProduct.image,
         brand: product.brand
@@ -80,12 +87,15 @@ export class ProductRepository implements IProductRepository {
         category: product.category
           ? await this.catCategoryDB.findById(product.category)
           : existingProduct.category,
-        size: product.size
-          ? product.size.map(async (s) => await this.catSizeDB.findById(s))
-          : existingProduct.size,
-        color: product.color
-          ? product.color.map(async (c) => await this.catColorDB.findById(c))
-          : existingProduct.color,
+        inventory: product.inventory
+          ? await Promise.all(product.inventory.map(async (item) => ({
+            size: await this.catSizeDB.findById(item.size),
+            stock: await Promise.all(item.stock.map(async (stockItem) => ({
+              quantity: stockItem.quantity,
+              color: await this.catColorDB.findById(stockItem.color),
+            }))),
+          })))
+          : existingProduct.inventory,
       };
 
       const updated = await this.productDB.findByIdAndUpdate(

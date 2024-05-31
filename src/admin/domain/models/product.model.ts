@@ -14,8 +14,13 @@ export class ProductModel extends BaseModel {
   private _image: string[];
   private _brand: CatBrandModel;
   private _category: CatCategoryModel;
-  private _size: CatSizeModel[];
-  private _color: CatColorModel[];
+  private _inventory: Array<{
+    size: CatSizeModel,
+    stock: Array<{
+      quantity: number,
+      color: CatColorModel,
+    }>,
+  }>;
 
   public toJSON() {
     const aggregate = this._id ? { _id: this._id.toValue() } : {};
@@ -29,10 +34,15 @@ export class ProductModel extends BaseModel {
       image: this._image,
       brand: this._brand ? this._brand.toJSON() : null,
       category: this._category ? this._category.toJSON() : null,
-      size: this._size ? this._size.map((size) => size.toJSON()) : [],
-      color: this._color ? this._color.map((color) => color.toJSON()) : [],
+      inventory: this._inventory ? this._inventory.map((item) => ({
+        size: item.size.toJSON(),
+        stock: item.stock.map((stockItem) => ({
+          quantity: stockItem.quantity,
+          color: stockItem.color.toJSON(),
+        })),
+      })) : [],
     };
-  }
+  };
 
   addBrand(brand: CatBrandModel) {
     this._brand = brand;
@@ -42,12 +52,14 @@ export class ProductModel extends BaseModel {
     this._category = category;
   }
 
-  addSize(size: CatSizeModel) {
-    this._size.push(size);
-  }
-
-  addColor(color: CatColorModel) {
-    this._color.push(color);
+  addInventory(inventory: Array<{
+    size: CatSizeModel,
+    stock: Array<{
+      quantity: number,
+      color: CatColorModel,
+    }>,
+  }>) {
+    this._inventory = inventory;
   }
 
   static create(product: any): ProductModel {
@@ -77,11 +89,14 @@ export class ProductModel extends BaseModel {
     newProduct._category = product.category
       ? CatCategoryModel.hydrate(product.category)
       : null;
-    newProduct._size = product.size
-      ? product.size.map((size) => CatSizeModel.hydrate(size))
-      : [];
-    newProduct._color = product.color
-      ? product.color.map((color) => CatColorModel.hydrate(color))
+    newProduct._inventory = product.inventory
+      ? product.inventory.map((item) => ({
+        size: CatSizeModel.hydrate(item.size),
+        stock: item.stock.map((stockItem) => ({
+          quantity: stockItem.quantity,
+          color: CatColorModel.hydrate(stockItem.color),
+        })),
+      }))
       : [];
 
     return newProduct;
