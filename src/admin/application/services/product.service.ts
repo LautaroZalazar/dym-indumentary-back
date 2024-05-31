@@ -13,16 +13,15 @@ export class ProductService implements IProductService {
   constructor(
     @Inject(SymbolsAdmin.IProductRepository)
     private readonly productRepository: IProductRepository,
-  ) {}
+  ) { }
 
   async create(product: IProductCreate): Promise<ProductModel> {
-    const { brand, category, size, color } = product;
+    const { brand, category, inventory } = product;
     const productModel = ProductModel.create(product);
     return await this.productRepository.create(productModel, {
       brand,
       category,
-      size,
-      color,
+      inventory
     });
   }
 
