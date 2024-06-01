@@ -1,3 +1,3 @@
-import { User as CoreUserSchema } from '../../../../database/schemas/user.schema';
+import { User as CoreUserSchema } from '../../../../database/schemas/public/user.schema';
 
-export class UserSchema extends CoreUserSchema {}
+export class UserSchema extends CoreUserSchema { }

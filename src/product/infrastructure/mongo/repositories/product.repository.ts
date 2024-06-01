@@ -1,4 +1,4 @@
-import { Product } from '../../../../database/schemas/product.schema';
+import { Product } from '../../../../database/schemas/public/product.schema';
 import { ProductModel } from '../../../../product/domain/models/product.model';
 import { IProductRepository } from '../../../../product/domain/repositories/product.interface.repository';
 import { Injectable } from '@nestjs/common';

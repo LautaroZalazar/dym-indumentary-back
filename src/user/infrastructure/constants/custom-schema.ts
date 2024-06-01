@@ -1,6 +1,6 @@
-import { Cart, CartSchema } from "../../../database/schemas/cart.schema"
-import { CatRole, CatRoleSchema } from "../../../database/schemas/cat-role.schema"
-import { User, UserSchema } from "../../../database/schemas/user.schema"
+import { Cart, CartSchema } from "../../../database/schemas/public/cart.schema"
+import { CatRole, CatRoleSchema } from "../../../database/schemas/catalogs/cat-role.schema"
+import { User, UserSchema } from "../../../database/schemas/public/user.schema"
 
 export const userSchema = {
   name: User.name,
