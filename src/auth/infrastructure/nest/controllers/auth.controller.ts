@@ -3,6 +3,8 @@ import SymbolsAuth from '../../../../auth/symbols-auth';
 import {
   Body,
   Controller,
+  HttpException,
+  HttpStatus,
   Inject,
   Post,
   Put,
@@ -30,8 +32,17 @@ export class authController {
 
   @Post('recovery-password')
   async recoveryPasswordFindUser(@Body() body: RecoveryPasswordDTO) {
-    await this.authService.recoveryPassword(body);
-    return 'Email send';
+    try {
+      await this.authService.recoveryPassword(body);
+      const data = {
+        message:
+          'Se ha enviado un correo con las instrucciones para recuperar la contraseña',
+        status: 200,
+      };
+      return data;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   @UseGuards(AuthGuards)
@@ -40,8 +51,12 @@ export class authController {
     @Body() body: UserRecoveryPasswordDTO,
     @Req() req: IUserRequest,
   ) {
-    const { password } = body;
-    const { _id } = req.user;
-    return await this.userService.update(password, _id);
+    try {
+      const { password } = body;
+      const { _id } = req.user;
+      return await this.userService.update(password, _id);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 }
