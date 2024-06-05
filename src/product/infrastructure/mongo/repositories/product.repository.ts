@@ -9,7 +9,7 @@ import { Model } from 'mongoose';
 export class ProductRepository implements IProductRepository {
   constructor(
     @InjectModel('Product') private readonly productDB: Model<Product>,
-  ) { }
+  ) {}
 
   async findById(id: string): Promise<ProductModel> {
     try {
@@ -23,6 +23,30 @@ export class ProductRepository implements IProductRepository {
       if (!product) throw new Error('Product not found');
 
       return ProductModel.hydrate(product);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  async findName(
+    productName: string,
+    page: number = 1,
+    limit: number = 10,
+  ): Promise<ProductModel[]> {
+    try {
+      const skip = (page - 1) * limit;
+
+      const found = await this.productDB
+        .find({
+          name: { $regex: productName, $options: 'i' },
+        })
+        .skip(skip)
+        .limit(limit)
+        .populate('brand')
+        .populate('category')
+        .populate('inventory.size')
+        .populate('inventory.stock.color');
+
+      return found.map((product) => ProductModel.hydrate(product));
     } catch (error) {
       throw new Error(error);
     }

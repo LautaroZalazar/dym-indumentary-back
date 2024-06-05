@@ -94,3 +94,9 @@ export class GetProductsDTO {
   @IsOptional()
   limit?: string;
 }
+
+export class GetProductNameDTO {
+  @IsString()
+  @IsOptional()
+  productName?: string;
+}
