@@ -1,31 +1,31 @@
 import {
   CatBrand,
   CatBrandSchema,
-} from '../../../database/schemas/cat-brand.schema';
+} from '../../../database/schemas/catalogs/cat-brand.schema';
 import {
   CatCategory,
   CatCategorySchema,
-} from '../../../database/schemas/cat-category.schema';
+} from '../../../database/schemas/catalogs/cat-category.schema';
 import {
   CatColor,
   CatColorSchema,
-} from '../../../database/schemas/cat-color.schema';
+} from '../../../database/schemas/catalogs/cat-color.schema';
 import {
   CatRole,
   CatRoleSchema,
-} from '../../../database/schemas/cat-role.schema';
+} from '../../../database/schemas/catalogs/cat-role.schema';
 import {
   CatShipping,
   CatShippingSchema,
-} from '../../../database/schemas/cat-shipping.schema';
+} from '../../../database/schemas/catalogs/cat-shipping.schema';
 import {
   CatSize,
   CatSizeSchema,
-} from '../../../database/schemas/cat-size.schema';
+} from '../../../database/schemas/catalogs/cat-size.schema';
 
-import { User, UserSchema } from '../../../database/schemas/user.schema';
+import { User, UserSchema } from '../../../database/schemas/public/user.schema';
 
-import { Cart, CartSchema } from '../../../database/schemas/cart.schema';
+import { Cart, CartSchema } from '../../../database/schemas/public/cart.schema';
 
 export const roleSchema = {
   name: CatRole.name,

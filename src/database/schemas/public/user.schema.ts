@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import { CatRole } from './cat-role.schema';
+import { CatRole } from '../catalogs/cat-role.schema';
 import { Cart } from './cart.schema';
 import { Address } from './address.schema';
 import { Session } from './session.schema';
@@ -36,7 +36,7 @@ export class User {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Cart' })
   cart: Cart;
 
-  @Prop({ type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Session'}]})
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Session' }] })
   session: Session[];
 }
 

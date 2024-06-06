@@ -1,10 +1,10 @@
 import * as mongoose from 'mongoose';
 import { HydratedDocument } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { CatCategory } from './cat-category.schema';
-import { CatSize } from './cat-size.schema';
-import { CatColor } from './cat-color.schema';
-import { CatBrand } from './cat-brand.schema';
+import { CatCategory } from '../catalogs/cat-category.schema';
+import { CatSize } from '../catalogs/cat-size.schema';
+import { CatColor } from '../catalogs/cat-color.schema';
+import { CatBrand } from '../catalogs/cat-brand.schema';
 
 export type ProductDocument = HydratedDocument<Product>;
 

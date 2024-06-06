@@ -9,11 +9,11 @@ export class CatColorService implements ICatColorService {
   constructor(
     @Inject(SymbolsCatalogs.ICatColorRepository)
     private readonly catColorRepository: ICatColorRepository,
-  ) {}
+  ) { }
 
-  async create(color: string): Promise<CatColorModel> {
+  async create(color: string, hex: string): Promise<CatColorModel> {
     try {
-      const colorModel = CatColorModel.create({ name: color });
+      const colorModel = CatColorModel.create({ name: color, hex });
 
       const colorSaved = await this.catColorRepository.create(colorModel);
 

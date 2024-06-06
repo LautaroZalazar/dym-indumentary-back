@@ -50,7 +50,6 @@ export class authController {
       const { password } = body;
       const { _id } = req.user;
       await this.userService.update(password, _id);
-
       return { msg: 'Password was Updated', status: 200 };
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);

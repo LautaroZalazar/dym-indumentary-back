@@ -20,15 +20,15 @@ export class CatColorController {
   constructor(
     @Inject(SymbolsCatalogs.ICatColorService)
     private readonly catColorService: ICatColorService,
-  ) {}
+  ) { }
 
   @UseGuards(AuthGuards, RoleGuards)
   @Post()
   async create(@Body() body: CreateColorDTO) {
     try {
-      const { color } = body;
+      const { color, hex } = body;
 
-      return await this.catColorService.create(color);
+      return await this.catColorService.create(color, hex);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
