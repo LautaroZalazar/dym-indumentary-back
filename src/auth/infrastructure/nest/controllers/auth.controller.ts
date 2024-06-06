@@ -34,12 +34,7 @@ export class authController {
   async recoveryPasswordFindUser(@Body() body: RecoveryPasswordDTO) {
     try {
       await this.authService.recoveryPassword(body);
-      const data = {
-        message:
-          'Se ha enviado un correo con las instrucciones para recuperar la contraseña',
-        status: 200,
-      };
-      return data;
+      return { msg: 'Email send', status: 200 };
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -54,7 +49,8 @@ export class authController {
     try {
       const { password } = body;
       const { _id } = req.user;
-      return await this.userService.update(password, _id);
+      await this.userService.update(password, _id);
+      return { msg: 'Password was Updated', status: 200 };
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }

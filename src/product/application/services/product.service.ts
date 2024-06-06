@@ -18,4 +18,12 @@ export class ProductService implements IProductService {
   async findAll(limit: number, page: number): Promise<ProductModel[]> {
     return await this.productRepository.findAll(limit, page);
   }
+
+  async findName(
+    productName: string,
+    limit: number,
+    page: number,
+  ): Promise<ProductModel[]> {
+    return await this.productRepository.findName(productName, limit, page);
+  }
 }
