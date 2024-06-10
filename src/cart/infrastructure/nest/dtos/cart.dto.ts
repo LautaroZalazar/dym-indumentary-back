@@ -22,10 +22,28 @@ export class AddProductToCartDTO {
   products: ProductCartDTO[];
 }
 
+export class UpdateProductInCartDTO {
+  @IsString()
+  @IsNotEmpty()
+  cartId: string;
+
+  @IsArray()
+  @IsNotEmpty()
+  products: ProductCartDTO[];
+}
+
 export class ProductCartDTO {
   @IsString()
   @IsNotEmpty()
   productId: string;
+
+  @IsString()
+  @IsNotEmpty()
+  colorId: string;
+
+  @IsString()
+  @IsNotEmpty()
+  sizeId: string;
 
   @IsNumber()
   @IsNotEmpty()
