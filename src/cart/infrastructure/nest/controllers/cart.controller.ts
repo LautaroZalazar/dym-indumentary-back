@@ -4,6 +4,7 @@ import SymbolsCart from '../../../../cart/symbols-cart';
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpException,
   HttpStatus,
@@ -14,8 +15,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import {
-  AddProductToCartDTO,
   GetCartDTO,
+  AddProductToCartDTO,
+  UpdateProductInCartDTO,
   RemoveProductCartDTO,
 } from '../dtos/cart.dto';
 
@@ -24,7 +26,7 @@ export class CartController {
   constructor(
     @Inject(SymbolsCart.ICartService)
     private readonly cartService: ICartService,
-  ) { }
+  ) {}
 
   @UseGuards(AuthGuards)
   @Get()
@@ -50,6 +52,16 @@ export class CartController {
 
   @UseGuards(AuthGuards)
   @Put()
+  async UpdateProductInCart(@Body() body: UpdateProductInCartDTO) {
+    try {
+      return await this.cartService.updateProductInCart(body);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @UseGuards(AuthGuards)
+  @Delete()
   async removeProductFromCart(@Body() body: RemoveProductCartDTO) {
     try {
       return await this.cartService.removeProductFromCart(body);

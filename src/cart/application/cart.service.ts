@@ -6,6 +6,7 @@ import { CartModel } from '../domain/models/cart.model';
 import {
   IAddProductToCart,
   IRemoveProductFromCart,
+  IUpdateProductInCart,
 } from '../domain/types/cart.types';
 
 @Injectable()
@@ -28,6 +29,14 @@ export class CartService implements ICartService {
   async addProductToCart(product: IAddProductToCart): Promise<CartModel> {
     try {
       return await this.cartRepository.addProductToCart(product);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async updateProductInCart(product: IUpdateProductInCart): Promise<CartModel> {
+    try {
+      return await this.cartRepository.updateProductInCart(product);
     } catch (error) {
       throw new Error(error);
     }
