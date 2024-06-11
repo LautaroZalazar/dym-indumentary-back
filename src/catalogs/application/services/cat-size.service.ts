@@ -1,3 +1,4 @@
+import { BaseErrorException } from '../../../core/domain/exceptions/base/base.error.exception';
 import { CatSizeModel } from '../../domain/models/cat-size.model';
 import { ICatSizeRepository } from '../../domain/repositories/cat-size.interface.repository';
 import { ICatSizeService } from '../../domain/services/cat-size.interface.service';
@@ -19,7 +20,7 @@ export class CatSizeService implements ICatSizeService {
 
       return sizeSaved;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -29,7 +30,7 @@ export class CatSizeService implements ICatSizeService {
 
       return sizes;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -39,7 +40,7 @@ export class CatSizeService implements ICatSizeService {
 
       return size;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 }

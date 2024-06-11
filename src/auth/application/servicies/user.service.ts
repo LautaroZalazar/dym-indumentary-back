@@ -3,6 +3,7 @@ import { IUserRepository } from '../../domain/repositories/user.interface.reposi
 import { IUserService } from '../../domain/services/user.interface.service';
 import { Inject, Injectable } from '@nestjs/common';
 import SymbolsAuth from '../../symbols-auth';
+import { BaseErrorException } from '../../../core/domain/exceptions/base/base.error.exception';
 
 @Injectable()
 export class UserService implements IUserService {
@@ -17,7 +18,7 @@ export class UserService implements IUserService {
 
       return foundUser;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -27,7 +28,7 @@ export class UserService implements IUserService {
 
       return update;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 }

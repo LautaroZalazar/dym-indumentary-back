@@ -2,8 +2,6 @@ import {
   Body,
   Controller,
   Post,
-  HttpException,
-  HttpStatus,
   Inject,
   Get,
   Query,
@@ -27,47 +25,31 @@ export class UserController {
 
   @Post()
   async createUser(@Body() body: CreateUserDTO) {
-    try {
-      return await this.userService.create(body);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    return await this.userService.create(body);
   }
 
   @UseGuards(AuthGuards, RoleGuards)
   @Get()
   async findUser(@Query() query: GetUserDTO, @Req() req: IUserRequest) {
-    try {
-      const { email } = query;
+    const { email } = query;
 
-      if (email) {
-        return await this.userService.findByEmail(req.user.email);
-      }
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    if (email) {
+      return await this.userService.findByEmail(req.user.email);
     }
   }
 
   @UseGuards(AuthGuards)
   @Get('detail')
   async findUserById(@Req() req: IUserRequest) {
-    try {
-      const { _id } = req.user;
+    const { _id } = req.user;
 
-      return await this.userService.findById(_id);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    return await this.userService.findById(_id);
   }
 
   @UseGuards(AuthGuards)
   @Put()
   async updateUser(@Body() body: UpdateUserDTO, @Req() req: IUserRequest) {
-    try {
-      const { _id } = req.user;
-      return await this.userService.update(_id, body);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    const { _id } = req.user;
+    return await this.userService.update(_id, body);
   }
 }

@@ -1,15 +1,6 @@
 import { IProductService } from '../../../../product/domain/services/product.interface.service';
 import SymbolsProduct from '../../../../product/symbols-product';
-import {
-  Body,
-  Controller,
-  Get,
-  HttpException,
-  HttpStatus,
-  Inject,
-  Param,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Query } from '@nestjs/common';
 import { GetProductNameDTO, GetProductsDTO } from '../dtos/product.dto';
 
 @Controller('product')
@@ -29,21 +20,17 @@ export class ProductController {
     @Query() query: GetProductsDTO,
     @Body() body: GetProductNameDTO,
   ) {
-    try {
-      const { productName } = body;
-      const { limit, page } = query;
+    const { productName } = body;
+    const { limit, page } = query;
 
-      if (productName) {
-        return await this.productService.findName(
-          productName,
-          Number(page),
-          Number(limit),
-        );
-      }
-
-      return await this.productService.findAll(Number(page), Number(limit));
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    if (productName) {
+      return await this.productService.findName(
+        productName,
+        Number(page),
+        Number(limit),
+      );
     }
+
+    return await this.productService.findAll(Number(page), Number(limit));
   }
 }

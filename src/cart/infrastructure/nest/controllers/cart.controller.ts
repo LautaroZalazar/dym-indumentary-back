@@ -6,8 +6,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpException,
-  HttpStatus,
   Inject,
   Post,
   Put,
@@ -31,42 +29,25 @@ export class CartController {
   @UseGuards(AuthGuards)
   @Get()
   async find(@Query() query: GetCartDTO) {
-    try {
-      const { id } = query;
-
-      return await this.cartService.findById(id);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    const { id } = query;
+    return await this.cartService.findById(id);
   }
 
   @UseGuards(AuthGuards)
   @Post()
   async addProductToCart(@Body() body: AddProductToCartDTO) {
-    try {
-      return await this.cartService.addProductToCart(body);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    return await this.cartService.addProductToCart(body);
   }
 
   @UseGuards(AuthGuards)
   @Put()
   async UpdateProductInCart(@Body() body: UpdateProductInCartDTO) {
-    try {
-      return await this.cartService.updateProductInCart(body);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    return await this.cartService.updateProductInCart(body);
   }
 
   @UseGuards(AuthGuards)
   @Delete()
   async removeProductFromCart(@Body() body: RemoveProductCartDTO) {
-    try {
-      return await this.cartService.removeProductFromCart(body);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    return await this.cartService.removeProductFromCart(body);
   }
 }

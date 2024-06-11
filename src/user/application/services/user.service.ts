@@ -1,3 +1,4 @@
+import { BaseErrorException } from '../../../core/domain/exceptions/base/base.error.exception';
 import { hashPassword } from '../../../core/domain/utils/bcrypt.util';
 import { UserModel } from '../../../user/domain/models/user.model';
 import { IUserRepository } from '../../../user/domain/repositories/user.interface.repository';
@@ -7,7 +8,7 @@ import {
   IUserUpdate,
 } from '../../../user/domain/types/user.types';
 import SymbolsUser from '../../../user/symbols-user';
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
@@ -22,7 +23,11 @@ export class UserService implements IUserService {
     try {
       const foundEmail = await this.userRepository.findByEmail(user.email);
 
-      if (foundEmail) throw new Error('This email is already in use');
+      if (foundEmail)
+        throw new BaseErrorException(
+          'This email is already in use',
+          HttpStatus.BAD_REQUEST,
+        );
 
       const hashedPassword = await hashPassword(user.password);
 
@@ -42,7 +47,7 @@ export class UserService implements IUserService {
 
       return userSave;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -52,7 +57,7 @@ export class UserService implements IUserService {
 
       return foundUser;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -62,7 +67,7 @@ export class UserService implements IUserService {
 
       return foundUser;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -74,7 +79,7 @@ export class UserService implements IUserService {
 
       return update;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 }

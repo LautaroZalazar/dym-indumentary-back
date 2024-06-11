@@ -10,9 +10,10 @@ import { IAuthResponse } from '../../../auth/domain/types/response-auth.type';
 import SymbolsAuth from '../../../auth/symbols-auth';
 import { comparePassword } from '../../../core/domain/utils/bcrypt.util';
 import SymbolsUser from '../../../user/symbols-user';
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { BadRequestError } from 'passport-headerapikey';
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import { BaseErrorException } from '../../../core/domain/exceptions/base/base.error.exception';
 
 @Injectable()
 export class AuthService implements IAuthService {
@@ -40,7 +41,7 @@ export class AuthService implements IAuthService {
     try {
       const user = await this.userRepository.findByEmail(body.email);
       if (!user) {
-        throw new BadRequestError('User not found');
+        throw new BaseErrorException('User not found', HttpStatus.NOT_FOUND);
       }
 
       const token = await this.tokenService.recoveryToken(user.toJSON().email);
@@ -56,7 +57,7 @@ export class AuthService implements IAuthService {
 
       return { token, ...user.infoAuth };
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 }

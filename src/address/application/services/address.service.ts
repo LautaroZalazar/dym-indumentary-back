@@ -1,3 +1,4 @@
+import { BaseErrorException } from '../../../core/domain/exceptions/base/base.error.exception';
 import { AddressModel } from '../../../address/domain/models/address.model';
 import { IAddressRepository } from '../../../address/domain/repositories/address.interface.repository';
 import { IAddressService } from '../../../address/domain/services/address.interface.service';
@@ -13,7 +14,7 @@ export class AddressService implements IAddressService {
   constructor(
     @Inject(SymbolsAddress.IAddressRepository)
     private readonly addressRepository: IAddressRepository,
-  ) { }
+  ) {}
 
   async create(_id: string, address: IAddressCreate): Promise<AddressModel> {
     try {
@@ -25,7 +26,9 @@ export class AddressService implements IAddressService {
       );
 
       return addressSave;
-    } catch (error) { }
+    } catch (error) {
+      throw new BaseErrorException(error.message, error.statusCode);
+    }
   }
 
   async findById(id: string): Promise<AddressModel> {
@@ -34,7 +37,7 @@ export class AddressService implements IAddressService {
 
       return foundAddress;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -46,7 +49,7 @@ export class AddressService implements IAddressService {
 
       return update;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 }

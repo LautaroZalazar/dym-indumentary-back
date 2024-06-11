@@ -8,6 +8,7 @@ import {
   IRemoveProductFromCart,
   IUpdateProductInCart,
 } from '../domain/types/cart.types';
+import { BaseErrorException } from '../../core/domain/exceptions/base/base.error.exception';
 
 @Injectable()
 export class CartService implements ICartService {
@@ -22,7 +23,7 @@ export class CartService implements ICartService {
 
       return foundCart;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -30,7 +31,7 @@ export class CartService implements ICartService {
     try {
       return await this.cartRepository.addProductToCart(product);
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -38,7 +39,7 @@ export class CartService implements ICartService {
     try {
       return await this.cartRepository.updateProductInCart(product);
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -48,7 +49,7 @@ export class CartService implements ICartService {
     try {
       return await this.cartRepository.removeProductFromCart(product);
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 }

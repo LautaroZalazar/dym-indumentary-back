@@ -1,3 +1,4 @@
+import { BaseErrorException } from '../../../core/domain/exceptions/base/base.error.exception';
 import { CatBrandModel } from '../../domain/models/cat-brand.model';
 import { ICatBrandRepository } from '../../domain/repositories/cat-brand.interface.repository';
 import { ICatBrandService } from '../../domain/services/cat-brand.interface.service';
@@ -19,7 +20,7 @@ export class CatBrandService implements ICatBrandService {
 
       return brandSaved;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -29,7 +30,7 @@ export class CatBrandService implements ICatBrandService {
 
       return brands;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -39,7 +40,7 @@ export class CatBrandService implements ICatBrandService {
 
       return brand;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 }

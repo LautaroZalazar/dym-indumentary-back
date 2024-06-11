@@ -1,5 +1,5 @@
 import { UserSchema } from '../schemas/user.schema';
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { IUserRepository } from '../../../../auth/domain/repositories/user.interface.repository';
@@ -11,7 +11,7 @@ import {
   comparePassword,
   hashPassword,
 } from '../../../../core/domain/utils/bcrypt.util';
-import { BadRequestError } from 'passport-headerapikey';
+import { BaseErrorException } from '../../../../core/domain/exceptions/base/base.error.exception';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -25,9 +25,15 @@ export class UserRepository implements IUserRepository {
     try {
       const found = await this.userModel.findOne({ email }).populate('role');
 
-      return found && UserModel.hydrate(found);
+      if (!found) {
+        throw new BaseErrorException(
+          'This email is not exist',
+          HttpStatus.NOT_FOUND,
+        );
+      }
+      return UserModel.hydrate(found);
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -40,31 +46,41 @@ export class UserRepository implements IUserRepository {
         .populate('cart');
 
       if (!found) {
-        throw new Error(`The user with ID ${id} does not exist`);
+        throw new BaseErrorException(
+          `The user with ID ${id} does not exist`,
+          HttpStatus.NOT_FOUND,
+        );
       }
       return UserModel.hydrate(found);
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
   async addSession(user: UserModel, session: SessionModel): Promise<UserModel> {
-    const userSchema = await (
-      await this.userModel.findOne({
-        email: user.toJSON().email,
-      })
-    ).populate('role');
-    const sessionSchema = await this.sessionRepository.create(session);
-    userSchema.session.push(sessionSchema);
-    await userSchema.save();
-    return UserModel.hydrate(userSchema);
+    try {
+      const userSchema = await (
+        await this.userModel.findOne({
+          email: user.toJSON().email,
+        })
+      ).populate('role');
+      const sessionSchema = await this.sessionRepository.create(session);
+      userSchema.session.push(sessionSchema);
+      await userSchema.save();
+      return UserModel.hydrate(userSchema);
+    } catch (error) {
+      throw new BaseErrorException(
+        error.message,
+        error.statusCode || HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   async updatePassword(password: string, id: string): Promise<UserModel> {
     try {
       const existingUser = await this.userModel.findById(id);
       if (!existingUser) {
-        throw new Error('User not found');
+        throw new BaseErrorException('User not found', HttpStatus.NOT_FOUND);
       }
 
       const userPassword = UserModel.hydrate(existingUser);
@@ -72,8 +88,9 @@ export class UserRepository implements IUserRepository {
       const compare = await comparePassword(password, userPassword);
 
       if (compare) {
-        throw new BadRequestError(
+        throw new BaseErrorException(
           'The password is the same as the previous password',
+          HttpStatus.BAD_REQUEST,
         );
       }
 
@@ -88,12 +105,15 @@ export class UserRepository implements IUserRepository {
       );
 
       if (!updated) {
-        throw new Error("Couldn't update the user");
+        throw new BaseErrorException(
+          "Couldn't update the user",
+          HttpStatus.BAD_REQUEST,
+        );
       }
 
       return UserModel.hydrate(updated);
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 }

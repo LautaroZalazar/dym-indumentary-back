@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { AddressSchema } from '../schemas/address.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { IAddressRepository } from '../../../../address/domain/repositories/address.interface.repository';
 import { AddressModel } from '../../../../address/domain/models/address.model';
 import { UserSchema } from '../schemas/user.schema';
+import { BaseErrorException } from '../../../../core/domain/exceptions/base/base.error.exception';
 
 @Injectable()
 export class AddressRepository implements IAddressRepository {
@@ -12,7 +13,7 @@ export class AddressRepository implements IAddressRepository {
     @InjectModel('Address')
     private readonly addressModel: Model<AddressSchema>,
     @InjectModel('User') private readonly userModel: Model<UserSchema>,
-  ) { }
+  ) {}
 
   async create(id: string, address: AddressModel): Promise<AddressModel> {
     try {
@@ -22,7 +23,10 @@ export class AddressRepository implements IAddressRepository {
       const saved = await schema.save();
 
       if (!saved) {
-        throw new Error("Couldn't save the address");
+        throw new BaseErrorException(
+          "Couldn't save the address",
+          HttpStatus.BAD_REQUEST,
+        );
       }
 
       user.address = saved;
@@ -31,7 +35,7 @@ export class AddressRepository implements IAddressRepository {
 
       return AddressModel.hydrate(saved);
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -40,12 +44,15 @@ export class AddressRepository implements IAddressRepository {
       const found = await this.addressModel.findById(id);
 
       if (!found) {
-        throw new Error(`The address with ID ${id} does not exist`);
+        throw new BaseErrorException(
+          `The address with ID ${id} does not exist`,
+          HttpStatus.NOT_FOUND,
+        );
       }
 
       return AddressModel.hydrate(found);
     } catch (error) {
-      throw new Error(error.message);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -57,11 +64,16 @@ export class AddressRepository implements IAddressRepository {
         { new: true },
       );
 
-      if (!update) throw new Error(`The address was not update`);
+      if (!update) {
+        throw new BaseErrorException(
+          `The address was not update`,
+          HttpStatus.BAD_REQUEST,
+        );
+      }
 
       return AddressModel.hydrate(update);
     } catch (error) {
-      throw new Error(error.message);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 }

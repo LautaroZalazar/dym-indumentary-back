@@ -9,8 +9,6 @@ import {
   Inject,
   Get,
   Post,
-  HttpException,
-  HttpStatus,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -25,24 +23,14 @@ export class CatSizeController {
   @UseGuards(AuthGuards, RoleGuards)
   @Post()
   async createSize(@Body() body: CreateSizeDTO) {
-    try {
-      const { size } = body;
-
-      return await this.catSizeService.create(size);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    const { size } = body;
+    return await this.catSizeService.create(size);
   }
 
   @Get()
   async getAll(@Query() query: GetSizeDTO) {
-    try {
-      const { id } = query;
-
-      if (id) return await this.catSizeService.findSizeById(id);
-      return await this.catSizeService.findAll();
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    const { id } = query;
+    if (id) return await this.catSizeService.findSizeById(id);
+    return await this.catSizeService.findAll();
   }
 }
