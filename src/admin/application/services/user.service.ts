@@ -1,3 +1,4 @@
+import { BaseErrorException } from '../../../core/domain/exceptions/base/base.error.exception';
 import { UserModel } from '../../domain/models/user.model';
 import { IUserRepository } from '../../domain/repositories/user.interface.repository';
 import { IUserService } from '../../domain/services/user.interface.service';
@@ -17,7 +18,7 @@ export class UserService implements IUserService {
 
       return foundUser;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -27,7 +28,7 @@ export class UserService implements IUserService {
 
       return findAll;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 }

@@ -7,8 +7,6 @@ import {
   Body,
   Controller,
   Get,
-  HttpException,
-  HttpStatus,
   Inject,
   Post,
   Query,
@@ -20,30 +18,19 @@ export class CatColorController {
   constructor(
     @Inject(SymbolsCatalogs.ICatColorService)
     private readonly catColorService: ICatColorService,
-  ) { }
+  ) {}
 
   @UseGuards(AuthGuards, RoleGuards)
   @Post()
   async create(@Body() body: CreateColorDTO) {
-    try {
-      const { color, hex } = body;
-
-      return await this.catColorService.create(color, hex);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    const { color, hex } = body;
+    return await this.catColorService.create(color, hex);
   }
 
   @Get()
   async findAll(@Query() query: GetColorDTO) {
-    try {
-      const { id } = query;
-
-      if (id) return await this.catColorService.findColorById(id);
-
-      return await this.catColorService.findAll();
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    const { id } = query;
+    if (id) return await this.catColorService.findColorById(id);
+    return await this.catColorService.findAll();
   }
 }

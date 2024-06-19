@@ -2,20 +2,24 @@ import config from '../../../../config';
 import {
   CanActivate,
   ExecutionContext,
+  HttpStatus,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+import { BaseErrorException } from '../../../../core/domain/exceptions/base/base.error.exception';
 
 @Injectable()
 export class AuthGuards implements CanActivate {
-  constructor(private readonly jwtService: JwtService) { }
+  constructor(private readonly jwtService: JwtService) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
     if (!token) {
-      throw new UnauthorizedException();
+      throw new BaseErrorException(
+        'Token not found in the request headers',
+        HttpStatus.UNAUTHORIZED,
+      );
     }
     try {
       const payload = await this.jwtService.verifyAsync(token, {
@@ -23,7 +27,7 @@ export class AuthGuards implements CanActivate {
       });
       request.user = payload;
     } catch (e) {
-      throw new UnauthorizedException();
+      throw new BaseErrorException('Invalid token', HttpStatus.UNAUTHORIZED);
     }
     return true;
   }

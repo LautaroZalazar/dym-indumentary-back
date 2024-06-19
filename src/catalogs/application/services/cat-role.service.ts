@@ -1,3 +1,4 @@
+import { BaseErrorException } from '../../../core/domain/exceptions/base/base.error.exception';
 import { CatRoleModel } from '../../domain/models/cat-role.model';
 import { ICatRoleRepository } from '../../domain/repositories/cat-role.interface.repository';
 import { ICatRoleService } from '../../domain/services/cat-role.interface.service';
@@ -17,7 +18,7 @@ export class CatRoleService implements ICatRoleService {
 
       return roleFinded;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -32,7 +33,7 @@ export class CatRoleService implements ICatRoleService {
       const roleSaved = await this.catRoleRepository.create(roleModel);
       return roleSaved;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 }

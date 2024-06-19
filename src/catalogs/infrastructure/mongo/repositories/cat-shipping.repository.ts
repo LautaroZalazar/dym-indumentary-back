@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CatShippingSchema } from '../schemas/cat-shipping.schema';
 import { CatShippingModel } from '../../../domain/models/cat-shipping.model';
 import { ICatShippingRepository } from '../../../domain/repositories/cat-shipping.interface.repository';
+import { BaseErrorException } from '../../../../core/domain/exceptions/base/base.error.exception';
 
 @Injectable()
 export class CatShippingRepository implements ICatShippingRepository {
@@ -18,11 +19,16 @@ export class CatShippingRepository implements ICatShippingRepository {
 
       const saved = await schema.save();
 
-      if (!saved) throw new Error('Error creating the size');
+      if (!saved) {
+        throw new BaseErrorException(
+          'Error creating the shipping',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
 
       return CatShippingModel.hydrate(saved);
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -35,7 +41,10 @@ export class CatShippingRepository implements ICatShippingRepository {
         shippings.map((shipping) => CatShippingModel.hydrate(shipping))
       );
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(
+        error.message,
+        error.statusCode || HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -44,12 +53,15 @@ export class CatShippingRepository implements ICatShippingRepository {
       const find = await this.catShippingModel.findById(id);
 
       if (!find) {
-        throw new Error(`The shipping with ID ${id} does not exist`);
+        throw new BaseErrorException(
+          `The shipping with ID ${id} does not exist`,
+          HttpStatus.NOT_FOUND,
+        );
       }
 
-      return find && CatShippingModel.hydrate(find);
+      return CatShippingModel.hydrate(find);
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 }

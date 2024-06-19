@@ -7,25 +7,34 @@ import {
   IProductCreate,
   IProductUpdate,
 } from '../../domain/types/product.type';
+import { BaseErrorException } from '../../../core/domain/exceptions/base/base.error.exception';
 
 @Injectable()
 export class ProductService implements IProductService {
   constructor(
     @Inject(SymbolsAdmin.IProductRepository)
     private readonly productRepository: IProductRepository,
-  ) { }
+  ) {}
 
   async create(product: IProductCreate): Promise<ProductModel> {
-    const { brand, category, inventory } = product;
-    const productModel = ProductModel.create(product);
-    return await this.productRepository.create(productModel, {
-      brand,
-      category,
-      inventory
-    });
+    try {
+      const { brand, category, inventory } = product;
+      const productModel = ProductModel.create(product);
+      return await this.productRepository.create(productModel, {
+        brand,
+        category,
+        inventory,
+      });
+    } catch (error) {
+      throw new BaseErrorException(error.message, error.statusCode);
+    }
   }
 
   async update(id: string, product: IProductUpdate): Promise<ProductModel> {
-    return await this.productRepository.update(id, product);
+    try {
+      return await this.productRepository.update(id, product);
+    } catch (error) {
+      throw new BaseErrorException(error.message, error.statusCode);
+    }
   }
 }

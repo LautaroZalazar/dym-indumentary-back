@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CatColorSchema } from '../schemas/cat-color.schema';
 import { CatColorModel } from '../../../domain/models/cat-color.model';
 import { ICatColorRepository } from '../../../domain/repositories/cat-color.interface.repository';
+import { BaseErrorException } from '../../../../core/domain/exceptions/base/base.error.exception';
 
 @Injectable()
 export class CatColorRepository implements ICatColorRepository {
@@ -18,11 +19,16 @@ export class CatColorRepository implements ICatColorRepository {
 
       const saved = await schema.save();
 
-      if (!saved) throw new Error('Error creating the color');
+      if (!saved) {
+        throw new BaseErrorException(
+          'Error creating the color',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
 
       return CatColorModel.hydrate(saved);
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -32,7 +38,10 @@ export class CatColorRepository implements ICatColorRepository {
 
       return findAll && findAll.map((color) => CatColorModel.hydrate(color));
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(
+        error.message,
+        error.statusCode || HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -41,12 +50,15 @@ export class CatColorRepository implements ICatColorRepository {
       const find = await this.catColorModel.findById(id);
 
       if (!find) {
-        throw new Error(`The color with ID ${id} does not exist`);
+        throw new BaseErrorException(
+          `The color with ID ${id} does not exist`,
+          HttpStatus.NOT_FOUND,
+        );
       }
 
-      return find && CatColorModel.hydrate(find);
+      return CatColorModel.hydrate(find);
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 }

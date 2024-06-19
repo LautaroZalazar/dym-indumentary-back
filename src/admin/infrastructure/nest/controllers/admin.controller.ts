@@ -2,8 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  HttpException,
-  HttpStatus,
   Inject,
   Param,
   Post,
@@ -24,35 +22,23 @@ export class AdminController {
     private readonly productService: IProductService,
     @Inject(SymbolsAdmin.IUserService)
     private readonly userService: IUserService,
-  ) { }
+  ) {}
 
   @UseGuards(AuthGuards, RoleGuards)
   @Post('product')
   async create(@Body() product: ProductCreateDTO) {
-    try {
-      return await this.productService.create(product);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    return await this.productService.create(product);
   }
 
   @UseGuards(AuthGuards, RoleGuards)
   @Put('product/:id')
   async update(@Param('id') id: string, @Body() product: ProductUpdateDTO) {
-    try {
-      return await this.productService.update(id, product);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    return await this.productService.update(id, product);
   }
 
   @UseGuards(AuthGuards, RoleGuards)
   @Get('user')
   async findUser() {
-    try {
-      return await this.userService.findAll();
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    return await this.userService.findAll();
   }
 }

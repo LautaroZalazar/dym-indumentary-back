@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { IProductRepository } from '../../../domain/repositories/product.interface.repository';
@@ -12,6 +12,7 @@ import {
   ProductRelationDTO,
   ProductUpdateDTO,
 } from '../../nest/dtos/product.dto';
+import { BaseErrorException } from '../../../../core/domain/exceptions/base/base.error.exception';
 
 @Injectable()
 export class ProductRepository implements IProductRepository {
@@ -22,7 +23,7 @@ export class ProductRepository implements IProductRepository {
     private readonly catCategoryDB: Model<CatCategorySchema>,
     @InjectModel('CatColor') private readonly catColorDB: Model<CatColorSchema>,
     @InjectModel('CatSize') private readonly catSizeDB: Model<CatSizeSchema>,
-  ) { }
+  ) {}
 
   async create(
     product: ProductModel,
@@ -41,7 +42,9 @@ export class ProductRepository implements IProductRepository {
             const foundSize = await this.catSizeDB.findById(item.size);
             const foundStock = await Promise.all(
               item.stock.map(async (stockItem) => {
-                const foundColor = await this.catColorDB.findById(stockItem.color);
+                const foundColor = await this.catColorDB.findById(
+                  stockItem.color,
+                );
                 return { ...stockItem, color: foundColor };
               }),
             );
@@ -61,11 +64,15 @@ export class ProductRepository implements IProductRepository {
 
       const saved = await schema.save();
 
-      if (!saved) throw new Error('Error creating the product');
+      if (!saved)
+        throw new BaseErrorException(
+          'Error creating the product',
+          HttpStatus.BAD_REQUEST,
+        );
 
       return ProductModel.hydrate(saved);
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -88,13 +95,17 @@ export class ProductRepository implements IProductRepository {
           ? await this.catCategoryDB.findById(product.category)
           : existingProduct.category,
         inventory: product.inventory
-          ? await Promise.all(product.inventory.map(async (item) => ({
-            size: await this.catSizeDB.findById(item.size),
-            stock: await Promise.all(item.stock.map(async (stockItem) => ({
-              quantity: stockItem.quantity,
-              color: await this.catColorDB.findById(stockItem.color),
-            }))),
-          })))
+          ? await Promise.all(
+              product.inventory.map(async (item) => ({
+                size: await this.catSizeDB.findById(item.size),
+                stock: await Promise.all(
+                  item.stock.map(async (stockItem) => ({
+                    quantity: stockItem.quantity,
+                    color: await this.catColorDB.findById(stockItem.color),
+                  })),
+                ),
+              })),
+            )
           : existingProduct.inventory,
       };
 
@@ -104,11 +115,16 @@ export class ProductRepository implements IProductRepository {
         { new: true },
       );
 
-      if (!updated) throw new Error('Error updating the product');
+      if (!updated) {
+        throw new BaseErrorException(
+          'Error updating the product',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
 
       return ProductModel.hydrate(updated);
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 }

@@ -4,8 +4,6 @@ import {
   Body,
   Controller,
   Get,
-  HttpException,
-  HttpStatus,
   Inject,
   Post,
   Put,
@@ -27,7 +25,7 @@ export class AddressController {
   constructor(
     @Inject(SymbolsAddress.IAddressService)
     private readonly addressService: IAddressService,
-  ) { }
+  ) {}
 
   @UseGuards(AuthGuards)
   @Post()
@@ -35,24 +33,15 @@ export class AddressController {
     @Body() body: CreateAddressDTO,
     @Req() req: IUserRequest,
   ): Promise<AddressModel> {
-    try {
-      const { _id } = req.user;
-      return await this.addressService.create(_id, body);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    const { _id } = req.user;
+    return await this.addressService.create(_id, body);
   }
 
   @UseGuards(AuthGuards)
   @Get()
   async find(@Query() query: GetAddressDTO): Promise<AddressModel> {
-    try {
-      const { id } = query;
-
-      return await this.addressService.findById(id);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    const { id } = query;
+    return await this.addressService.findById(id);
   }
 
   @UseGuards(AuthGuards)
@@ -61,12 +50,7 @@ export class AddressController {
     @Query() query: GetAddressDTO,
     @Body() body: UpdateAddressDTO,
   ): Promise<AddressModel> {
-    try {
-      const { id } = query;
-
-      return await this.addressService.update(id, body);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    const { id } = query;
+    return await this.addressService.update(id, body);
   }
 }

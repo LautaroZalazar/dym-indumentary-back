@@ -7,8 +7,6 @@ import {
   Body,
   Controller,
   Get,
-  HttpException,
-  HttpStatus,
   Inject,
   Post,
   Query,
@@ -25,24 +23,14 @@ export class CatBrandController {
   @UseGuards(AuthGuards, RoleGuards)
   @Post()
   async create(@Body() body: CreateBrandDTO) {
-    try {
-      const { brand } = body;
-      return await this.catBrandService.create(brand);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    const { brand } = body;
+    return await this.catBrandService.create(brand);
   }
 
   @Get()
   async findAll(@Query() query: GetBrandDTO) {
-    try {
-      const { id } = query;
-
-      if (id) return await this.catBrandService.findBrandById(id);
-
-      return await this.catBrandService.findAll();
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    const { id } = query;
+    if (id) return await this.catBrandService.findBrandById(id);
+    return await this.catBrandService.findAll();
   }
 }

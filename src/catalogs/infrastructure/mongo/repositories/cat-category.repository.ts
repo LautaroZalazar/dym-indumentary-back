@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CatCategorySchema } from '../schemas/cat-category.schema';
 import { CatCategoryModel } from '../../../domain/models/cat-category.model';
 import { ICatCategoryRepository } from '../../../domain/repositories/cat-category.interface.repository';
+import { BaseErrorException } from '../../../../core/domain/exceptions/base/base.error.exception';
 
 @Injectable()
 export class CatCategoryRepository implements ICatCategoryRepository {
@@ -18,11 +19,16 @@ export class CatCategoryRepository implements ICatCategoryRepository {
 
       const saved = await schema.save();
 
-      if (!saved) throw new Error('Error creating the category');
+      if (!saved) {
+        throw new BaseErrorException(
+          'Error creating the category',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
 
-      return saved && CatCategoryModel.hydrate(saved);
+      return CatCategoryModel.hydrate(saved);
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -35,7 +41,10 @@ export class CatCategoryRepository implements ICatCategoryRepository {
         categories.map((category) => CatCategoryModel.hydrate(category))
       );
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(
+        error.message,
+        error.statusCode || HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -44,12 +53,15 @@ export class CatCategoryRepository implements ICatCategoryRepository {
       const find = await this.catCategoryModel.findById(id);
 
       if (!find) {
-        throw new Error(`The category with ID ${id} does not exist`);
+        throw new BaseErrorException(
+          `The category with ID ${id} does not exist`,
+          HttpStatus.NOT_FOUND,
+        );
       }
 
-      return find && CatCategoryModel.hydrate(find);
+      return CatCategoryModel.hydrate(find);
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 }

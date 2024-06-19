@@ -1,3 +1,4 @@
+import { BaseErrorException } from '../../../core/domain/exceptions/base/base.error.exception';
 import { CatShippingModel } from '../../domain/models/cat-shipping.model';
 import { ICatShippingRepository } from '../../domain/repositories/cat-shipping.interface.repository';
 import { ICatShippingService } from '../../domain/services/cat-shipping.interface.service';
@@ -20,7 +21,7 @@ export class CatShippingService implements ICatShippingService {
 
       return shippingSaved;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -30,7 +31,7 @@ export class CatShippingService implements ICatShippingService {
 
       return shippings;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -40,7 +41,7 @@ export class CatShippingService implements ICatShippingService {
 
       return shipping;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 }
