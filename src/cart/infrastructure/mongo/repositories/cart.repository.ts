@@ -69,7 +69,10 @@ export class CartRepository implements ICartRepository {
 
       for (const prod of product.products) {
         const existingProductIndex = findCart.products.findIndex(
-          (p) => p.product.toString() === prod.productId.toString(),
+          (p) =>
+            p.product.toString() === prod.productId.toString() &&
+            p.size.toString() === prod.sizeId.toString() &&
+            p.color.toString() === prod.colorId.toString(),
         );
 
         const findProduct = foundProducts.find(
@@ -126,7 +129,11 @@ export class CartRepository implements ICartRepository {
     try {
       const findCart = await this.cartModel.findById(updateProductDto.cartId);
 
-      if (!findCart) throw new Error('Could not find the cart');
+      if (!findCart)
+        throw new BaseErrorException(
+          'Could not find the cart',
+          HttpStatus.NOT_FOUND,
+        );
 
       const productIds = updateProductDto.products.map((p) => p.productId);
       const sizeIds = updateProductDto.products.map((p) => p.sizeId);
@@ -140,12 +147,16 @@ export class CartRepository implements ICartRepository {
 
       for (const prod of updateProductDto.products) {
         const existingProductIndex = findCart.products.findIndex(
-          (p) => p.product.toString() === prod.productId.toString(),
+          (p) =>
+            p.product.toString() === prod.productId.toString() &&
+            p.size.toString() === prod.sizeId.toString() &&
+            p.color.toString() === prod.colorId.toString(),
         );
 
         if (existingProductIndex === -1)
-          throw new Error(
-            `Product with ID ${prod.productId} not found in the cart`,
+          throw new BaseErrorException(
+            `Product with ID ${prod.productId} and specified size and color not found in the cart`,
+            HttpStatus.NOT_FOUND,
           );
 
         const findProduct = foundProducts.find(
