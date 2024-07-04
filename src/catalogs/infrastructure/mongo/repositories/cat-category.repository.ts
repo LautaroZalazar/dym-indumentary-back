@@ -34,7 +34,9 @@ export class CatCategoryRepository implements ICatCategoryRepository {
 
   async findAll(): Promise<CatCategoryModel[]> {
     try {
-      const categories = await this.catCategoryModel.find();
+      const categories = await this.catCategoryModel
+        .find()
+        .populate('subCategories');
 
       return (
         categories &&

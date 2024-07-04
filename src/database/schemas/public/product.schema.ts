@@ -1,10 +1,9 @@
 import * as mongoose from 'mongoose';
 import { HydratedDocument } from 'mongoose';
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { CatCategory } from '../catalogs/cat-category.schema';
-import { CatSize } from '../catalogs/cat-size.schema';
-import { CatColor } from '../catalogs/cat-color.schema';
 import { CatBrand } from '../catalogs/cat-brand.schema';
+import { CatSubCategory } from '../catalogs/cat-sub-category.schema';
 
 export type ProductDocument = HydratedDocument<Product>;
 
@@ -31,13 +30,28 @@ export class Product {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'CatCategory' })
   category: CatCategory;
 
-  @Prop({ type: [{ size: { type: mongoose.Schema.Types.ObjectId, ref: 'CatSize' }, stock: [{ quantity: Number, color: { type: mongoose.Schema.Types.ObjectId, ref: 'CatColor' } }] }] })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'CatSubCategory' })
+  subCategory: CatSubCategory;
+
+  @Prop({
+    type: [
+      {
+        size: { type: mongoose.Schema.Types.ObjectId, ref: 'CatSize' },
+        stock: [
+          {
+            quantity: Number,
+            color: { type: mongoose.Schema.Types.ObjectId, ref: 'CatColor' },
+          },
+        ],
+      },
+    ],
+  })
   inventory: Array<{
-    size: mongoose.Types.ObjectId,
+    size: mongoose.Types.ObjectId;
     stock: Array<{
-      quantity: number,
-      color: mongoose.Types.ObjectId,
-    }>,
+      quantity: number;
+      color: mongoose.Types.ObjectId;
+    }>;
   }>;
 }
 

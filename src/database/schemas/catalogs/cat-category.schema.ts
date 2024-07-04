@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
+import { CatSubCategory } from './cat-sub-category.schema';
 
 export type CatCategoryDocument = HydratedDocument<CatCategory>;
 
@@ -8,8 +9,10 @@ export class CatCategory {
   @Prop({ unique: true })
   name: string;
 
-  @Prop()
-  primary: boolean;
+  @Prop({
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'CatSubCategory' }],
+  })
+  subCategories: CatSubCategory[];
 }
 
 export const CatCategorySchema = SchemaFactory.createForClass(CatCategory);

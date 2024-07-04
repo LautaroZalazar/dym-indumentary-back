@@ -13,6 +13,7 @@ import {
   ProductUpdateDTO,
 } from '../../nest/dtos/product.dto';
 import { BaseErrorException } from '../../../../core/domain/exceptions/base/base.error.exception';
+import { CatSubCategorySchema } from '../schemas/cat-sub-category.schema';
 
 @Injectable()
 export class ProductRepository implements IProductRepository {
@@ -23,6 +24,8 @@ export class ProductRepository implements IProductRepository {
     private readonly catCategoryDB: Model<CatCategorySchema>,
     @InjectModel('CatColor') private readonly catColorDB: Model<CatColorSchema>,
     @InjectModel('CatSize') private readonly catSizeDB: Model<CatSizeSchema>,
+    @InjectModel('CatSubCategory')
+    private readonly catSubCategory: Model<CatSubCategorySchema>,
   ) {}
 
   async create(
@@ -31,11 +34,13 @@ export class ProductRepository implements IProductRepository {
   ): Promise<ProductModel> {
     try {
       const schema = new this.productDB(product.toJSON());
-      const { brand, category, inventory } = productRelation;
+      const { brand, category, subCategory, inventory } = productRelation;
 
-      if (brand && category && inventory) {
+      if (brand && category && subCategory && inventory) {
         const foundBrand = await this.catBrandDB.findById(brand);
         const foundCategory = await this.catCategoryDB.findById(category);
+        const foundSubCategory =
+          await this.catSubCategory.findById(subCategory);
 
         const foundInventory = await Promise.all(
           inventory.map(async (item) => {
@@ -53,6 +58,7 @@ export class ProductRepository implements IProductRepository {
         );
         schema.brand = foundBrand;
         schema.category = foundCategory;
+        schema.subCategory = foundSubCategory;
         schema.inventory = foundInventory.map((item) => ({
           size: item.size._id,
           stock: item.stock.map((stockItem) => ({

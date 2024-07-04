@@ -18,6 +18,7 @@ export class ProductRepository implements IProductRepository {
         .findById(id)
         .populate('brand')
         .populate('category')
+        .populate('subCategory')
         .populate('inventory.size')
         .populate('inventory.stock.color');
 
@@ -46,6 +47,7 @@ export class ProductRepository implements IProductRepository {
         .limit(limit)
         .populate('brand')
         .populate('category')
+        .populate('subCategory')
         .populate('inventory.size')
         .populate('inventory.stock.color');
 
@@ -68,6 +70,7 @@ export class ProductRepository implements IProductRepository {
         .limit(limit)
         .populate('brand')
         .populate('category')
+        .populate('subCategory')
         .populate('inventory.size')
         .populate('inventory.stock.color');
 

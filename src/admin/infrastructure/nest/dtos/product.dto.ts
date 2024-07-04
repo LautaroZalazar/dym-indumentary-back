@@ -1,5 +1,12 @@
 import { Type } from 'class-transformer';
-import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 
 class StockItemUpdateDTO {
   @IsNumber()
@@ -89,6 +96,10 @@ export class ProductRelationDTO {
   @IsString()
   @IsNotEmpty()
   category: string;
+
+  @IsString()
+  @IsNotEmpty()
+  subCategory: string;
 
   @IsArray()
   @IsNotEmpty()

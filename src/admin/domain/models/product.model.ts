@@ -4,6 +4,7 @@ import { CatSizeModel } from './cat-size.model';
 import { CatColorModel } from './cat-color.model';
 import { BaseModel } from '../../../core/domain/models/base.model';
 import { Identifier } from '../../../core/domain/value-objects/identifier';
+import { CatSubCategoryModel } from './cat-sub-category.model';
 
 export class ProductModel extends BaseModel {
   private _name: string;
@@ -14,12 +15,13 @@ export class ProductModel extends BaseModel {
   private _image: string[];
   private _brand: CatBrandModel;
   private _category: CatCategoryModel;
+  private _subCategory: CatSubCategoryModel;
   private _inventory: Array<{
-    size: CatSizeModel,
+    size: CatSizeModel;
     stock: Array<{
-      quantity: number,
-      color: CatColorModel,
-    }>,
+      quantity: number;
+      color: CatColorModel;
+    }>;
   }>;
 
   public toJSON() {
@@ -34,15 +36,18 @@ export class ProductModel extends BaseModel {
       image: this._image,
       brand: this._brand ? this._brand.toJSON() : null,
       category: this._category ? this._category.toJSON() : null,
-      inventory: this._inventory ? this._inventory.map((item) => ({
-        size: item.size.toJSON(),
-        stock: item.stock.map((stockItem) => ({
-          quantity: stockItem.quantity,
-          color: stockItem.color.toJSON(),
-        })),
-      })) : [],
+      subCategory: this._subCategory ? this._subCategory.toJSON() : null,
+      inventory: this._inventory
+        ? this._inventory.map((item) => ({
+            size: item.size.toJSON(),
+            stock: item.stock.map((stockItem) => ({
+              quantity: stockItem.quantity,
+              color: stockItem.color.toJSON(),
+            })),
+          }))
+        : [],
     };
-  };
+  }
 
   addBrand(brand: CatBrandModel) {
     this._brand = brand;
@@ -52,13 +57,19 @@ export class ProductModel extends BaseModel {
     this._category = category;
   }
 
-  addInventory(inventory: Array<{
-    size: CatSizeModel,
-    stock: Array<{
-      quantity: number,
-      color: CatColorModel,
+  addSubCategory(subCategory: CatSubCategoryModel) {
+    this._subCategory = subCategory;
+  }
+
+  addInventory(
+    inventory: Array<{
+      size: CatSizeModel;
+      stock: Array<{
+        quantity: number;
+        color: CatColorModel;
+      }>;
     }>,
-  }>) {
+  ) {
     this._inventory = inventory;
   }
 
@@ -89,14 +100,17 @@ export class ProductModel extends BaseModel {
     newProduct._category = product.category
       ? CatCategoryModel.hydrate(product.category)
       : null;
+    newProduct._subCategory = product.subCategory
+      ? CatSubCategoryModel.hydrate(product.subCategory)
+      : null;
     newProduct._inventory = product.inventory
       ? product.inventory.map((item) => ({
-        size: CatSizeModel.hydrate(item.size),
-        stock: item.stock.map((stockItem) => ({
-          quantity: stockItem.quantity,
-          color: CatColorModel.hydrate(stockItem.color),
-        })),
-      }))
+          size: CatSizeModel.hydrate(item.size),
+          stock: item.stock.map((stockItem) => ({
+            quantity: stockItem.quantity,
+            color: CatColorModel.hydrate(stockItem.color),
+          })),
+        }))
       : [];
 
     return newProduct;

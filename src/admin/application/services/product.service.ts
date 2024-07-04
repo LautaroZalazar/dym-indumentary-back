@@ -18,11 +18,12 @@ export class ProductService implements IProductService {
 
   async create(product: IProductCreate): Promise<ProductModel> {
     try {
-      const { brand, category, inventory } = product;
+      const { brand, category, subCategory, inventory } = product;
       const productModel = ProductModel.create(product);
       return await this.productRepository.create(productModel, {
         brand,
         category,
+        subCategory,
         inventory,
       });
     } catch (error) {

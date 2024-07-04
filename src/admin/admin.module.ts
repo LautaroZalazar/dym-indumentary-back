@@ -10,6 +10,7 @@ import {
   userSchema,
   cartSchema,
   catRoleSchema,
+  subCategorySchema,
 } from './infrastructure/constants/custom-schema';
 import {
   productRepository,
@@ -30,6 +31,7 @@ import {
       catCategorySchema,
       catColorSchema,
       catSizeSchema,
+      subCategorySchema,
     ]),
   ],
   controllers: [AdminController],

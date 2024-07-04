@@ -17,6 +17,8 @@ import {
   catShippingRepository,
   userService,
   userRepository,
+  catSubCategoryRepository,
+  catSubCategorySerivce,
 } from './infrastructure/constants/custom-provider';
 import {
   roleSchema,
@@ -27,11 +29,13 @@ import {
   shippingSchema,
   userSchema,
   cartSchema,
+  subCategorySchema,
 } from './infrastructure/constants/custom-schema';
 import { CatColorController } from './infrastructure/nest/controllers/cat-color.controller';
 import { CatCategoryController } from './infrastructure/nest/controllers/cat-category.controller';
 import { CatBrandController } from './infrastructure/nest/controllers/cat-brand.controller';
 import { CatShippingController } from './infrastructure/nest/controllers/cat-shipping.controller';
+import { CatSubCategoryController } from './infrastructure/nest/controllers/cat-sub-category.controller';
 
 @Module({
   imports: [
@@ -44,6 +48,7 @@ import { CatShippingController } from './infrastructure/nest/controllers/cat-shi
       shippingSchema,
       userSchema,
       cartSchema,
+      subCategorySchema,
     ]),
   ],
   controllers: [
@@ -53,6 +58,7 @@ import { CatShippingController } from './infrastructure/nest/controllers/cat-shi
     CatCategoryController,
     CatBrandController,
     CatShippingController,
+    CatSubCategoryController,
   ],
   providers: [
     catRoleService,
@@ -69,6 +75,8 @@ import { CatShippingController } from './infrastructure/nest/controllers/cat-shi
     catShippingRepository,
     userService,
     userRepository,
+    catSubCategoryRepository,
+    catSubCategorySerivce,
   ],
   exports: [],
 })
