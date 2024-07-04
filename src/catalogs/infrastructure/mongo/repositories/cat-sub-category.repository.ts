@@ -2,9 +2,9 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { BaseErrorException } from '../../../../core/domain/exceptions/base/base.error.exception';
-import { ICatSubCategoryRepository } from 'src/catalogs/domain/repositories/cat-sub-category.repository';
+import { ICatSubCategoryRepository } from '../../../domain/repositories/cat-sub-category.repository';
 import { CatSubCategorySchema } from '../schemas/cat-sub-category.schema';
-import { CatSubCategoryModel } from 'src/catalogs/domain/models/cat-sub-category.model';
+import { CatSubCategoryModel } from '../../../domain/models/cat-sub-category.model';
 import { CatCategorySchema } from '../schemas/cat-category.schema';
 
 @Injectable()

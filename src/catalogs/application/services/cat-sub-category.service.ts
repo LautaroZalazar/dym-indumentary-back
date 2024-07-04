@@ -1,9 +1,10 @@
-import { ICatSubCategoryService } from 'src/catalogs/domain/services/cat-sub-category.service';
+import { ICatSubCategoryService } from '../../domain/services/cat-sub-category.service';
 import { BaseErrorException } from '../../../core/domain/exceptions/base/base.error.exception';
 import SymbolsCatalogs from '../../symbols-catalogs';
 import { Inject, Injectable } from '@nestjs/common';
-import { ICatSubCategoryRepository } from 'src/catalogs/domain/repositories/cat-sub-category.repository';
-import { CatSubCategoryModel } from 'src/catalogs/domain/models/cat-sub-category.model';
+import { ICatSubCategoryRepository } from '../../domain/repositories/cat-sub-category.repository';
+import { CatSubCategoryModel } from '../../domain/models/cat-sub-category.model';
+import { ICatSubCategoryCreate } from '../../domain/types/cat-sub-category.types';
 
 @Injectable()
 export class CatSubCategoryService implements ICatSubCategoryService {
@@ -13,15 +14,14 @@ export class CatSubCategoryService implements ICatSubCategoryService {
   ) {}
 
   async create(
-    subCategory: any,
-    categoryId: string,
+    subCategory: ICatSubCategoryCreate,
   ): Promise<CatSubCategoryModel> {
     try {
       const subCategoryModel = CatSubCategoryModel.create(subCategory);
 
       const subCaterogySaved = await this.catSubCategoryRepository.create(
         subCategoryModel,
-        categoryId,
+        subCategory.categoryId,
       );
 
       return subCaterogySaved;
