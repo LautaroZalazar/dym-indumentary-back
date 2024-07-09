@@ -94,6 +94,7 @@ export class ProductRepository implements IProductRepository {
         price: product.price || existingProduct.price,
         gender: product.gender || existingProduct.gender,
         image: product.image || existingProduct.image,
+        isActive: product.isActive || existingProduct.isActive,
         brand: product.brand
           ? await this.catBrandDB.findById(product.brand)
           : existingProduct.brand,
