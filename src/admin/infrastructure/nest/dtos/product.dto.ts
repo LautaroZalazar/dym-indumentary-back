@@ -1,6 +1,7 @@
 import { Type } from 'class-transformer';
 import {
   IsArray,
+  IsBoolean,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -50,6 +51,10 @@ export class ProductUpdateDTO {
   @IsString({ each: true })
   @IsOptional()
   image?: string[];
+
+  @IsBoolean()
+  @IsOptional()
+  isActive?: boolean;
 
   @IsString()
   @IsOptional()
