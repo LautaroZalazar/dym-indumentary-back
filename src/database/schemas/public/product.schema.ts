@@ -24,6 +24,9 @@ export class Product {
   @Prop([String])
   image: string[];
 
+  @Prop({ default: true })
+  isActive: boolean;
+
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'CatBrand' })
   brand: CatBrand;
 

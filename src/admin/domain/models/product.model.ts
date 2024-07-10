@@ -13,6 +13,7 @@ export class ProductModel extends BaseModel {
   private _stock: number;
   private _gender: string;
   private _image: string[];
+  private _isActive: boolean;
   private _brand: CatBrandModel;
   private _category: CatCategoryModel;
   private _subCategory: CatSubCategoryModel;
@@ -34,6 +35,7 @@ export class ProductModel extends BaseModel {
       stock: this._stock,
       gender: this._gender,
       image: this._image,
+      isActive: this._isActive,
       brand: this._brand ? this._brand.toJSON() : null,
       category: this._category ? this._category.toJSON() : null,
       subCategory: this._subCategory ? this._subCategory.toJSON() : null,
@@ -82,6 +84,7 @@ export class ProductModel extends BaseModel {
     newProduct._stock = product.stock;
     newProduct._gender = product.gender;
     newProduct._image = product.image;
+    newProduct._isActive = product.isActive;
 
     return newProduct;
   }
@@ -94,6 +97,7 @@ export class ProductModel extends BaseModel {
     newProduct._stock = product.stock;
     newProduct._gender = product.gender;
     newProduct._image = product.image;
+    newProduct._isActive = product.isActive;
     newProduct._brand = product.brand
       ? CatBrandModel.hydrate(product.brand)
       : null;
