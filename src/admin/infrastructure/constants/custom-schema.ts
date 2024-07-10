@@ -27,7 +27,11 @@ import { Cart, CartSchema } from '../../../database/schemas/public/cart.schema';
 import {
   CatSubCategory,
   CatSubCategorySchema,
-} from 'src/database/schemas/catalogs/cat-sub-category.schema';
+} from '../../../database/schemas/catalogs/cat-sub-category.schema';
+import {
+  Address,
+  AddressSchema,
+} from '../../../database/schemas/public/address.schema';
 
 export const productSchema = {
   name: Product.name,
@@ -72,4 +76,9 @@ export const cartSchema = {
 export const subCategorySchema = {
   name: CatSubCategory.name,
   schema: CatSubCategorySchema,
+};
+
+export const addressSchema = {
+  name: Address.name,
+  schema: AddressSchema,
 };
