@@ -1,3 +1,4 @@
+import { IUpdateUser } from 'src/admin/domain/types/user.type';
 import { BaseErrorException } from '../../../core/domain/exceptions/base/base.error.exception';
 import { UserModel } from '../../domain/models/user.model';
 import { IUserRepository } from '../../domain/repositories/user.interface.repository';
@@ -27,6 +28,16 @@ export class UserService implements IUserService {
       const findAll = await this.userRepository.findAll();
 
       return findAll;
+    } catch (error) {
+      throw new BaseErrorException(error.message, error.statusCode);
+    }
+  }
+
+  async update(userId: string, user: IUpdateUser): Promise<UserModel> {
+    try {
+      const update = await this.userRepository.update(userId, user);
+
+      return update;
     } catch (error) {
       throw new BaseErrorException(error.message, error.statusCode);
     }

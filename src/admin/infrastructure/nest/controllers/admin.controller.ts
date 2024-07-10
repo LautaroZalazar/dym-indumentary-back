@@ -4,8 +4,10 @@ import {
   Get,
   Inject,
   Param,
+  Patch,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import SymbolsAdmin from '../../../symbols-admin';
@@ -14,6 +16,7 @@ import { IUserService } from '../../../domain/services/user.interface.service';
 import { ProductCreateDTO, ProductUpdateDTO } from '../dtos/product.dto';
 import { AuthGuards } from '../../../../auth/infrastructure/nest/guards/auth.guard';
 import { RoleGuards } from '../../../../auth/infrastructure/nest/guards/role.guard';
+import { GetUserDTO, UpdateUserDTO } from '../dtos/user.dto';
 
 @Controller('admin')
 export class AdminController {
@@ -32,7 +35,10 @@ export class AdminController {
 
   @UseGuards(AuthGuards, RoleGuards)
   @Put('product/:id')
-  async update(@Param('id') id: string, @Body() product: ProductUpdateDTO) {
+  async productUpdate(
+    @Param('id') id: string,
+    @Body() product: ProductUpdateDTO,
+  ) {
     return await this.productService.update(id, product);
   }
 
@@ -40,5 +46,12 @@ export class AdminController {
   @Get('user')
   async findUser() {
     return await this.userService.findAll();
+  }
+
+  @UseGuards(AuthGuards, RoleGuards)
+  @Patch('user')
+  async userUpdate(@Query() query: GetUserDTO, @Body() body: UpdateUserDTO) {
+    const { userId } = query;
+    return await this.userService.update(userId, body);
   }
 }
