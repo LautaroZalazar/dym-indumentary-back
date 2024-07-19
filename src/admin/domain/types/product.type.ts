@@ -38,5 +38,6 @@ export interface IProductUpdate {
   image?: string[];
   brand?: string;
   category?: string;
+  isActive?: boolean;
   inventory?: IInventoryItemUpdate[];
 }

@@ -18,7 +18,7 @@ export class UserRepository implements IUserRepository {
 
     @InjectModel('Address')
     private readonly addressModel: Model<AddressSchema>,
-  ) {}
+  ) { }
 
   async findAll(): Promise<UserModel[]> {
     try {
@@ -92,14 +92,15 @@ export class UserRepository implements IUserRepository {
           );
         }
       }
-
+      const active = Object.keys(user).find((key) => key === 'isActive');
+      const nl = Object.keys(user).find((key) => key === 'newsletter');
       const updatedFields = {
         name: user.name || existingUser.name,
         email: user.email || existingUser.email,
         password: user.password || existingUser.password,
         phone: user.phone || existingUser.phone,
-        isActive: user.isActive || existingUser.isActive,
-        newsletter: user.newsletter || existingUser.newsletter,
+        isActive: active ? user.isActive : existingUser.isActive,
+        newsletter: nl ? user.newsletter : existingUser.newsletter,
         address: findAddress || existingUser.address,
         role: findRole || existingUser.role,
         cart: existingUser.cart,
