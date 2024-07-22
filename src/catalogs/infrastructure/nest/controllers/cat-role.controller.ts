@@ -18,8 +18,8 @@ export class CatRoleController {
   constructor(
     @Inject(SymbolsCatalogs.ICatRoleService)
     private readonly catRoleService: ICatRoleService,
-  ) {}
-
+  ) { }
+  @UseGuards(AuthGuards, RoleGuards)
   @Get()
   async getByName(@Query() query: GetRoleByNameDTO) {
     const { name } = query;

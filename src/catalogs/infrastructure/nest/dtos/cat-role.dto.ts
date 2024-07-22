@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateRoleDTO {
   @IsString()
@@ -8,6 +8,6 @@ export class CreateRoleDTO {
 
 export class GetRoleByNameDTO {
   @IsString()
-  @IsNotEmpty({ message: 'The parameter must be a string' })
-  name: string;
+  @IsOptional()
+  name?: string;
 }
