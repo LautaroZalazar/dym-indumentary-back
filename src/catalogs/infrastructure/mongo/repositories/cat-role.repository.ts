@@ -10,7 +10,19 @@ import { BaseErrorException } from '../../../../core/domain/exceptions/base/base
 export class CatRoleRepository implements ICatRoleRepository {
   constructor(
     @InjectModel('CatRole') private readonly catRoleModel: Model<CatRoleSchema>,
-  ) {}
+  ) { }
+
+  async findAll(): Promise<CatRoleModel[]> {
+    try {
+      const roles = await this.catRoleModel.find();
+      return roles.map((role) => CatRoleModel.hydrate(role));
+    } catch (error) {
+      throw new BaseErrorException(
+        error.message,
+        error.statusCode || HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 
   async findByName(name: string): Promise<CatRoleModel> {
     try {

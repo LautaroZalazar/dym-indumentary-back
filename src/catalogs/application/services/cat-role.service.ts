@@ -10,13 +10,17 @@ export class CatRoleService implements ICatRoleService {
   constructor(
     @Inject(SymbolsCatalogs.ICatRoleRepository)
     private readonly catRoleRepository: ICatRoleRepository,
-  ) {}
+  ) { }
 
-  async getByName(name: string): Promise<CatRoleModel> {
+  async getByName(name: string): Promise<CatRoleModel | CatRoleModel[]> {
     try {
-      const roleFinded = await this.catRoleRepository.findByName(name);
-
-      return roleFinded;
+      if (!name) {
+        const roles = await this.catRoleRepository.findAll();
+        return roles;
+      } else {
+        const roleFinded = await this.catRoleRepository.findByName(name);
+        return roleFinded;
+      }
     } catch (error) {
       throw new BaseErrorException(error.message, error.statusCode);
     }
