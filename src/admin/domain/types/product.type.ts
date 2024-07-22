@@ -8,12 +8,17 @@ export interface IInventoryItemCreate {
   stock: IStockItemCreate[];
 }
 
+export interface IImage {
+  url: string;
+  public_id: string;
+}
+
 export interface IProductCreate {
   name: string;
   price: number;
   description: string;
   gender: string;
-  image: string[];
+  image: IImage[];
   brand: string;
   category: string;
   subCategory: string;
@@ -35,7 +40,7 @@ export interface IProductUpdate {
   price?: number;
   description?: string;
   gender?: string;
-  image?: string[];
+  image?: IImage[];
   brand?: string;
   category?: string;
   isActive?: boolean;

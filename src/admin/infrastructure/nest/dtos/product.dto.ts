@@ -48,9 +48,9 @@ export class ProductUpdateDTO {
   @IsOptional()
   gender?: string;
 
-  @IsString({ each: true })
-  @IsOptional()
-  image?: string[];
+  @ValidateNested({ each: true })
+  @Type(() => ImageDTO)
+  image?: ImageDTO[];
 
   @IsBoolean()
   @IsOptional()
@@ -113,6 +113,16 @@ export class ProductRelationDTO {
   inventory: InventoryItemDTO[];
 }
 
+class ImageDTO {
+  @IsString()
+  @IsNotEmpty()
+  url: string;
+
+  @IsString()
+  @IsNotEmpty()
+  public_id: string;
+}
+
 export class ProductCreateDTO extends ProductRelationDTO {
   @IsString()
   @IsNotEmpty()
@@ -130,6 +140,7 @@ export class ProductCreateDTO extends ProductRelationDTO {
   @IsNotEmpty()
   gender: string;
 
-  @IsString({ each: true })
-  image: string[];
+  @ValidateNested({ each: true })
+  @Type(() => ImageDTO)
+  image: ImageDTO[];
 }

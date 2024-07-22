@@ -12,7 +12,7 @@ export class ProductModel extends BaseModel {
   private _price: number;
   private _stock: number;
   private _gender: string;
-  private _image: string[];
+  private _image: { url: string; public_id: string }[];
   private _isActive: boolean;
   private _brand: CatBrandModel;
   private _category: CatCategoryModel;
@@ -41,12 +41,12 @@ export class ProductModel extends BaseModel {
       subCategory: this._subCategory ? this._subCategory.toJSON() : null,
       inventory: this._inventory
         ? this._inventory.map((item) => ({
-            size: item.size.toJSON(),
-            stock: item.stock.map((stockItem) => ({
-              quantity: stockItem.quantity,
-              color: stockItem.color.toJSON(),
-            })),
-          }))
+          size: item.size.toJSON(),
+          stock: item.stock.map((stockItem) => ({
+            quantity: stockItem.quantity,
+            color: stockItem.color.toJSON(),
+          })),
+        }))
         : [],
     };
   }
@@ -109,12 +109,12 @@ export class ProductModel extends BaseModel {
       : null;
     newProduct._inventory = product.inventory
       ? product.inventory.map((item) => ({
-          size: CatSizeModel.hydrate(item.size),
-          stock: item.stock.map((stockItem) => ({
-            quantity: stockItem.quantity,
-            color: CatColorModel.hydrate(stockItem.color),
-          })),
-        }))
+        size: CatSizeModel.hydrate(item.size),
+        stock: item.stock.map((stockItem) => ({
+          quantity: stockItem.quantity,
+          color: CatColorModel.hydrate(stockItem.color),
+        })),
+      }))
       : [];
 
     return newProduct;
