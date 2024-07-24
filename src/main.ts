@@ -9,11 +9,24 @@ import config from './config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const allowedOrigins = [
+    'https://dym-indumentary-front-3ba7ddh8p-lautarozalazars-projects.vercel.app/',
+    'http://localhost:3000',
+    'http://localhost:5173',
+  ];
+
   app.enableCors({
-    ...corsOptions,
-    allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    origin: (origin, callback) => {
+      if (allowedOrigins.includes(origin) || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
+    allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+    methods: 'GET, POST, OPTIONS, PUT, DELETE',
   });
   app.use(json({ limit: '5mb' }));
   app.use(urlencoded({ extended: true, limit: '5mb' }));

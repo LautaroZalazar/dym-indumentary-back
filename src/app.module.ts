@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './product/product.module';
 import { CartModule } from './cart/carts.module';
 import { AdminModule } from './admin/admin.module';
+import { CustomCorsMiddleware } from './config/cors';
 
 @Module({
   imports: [
@@ -28,4 +29,10 @@ import { AdminModule } from './admin/admin.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(CustomCorsMiddleware)
+      .forRoutes('*');
+  }
+}
