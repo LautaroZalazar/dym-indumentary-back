@@ -1,7 +1,7 @@
 import { IProductService } from '../../../../product/domain/services/product.interface.service';
 import SymbolsProduct from '../../../../product/symbols-product';
 import { Body, Controller, Get, Inject, Param, Query } from '@nestjs/common';
-import { GetProductNameDTO, GetProductsDTO } from '../dtos/product.dto';
+import { GetProductsDTO } from '../dtos/product.dto';
 
 @Controller('product')
 export class ProductController {
@@ -16,21 +16,18 @@ export class ProductController {
   }
 
   @Get()
-  async findAll(
-    @Query() query: GetProductsDTO,
-    @Body() body: GetProductNameDTO,
-  ) {
-    const { productName } = body;
-    const { limit, page } = query;
+  async findAll(@Query() query: GetProductsDTO) {
+    const filters: GetProductsDTO = {
+      page: query.page || '1',
+      limit: query.limit || '10',
+      isActive: query.isActive !== undefined ? query.isActive : true,
+      productName: query.productName || '',
+    };
 
-    if (productName) {
-      return await this.productService.findName(
-        productName,
-        Number(page),
-        Number(limit),
-      );
+    if (filters.productName !== '') {
+      return await this.productService.findName(filters);
     }
 
-    return await this.productService.findAll(Number(page), Number(limit));
+    return await this.productService.findAll(filters);
   }
 }

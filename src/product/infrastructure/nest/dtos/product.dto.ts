@@ -1,4 +1,11 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { Transform } from 'class-transformer';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class ProductUpdateDTO {
   @IsString()
@@ -93,9 +100,12 @@ export class GetProductsDTO {
   @IsString()
   @IsOptional()
   limit?: string;
-}
 
-export class GetProductNameDTO {
+  @IsBoolean()
+  @IsOptional()
+  @Transform(({ value }) => value === 'true' || value === true)
+  isActive?: boolean;
+
   @IsString()
   @IsOptional()
   productName?: string;
