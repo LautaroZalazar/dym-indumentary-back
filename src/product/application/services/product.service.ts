@@ -4,6 +4,7 @@ import { IProductRepository } from '../../../product/domain/repositories/product
 import { IProductService } from '../../../product/domain/services/product.interface.service';
 import SymbolsProduct from '../../../product/symbols-product';
 import { HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { IProductFind } from '../../domain/types/product.types';
 
 @Injectable()
 export class ProductService implements IProductService {
@@ -20,21 +21,17 @@ export class ProductService implements IProductService {
     }
   }
 
-  async findAll(limit: number, page: number): Promise<ProductModel[]> {
+  async findAll(filters: IProductFind): Promise<ProductModel[]> {
     try {
-      return await this.productRepository.findAll(limit, page);
+      return await this.productRepository.findAll(filters);
     } catch (error) {
       throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
-  async findName(
-    productName: string,
-    limit: number,
-    page: number,
-  ): Promise<ProductModel[]> {
+  async findName(filters: IProductFind): Promise<ProductModel[]> {
     try {
-      return await this.productRepository.findName(productName, limit, page);
+      return await this.productRepository.findName(filters);
     } catch (error) {
       throw new BaseErrorException(error.message, error.statusCode);
     }

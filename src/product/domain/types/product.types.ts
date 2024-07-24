@@ -1,4 +1,6 @@
-export interface IProductFindAll {
-  limit: number;
-  number: number;
+export interface IProductFind {
+  page?: string;
+  limit?: string;
+  isActive?: boolean;
+  productName?: string;
 }
