@@ -21,8 +21,8 @@ export class Product {
   @Prop()
   gender: string;
 
-  @Prop([String])
-  image: string[];
+  @Prop([{ url: String, public_id: String }])
+  image: { url: string; public_id: string }[];
 
   @Prop({ default: true })
   isActive: boolean;

@@ -26,7 +26,7 @@ export class ProductRepository implements IProductRepository {
     @InjectModel('CatSize') private readonly catSizeDB: Model<CatSizeSchema>,
     @InjectModel('CatSubCategory')
     private readonly catSubCategory: Model<CatSubCategorySchema>,
-  ) {}
+  ) { }
 
   async create(
     product: ProductModel,
@@ -87,14 +87,14 @@ export class ProductRepository implements IProductRepository {
       const existingProduct = await this.productDB.findById(id);
 
       if (!existingProduct) throw new Error('Product not found');
-
+      const active = Object.keys(product).find((key) => key === 'isActive');
       const updatedFields = {
         name: product.name || existingProduct.name,
         description: product.description || existingProduct.description,
         price: product.price || existingProduct.price,
         gender: product.gender || existingProduct.gender,
         image: product.image || existingProduct.image,
-        isActive: product.isActive || existingProduct.isActive,
+        isActive: active ? product.isActive : existingProduct.isActive,
         brand: product.brand
           ? await this.catBrandDB.findById(product.brand)
           : existingProduct.brand,
@@ -103,16 +103,16 @@ export class ProductRepository implements IProductRepository {
           : existingProduct.category,
         inventory: product.inventory
           ? await Promise.all(
-              product.inventory.map(async (item) => ({
-                size: await this.catSizeDB.findById(item.size),
-                stock: await Promise.all(
-                  item.stock.map(async (stockItem) => ({
-                    quantity: stockItem.quantity,
-                    color: await this.catColorDB.findById(stockItem.color),
-                  })),
-                ),
-              })),
-            )
+            product.inventory.map(async (item) => ({
+              size: await this.catSizeDB.findById(item.size),
+              stock: await Promise.all(
+                item.stock.map(async (stockItem) => ({
+                  quantity: stockItem.quantity,
+                  color: await this.catColorDB.findById(stockItem.color),
+                })),
+              ),
+            })),
+          )
           : existingProduct.inventory,
       };
 
