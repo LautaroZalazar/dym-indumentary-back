@@ -17,11 +17,11 @@ export const corsOptions = {
         // (like mobile apps or curl requests)
         if (!origin) return callback(null, true);
 
-        if (whiteList.indexOf(origin) === -1) {
-            const msg =
-                'The CORS policy for this site does not allow access from the specified Origin.';
-            return callback(new Error(msg), false);
-        }
+        /*         if (whiteList.indexOf(origin) === -1) {
+                    const msg =
+                        'The CORS policy for this site does not allow access from the specified Origin.';
+                    return callback(new Error(msg), false);
+                } */
         return callback(null, true);
     },
 };
