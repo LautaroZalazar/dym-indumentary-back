@@ -16,13 +16,13 @@ async function bootstrap() {
   ];
 
   app.enableCors({
-    origin: (origin, callback) => {
+    origin: /* (origin, callback) => {
       if (allowedOrigins.includes(origin) || !origin) {
         callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS'));
       }
-    },
+    } */'*',
     credentials: true,
     allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
     methods: 'GET, POST, OPTIONS, PUT, DELETE',
