@@ -109,4 +109,28 @@ export class GetProductsDTO {
   @IsString()
   @IsOptional()
   productName?: string;
+
+  @IsString()
+  @IsOptional()
+  sort: string = 'ASC';
+
+  @IsString()
+  @IsOptional()
+  category?: string;
+
+  @IsString()
+  @IsOptional()
+  brand?: string;
+
+  @IsString()
+  @IsOptional()
+  subCategory?: string;
+
+  @IsString()
+  @IsOptional()
+  size?: string;
+
+  @IsString()
+  @IsOptional()
+  gender?: string;
 }

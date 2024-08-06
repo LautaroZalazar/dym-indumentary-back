@@ -8,3 +8,16 @@ export interface IUpdateUser {
   addressId: string;
   roleId: string;
 }
+
+export interface IPagination {
+  page: string;
+  limit: string;
+}
+
+export interface IUserFilters {
+  isActive?: boolean;
+  role?: string;
+  newsletter?: boolean;
+  page: string;
+  limit: string;
+}

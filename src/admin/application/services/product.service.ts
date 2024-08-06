@@ -4,17 +4,28 @@ import { IProductRepository } from '../../domain/repositories/product.interface.
 import { IProductService } from '../../domain/services/product.interface.service';
 import { Inject, Injectable } from '@nestjs/common';
 import {
+  IPagination,
   IProductCreate,
+  IProductFilters,
   IProductUpdate,
 } from '../../domain/types/product.type';
 import { BaseErrorException } from '../../../core/domain/exceptions/base/base.error.exception';
+import { IGetProductsWithFilters } from 'src/admin/domain/types/product.response.type';
 
 @Injectable()
 export class ProductService implements IProductService {
   constructor(
     @Inject(SymbolsAdmin.IProductRepository)
     private readonly productRepository: IProductRepository,
-  ) {}
+  ) { }
+
+  async findAllWithFilters(filters: IProductFilters): Promise<IGetProductsWithFilters> {
+    try {
+      return await this.productRepository.findAllWithFilters(filters);
+    } catch (error) {
+      throw new BaseErrorException(error.message, error.statusCode);
+    }
+  }
 
   async create(product: IProductCreate): Promise<ProductModel> {
     try {

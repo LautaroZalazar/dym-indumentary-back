@@ -5,13 +5,14 @@ import { IProductService } from '../../../product/domain/services/product.interf
 import SymbolsProduct from '../../../product/symbols-product';
 import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { IProductFind } from '../../domain/types/product.types';
+import { IGetProductsWithFiltersResponse } from 'src/product/domain/types/product.response.types';
 
 @Injectable()
 export class ProductService implements IProductService {
   constructor(
     @Inject(SymbolsProduct.ProductRepository)
     private readonly productRepository: IProductRepository,
-  ) {}
+  ) { }
 
   async findById(id: string): Promise<ProductModel> {
     try {
@@ -21,7 +22,7 @@ export class ProductService implements IProductService {
     }
   }
 
-  async findAll(filters: IProductFind): Promise<ProductModel[]> {
+  async findAll(filters: IProductFind): Promise<IGetProductsWithFiltersResponse> {
     try {
       return await this.productRepository.findAll(filters);
     } catch (error) {
