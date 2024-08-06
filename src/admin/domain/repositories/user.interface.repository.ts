@@ -1,8 +1,9 @@
 import { UserModel } from '../models/user.model';
-import { IUpdateUser } from '../types/user.type';
+import { IGetUsersWithFilters } from '../types/user.response.type';
+import { IPagination, IUpdateUser, IUserFilters } from '../types/user.type';
 
 export interface IUserRepository {
-  findAll(): Promise<UserModel[]>;
+  findAll(filters: IUserFilters): Promise<IGetUsersWithFilters>;
   findById(id: string): Promise<UserModel>;
   update(userId: string, user: IUpdateUser): Promise<UserModel>;
 }

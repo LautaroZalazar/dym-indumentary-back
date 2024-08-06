@@ -45,3 +45,25 @@ export class GetUserDTO {
   @IsNotEmpty()
   userId: string;
 }
+
+export class GetUsersWithFiltersDTO {
+  @IsBoolean()
+  @IsOptional()
+  isActive: boolean;
+
+  @IsString()
+  @IsOptional()
+  role: string;
+
+  @IsBoolean()
+  @IsOptional()
+  newsletter: boolean;
+
+  @IsString()
+  @IsNotEmpty()
+  page: string = '1';
+
+  @IsString()
+  @IsNotEmpty()
+  limit: string = '10';
+}
