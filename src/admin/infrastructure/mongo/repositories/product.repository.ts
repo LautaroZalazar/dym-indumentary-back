@@ -87,7 +87,7 @@ export class ProductRepository implements IProductRepository {
 
   async findAllWithFilters(filters: GetProductsWithFiltersDTO): Promise<IGetProductsWithFilters> {
     try {
-      const { sort, isActive, stock, page, limit } = filters;
+      const { sort, isActive, stock, page, limit, productName } = filters;
       const pageInt = Number(page)
       const limitInt = Number(limit)
       const where: any = {};
@@ -103,6 +103,11 @@ export class ProductRepository implements IProductRepository {
           where['inventory.stock.quantity'] = { $eq: 0 };
         }
       }
+
+      if (productName) {
+        where.name = { $regex: productName, $options: 'i' };
+      }
+
       const count = await this.productDB.countDocuments(where);
       const products = await this.productDB
         .find()
