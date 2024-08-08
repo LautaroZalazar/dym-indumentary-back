@@ -13,11 +13,10 @@ import {
 import SymbolsAdmin from '../../../symbols-admin';
 import { IProductService } from '../../../domain/services/product.interface.service';
 import { IUserService } from '../../../domain/services/user.interface.service';
-import { GetProductsDTO, GetProductsWithFiltersDTO, ProductCreateDTO, ProductUpdateDTO } from '../dtos/product.dto';
+import { GetProductsWithFiltersDTO, ProductCreateDTO, ProductUpdateDTO } from '../dtos/product.dto';
 import { AuthGuards } from '../../../../auth/infrastructure/nest/guards/auth.guard';
 import { RoleGuards } from '../../../../auth/infrastructure/nest/guards/role.guard';
 import { GetUserDTO, GetUsersWithFiltersDTO, UpdateUserDTO } from '../dtos/user.dto';
-import { IUserFilters } from 'src/admin/domain/types/user.type';
 
 @Controller('admin')
 export class AdminController {
@@ -28,7 +27,7 @@ export class AdminController {
     private readonly userService: IUserService,
   ) { }
 
-  @UseGuards(AuthGuards, RoleGuards)
+  /* @UseGuards(AuthGuards, RoleGuards) */
   @Get('product')
   async findAllWithFilters(@Query() filters: GetProductsWithFiltersDTO) {
     return await this.productService.findAllWithFilters(filters);

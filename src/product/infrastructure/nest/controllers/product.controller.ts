@@ -20,7 +20,7 @@ export class ProductController {
     const filters: GetProductsDTO = {
       page: query.page || '1',
       limit: query.limit || '10',
-      isActive: query.isActive !== undefined ? query.isActive : true,
+      isActive: query.isActive || undefined,
       productName: query.productName || '',
       sort: query.sort,
       category: query.category || '',
