@@ -30,10 +30,6 @@ export class ProductController {
       gender: query.gender || '',
     };
 
-    if (filters.productName !== '') {
-      return await this.productService.findName(filters);
-    }
-
     return await this.productService.findAll(filters);
   }
 }
