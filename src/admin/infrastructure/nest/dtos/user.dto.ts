@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import {
   IsBoolean,
   IsEmail,
@@ -49,6 +50,7 @@ export class GetUserDTO {
 export class GetUsersWithFiltersDTO {
   @IsBoolean()
   @IsOptional()
+  @Transform(({ value }) => value === 'true' || value === true)
   isActive: boolean;
 
   @IsString()
@@ -57,6 +59,7 @@ export class GetUsersWithFiltersDTO {
 
   @IsBoolean()
   @IsOptional()
+  @Transform(({ value }) => value === 'true' || value === true)
   newsletter: boolean;
 
   @IsString()
