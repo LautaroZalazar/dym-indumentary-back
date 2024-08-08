@@ -30,14 +30,14 @@ export class UserRepository implements IUserRepository {
       const where: any = {};
 
       if (role) {
-        where['role.name'] = role;
+        where['role'] = role;
       }
 
-      if (isActive) {
+      if (isActive !== undefined) {
         where.isActive = isActive;
       }
 
-      if (newsletter) {
+      if (newsletter !== undefined) {
         where.newsletter = newsletter
       }
 
