@@ -167,6 +167,10 @@ export class GetProductsWithFiltersDTO {
 
   @IsString()
   @IsOptional()
+  productName?: string;
+
+  @IsString()
+  @IsOptional()
   @IsIn(['ASC', 'DESC'])
   sort: string = 'ASC';
 

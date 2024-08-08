@@ -108,6 +108,10 @@ export class ProductRepository implements IProductRepository {
         query.gender = { $in: parsedGender };
       }
 
+      if (filters.productName) {
+        query.name = { $regex: filters.productName, $options: 'i' }
+      }
+
       const count = await this.productDB.countDocuments(query);
       const products = await this.productDB
         .find(query)
