@@ -30,7 +30,7 @@ export class UserRepository implements IUserRepository {
       const where: any = {};
 
       if (role) {
-        where['role'] = role;
+        where['role'] = role
       }
 
       if (isActive !== undefined) {
@@ -41,7 +41,7 @@ export class UserRepository implements IUserRepository {
         where.newsletter = newsletter
       }
 
-      const count = await this.userModel.countDocuments();
+      const count = await this.userModel.countDocuments(where);
       const findAll = await this.userModel
         .find(where)
         .populate('role')

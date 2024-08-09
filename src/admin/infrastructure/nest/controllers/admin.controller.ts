@@ -27,7 +27,7 @@ export class AdminController {
     private readonly userService: IUserService,
   ) { }
 
-  /* @UseGuards(AuthGuards, RoleGuards) */
+  @UseGuards(AuthGuards, RoleGuards)
   @Get('product')
   async findAllWithFilters(@Query() filters: GetProductsWithFiltersDTO) {
     return await this.productService.findAllWithFilters(filters);
