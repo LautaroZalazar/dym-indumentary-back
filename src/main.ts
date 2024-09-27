@@ -5,28 +5,12 @@ import { ValidationPipe } from '@nestjs/common';
 import { json, urlencoded } from 'express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import config from './config';
+import { corsOptions } from './config/cors';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  const allowedOrigins = [
-    'https://dym-indumentary-front-3ba7ddh8p-lautarozalazars-projects.vercel.app/',
-    'http://localhost:3000',
-    'http://localhost:5173',
-  ];
-
-  app.enableCors({
-    origin: /* (origin, callback) => {
-      if (allowedOrigins.includes(origin) || !origin) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    } */'*',
-    credentials: true,
-    allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
-    methods: 'GET, POST, OPTIONS, PUT, DELETE',
-  });
+  app.enableCors(corsOptions);
   app.use(json({ limit: '5mb' }));
   app.use(urlencoded({ extended: true, limit: '5mb' }));
   app.useGlobalPipes(new ValidationPipe());
