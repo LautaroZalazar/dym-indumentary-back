@@ -46,3 +46,16 @@ export interface IProductUpdate {
   isActive?: boolean;
   inventory?: IInventoryItemUpdate[];
 }
+
+export interface IPagination {
+  page: string;
+  limit: string;
+}
+
+export interface IProductFilters {
+  sort: string;
+  isActive?: boolean;
+  stock?: boolean;
+  page: string;
+  limit: string;
+}

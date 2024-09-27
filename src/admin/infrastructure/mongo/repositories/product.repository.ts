@@ -9,11 +9,14 @@ import { CatColorSchema } from '../schemas/cat-color.schema';
 import { CatSizeSchema } from '../schemas/cat-size.schema';
 import { ProductModel } from '../../../domain/models/product.model';
 import {
+  GetProductsDTO,
+  GetProductsWithFiltersDTO,
   ProductRelationDTO,
   ProductUpdateDTO,
 } from '../../nest/dtos/product.dto';
 import { BaseErrorException } from '../../../../core/domain/exceptions/base/base.error.exception';
 import { CatSubCategorySchema } from '../schemas/cat-sub-category.schema';
+import { IGetProductsWithFilters } from 'src/admin/domain/types/product.response.type';
 
 @Injectable()
 export class ProductRepository implements IProductRepository {
@@ -79,6 +82,51 @@ export class ProductRepository implements IProductRepository {
       return ProductModel.hydrate(saved);
     } catch (error) {
       throw new BaseErrorException(error.message, error.statusCode);
+    }
+  }
+
+  async findAllWithFilters(filters: GetProductsWithFiltersDTO): Promise<IGetProductsWithFilters> {
+    try {
+      const { sort, isActive, stock, page, limit, productName } = filters;
+      const pageInt = Number(page)
+      const limitInt = Number(limit)
+      const where: any = {};
+
+      if (isActive !== undefined) {
+        where.isActive = isActive;
+      }
+
+      if (stock !== undefined) {
+        if (stock) {
+          where['inventory.stock.quantity'] = { $gt: 0 };
+        } else {
+          where['inventory.stock.quantity'] = { $eq: 0 };
+        }
+      }
+
+      if (productName) {
+        where.name = { $regex: productName, $options: 'i' };
+      }
+
+      const count = await this.productDB.countDocuments(where);
+      const products = await this.productDB
+        .find()
+        .sort({ price: sort === 'DESC' ? -1 : 1 })
+        .populate('brand')
+        .populate('category')
+        .populate('subCategory')
+        .populate('inventory.size')
+        .populate('inventory.stock.color')
+        .where(where)
+        .skip((pageInt - 1) * limitInt)
+        .limit(limitInt)
+
+      return { totalCount: count, products: products.map((product) => ProductModel.hydrate(product)) };
+    } catch (error) {
+      throw new BaseErrorException(
+        error.message,
+        error.statusCode || HttpStatus.BAD_REQUEST,
+      );
     }
   }
 

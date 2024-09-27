@@ -3,4 +3,10 @@ export interface IProductFind {
   limit?: string;
   isActive?: boolean;
   productName?: string;
+  sort: string;
+  category?: string;
+  brand?: string;
+  subCategory?: string;
+  size?: string
+  gender?: string;
 }

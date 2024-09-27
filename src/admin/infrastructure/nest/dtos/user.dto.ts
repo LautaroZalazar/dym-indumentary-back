@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import {
   IsBoolean,
   IsEmail,
@@ -44,4 +45,28 @@ export class GetUserDTO {
   @IsString()
   @IsNotEmpty()
   userId: string;
+}
+
+export class GetUsersWithFiltersDTO {
+  @IsBoolean()
+  @IsOptional()
+  @Transform(({ value }) => value === 'true' || value === true)
+  isActive: boolean;
+
+  @IsString()
+  @IsOptional()
+  role: string;
+
+  @IsBoolean()
+  @IsOptional()
+  @Transform(({ value }) => value === 'true' || value === true)
+  newsletter: boolean;
+
+  @IsString()
+  @IsNotEmpty()
+  page: string = '1';
+
+  @IsString()
+  @IsNotEmpty()
+  limit: string = '10';
 }

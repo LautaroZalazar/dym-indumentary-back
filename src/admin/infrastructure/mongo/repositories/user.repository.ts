@@ -5,9 +5,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UserModel } from '../../../domain/models/user.model';
 import { BaseErrorException } from 'src/core/domain/exceptions/base/base.error.exception';
-import { UpdateUserDTO } from '../../nest/dtos/user.dto';
+import { GetUsersWithFiltersDTO, UpdateUserDTO } from '../../nest/dtos/user.dto';
 import { CatRoleSchema } from '../schemas/cat-role.schema';
 import { AddressSchema } from '../schemas/address.schema';
+import { IGetUsersWithFilters } from 'src/admin/domain/types/user.response.type';
+import { IPagination, IUserFilters } from 'src/admin/domain/types/user.type';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -20,15 +22,36 @@ export class UserRepository implements IUserRepository {
     private readonly addressModel: Model<AddressSchema>,
   ) { }
 
-  async findAll(): Promise<UserModel[]> {
+  async findAll(filters: GetUsersWithFiltersDTO): Promise<IGetUsersWithFilters> {
     try {
+      const { role, isActive, newsletter, limit, page } = filters;
+      const limitInt = Number(limit);
+      const pageInt = Number(page);
+      const where: any = {};
+
+      if (role) {
+        where['role'] = role
+      }
+
+      if (isActive !== undefined) {
+        where.isActive = isActive;
+      }
+
+      if (newsletter !== undefined) {
+        where.newsletter = newsletter
+      }
+
+      const count = await this.userModel.countDocuments(where);
       const findAll = await this.userModel
-        .find()
+        .find(where)
         .populate('role')
         .populate('address')
-        .populate('cart');
+        .populate('cart')
+        .where(where)
+        .skip(limitInt * (pageInt - 1))
+        .limit(limitInt)
 
-      return findAll && findAll.map((user) => UserModel.hydrate(user));
+      return { totalCount: count, users: findAll?.map((user) => UserModel.hydrate(user)) ?? [] };
     } catch (error) {
       throw new BaseErrorException(
         error.message,

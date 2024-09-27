@@ -1,7 +1,8 @@
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   IsArray,
   IsBoolean,
+  IsIn,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -143,4 +144,43 @@ export class ProductCreateDTO extends ProductRelationDTO {
   @ValidateNested({ each: true })
   @Type(() => ImageDTO)
   image: ImageDTO[];
+}
+
+export class GetProductsDTO {
+  @IsString()
+  @IsOptional()
+  page: string = '1';
+
+  @IsString()
+  @IsOptional()
+  limit: string = '10';
+}
+
+export class GetProductsWithFiltersDTO {
+  @IsBoolean()
+  @IsOptional()
+  @Transform(({ value }) => value === 'true' || value === true)
+  isActive?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  @Transform(({ value }) => value === 'true' || value === true)
+  stock?: boolean;
+
+  @IsString()
+  @IsOptional()
+  productName?: string;
+
+  @IsString()
+  @IsOptional()
+  @IsIn(['ASC', 'DESC'])
+  sort: string = 'ASC';
+
+  @IsString()
+  @IsOptional()
+  page: string = '1';
+
+  @IsString()
+  @IsOptional()
+  limit: string = '10';
 }
