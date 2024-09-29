@@ -17,6 +17,8 @@ import { GetProductsWithFiltersDTO, ProductCreateDTO, ProductUpdateDTO } from '.
 import { AuthGuards } from '../../../../auth/infrastructure/nest/guards/auth.guard';
 import { RoleGuards } from '../../../../auth/infrastructure/nest/guards/role.guard';
 import { GetUserDTO, GetUsersWithFiltersDTO, UpdateUserDTO } from '../dtos/user.dto';
+import SymbolsOrder from 'src/order/symbols-order';
+import { IOrderService } from 'src/admin/domain/services/order.interface.service';
 
 @Controller('admin')
 export class AdminController {
@@ -25,6 +27,8 @@ export class AdminController {
     private readonly productService: IProductService,
     @Inject(SymbolsAdmin.IUserService)
     private readonly userService: IUserService,
+    @Inject(SymbolsOrder.IOrderService)
+    private readonly orderService: IOrderService,
   ) { }
 
   @UseGuards(AuthGuards, RoleGuards)
@@ -59,5 +63,11 @@ export class AdminController {
   async userUpdate(@Query() query: GetUserDTO, @Body() body: UpdateUserDTO) {
     const { userId } = query;
     return await this.userService.update(userId, body);
+  }
+
+  @UseGuards(AuthGuards, RoleGuards)
+  @Get('order')
+  async findAllOrders() {
+    return await this.orderService.findAll()
   }
 }

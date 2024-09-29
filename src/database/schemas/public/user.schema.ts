@@ -4,6 +4,7 @@ import { CatRole } from '../catalogs/cat-role.schema';
 import { Cart } from './cart.schema';
 import { Address } from './address.schema';
 import { Session } from './session.schema';
+import { Order } from './order.schema';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -38,6 +39,9 @@ export class User {
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Session' }] })
   session: Session[];
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }] })
+  orders: Order[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

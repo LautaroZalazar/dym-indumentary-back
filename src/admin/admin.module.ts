@@ -12,6 +12,7 @@ import {
   catRoleSchema,
   subCategorySchema,
   addressSchema,
+  orderSchema,
 } from './infrastructure/constants/custom-schema';
 import {
   productRepository,
@@ -19,6 +20,8 @@ import {
   userService,
   userRepository,
   catRoleRepository,
+  orderRepository,
+  orderService,
 } from './infrastructure/constants/custom-provider';
 
 @Module({
@@ -33,7 +36,8 @@ import {
       catColorSchema,
       catSizeSchema,
       subCategorySchema,
-      addressSchema
+      addressSchema,
+      orderSchema
     ]),
   ],
   controllers: [AdminController],
@@ -43,7 +47,9 @@ import {
     userService,
     userRepository,
     catRoleRepository,
+    orderRepository,
+    orderService
   ],
   exports: [],
 })
-export class AdminModule {}
+export class AdminModule { }

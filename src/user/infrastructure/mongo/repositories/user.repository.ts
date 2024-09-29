@@ -17,7 +17,7 @@ export class UserRepository implements IUserRepository {
     @InjectModel('Cart') private readonly cartModel: Model<CartSchema>,
     @Inject(SymbolsCatalogs.ICatRoleRepository)
     private readonly catRoleRepository: ICatRoleRepository,
-  ) {}
+  ) { }
 
   async create(user: UserModel): Promise<UserModel> {
     try {
@@ -60,16 +60,11 @@ export class UserRepository implements IUserRepository {
       const found = await this.userModel
         .findOne({ email })
         .populate('role')
-        .populate('address');
+        .populate('address')
+        .populate('cart')
+        .populate('orders');
 
-      if (!found) {
-        throw new BaseErrorException(
-          'This email is already in use',
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-
-      return UserModel.hydrate(found);
+      return found && UserModel.hydrate(found);
     } catch (error) {
       throw new BaseErrorException(error.message, error.statusCode);
     }
@@ -81,7 +76,8 @@ export class UserRepository implements IUserRepository {
         .findById(id)
         .populate('role')
         .populate('address')
-        .populate('cart');
+        .populate('cart')
+        .populate('orders');
 
       if (!found) {
         throw new BaseErrorException(
@@ -101,7 +97,8 @@ export class UserRepository implements IUserRepository {
         .findById(id)
         .populate('role')
         .populate('address')
-        .populate('cart');
+        .populate('cart')
+        .populate('orders');
       if (!existingUser) {
         throw new BaseErrorException(
           `The user with ID ${id} does not exist`,
@@ -120,6 +117,7 @@ export class UserRepository implements IUserRepository {
         address: existingUser.address,
         role: existingUser.role,
         cart: existingUser.cart,
+        orders: existingUser.orders,
       };
       const updated = await this.userModel.findByIdAndUpdate(
         id,

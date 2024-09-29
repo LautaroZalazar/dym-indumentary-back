@@ -36,6 +36,7 @@
     "dotenv": "^16.4.5",
     "mongoose": "^8.3.3",
     "mongoose-autopopulate": "^1.1.0",
+    "mongoose-sequence": "^6.0.1",
     "passport-headerapikey": "^1.2.2",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.0",

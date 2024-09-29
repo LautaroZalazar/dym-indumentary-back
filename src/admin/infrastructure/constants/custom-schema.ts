@@ -32,6 +32,7 @@ import {
   Address,
   AddressSchema,
 } from '../../../database/schemas/public/address.schema';
+import { Order, OrderSchema } from 'src/database/schemas/public/order.schema';
 
 export const productSchema = {
   name: Product.name,
@@ -81,4 +82,9 @@ export const subCategorySchema = {
 export const addressSchema = {
   name: Address.name,
   schema: AddressSchema,
+};
+
+export const orderSchema = {
+  name: Order.name,
+  schema: OrderSchema,
 };
