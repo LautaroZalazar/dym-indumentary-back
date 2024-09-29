@@ -47,6 +47,7 @@ export class UserRepository implements IUserRepository {
         .populate('role')
         .populate('address')
         .populate('cart')
+        .populate('orders')
         .where(where)
         .skip(limitInt * (pageInt - 1))
         .limit(limitInt)
@@ -66,7 +67,8 @@ export class UserRepository implements IUserRepository {
         .findById(id)
         .populate('role')
         .populate('address')
-        .populate('cart');
+        .populate('cart')
+        .populate('orders');
 
       if (!found) {
         throw new BaseErrorException(
@@ -86,7 +88,8 @@ export class UserRepository implements IUserRepository {
         .findById(userId)
         .populate('role')
         .populate('address')
-        .populate('cart');
+        .populate('cart')
+        .populate('orders');
       if (!existingUser) {
         throw new BaseErrorException(
           `The user with ID ${userId} does not exist`,
@@ -127,6 +130,7 @@ export class UserRepository implements IUserRepository {
         address: findAddress || existingUser.address,
         role: findRole || existingUser.role,
         cart: existingUser.cart,
+        orders: existingUser.orders
       };
 
       const updated = await this.userModel.findByIdAndUpdate(
