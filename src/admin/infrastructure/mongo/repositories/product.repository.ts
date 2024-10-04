@@ -97,7 +97,7 @@ export class ProductRepository implements IProductRepository {
       }
 
       if (stock !== undefined) {
-        if (stock) {
+        if (stock === 'true') {
           where['inventory.stock.quantity'] = { $gt: 0 };
         } else {
           where['inventory.stock.quantity'] = { $eq: 0 };

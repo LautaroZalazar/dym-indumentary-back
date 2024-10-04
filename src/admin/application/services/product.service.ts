@@ -4,7 +4,6 @@ import { IProductRepository } from '../../domain/repositories/product.interface.
 import { IProductService } from '../../domain/services/product.interface.service';
 import { Inject, Injectable } from '@nestjs/common';
 import {
-  IPagination,
   IProductCreate,
   IProductFilters,
   IProductUpdate,
