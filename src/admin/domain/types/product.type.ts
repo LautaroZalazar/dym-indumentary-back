@@ -55,7 +55,7 @@ export interface IPagination {
 export interface IProductFilters {
   sort: string;
   isActive?: boolean;
-  stock?: boolean;
+  stock?: string;
   page: string;
   limit: string;
 }

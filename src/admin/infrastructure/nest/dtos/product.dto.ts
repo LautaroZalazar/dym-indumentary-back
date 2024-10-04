@@ -162,10 +162,9 @@ export class GetProductsWithFiltersDTO {
   @Transform(({ value }) => value === 'true' || value === true)
   isActive?: boolean;
 
-  @IsBoolean()
+  @IsString()
   @IsOptional()
-  @Transform(({ value }) => value === 'true' || value === true)
-  stock?: boolean;
+  stock?: string;
 
   @IsString()
   @IsOptional()
