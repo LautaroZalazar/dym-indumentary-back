@@ -59,3 +59,9 @@ export class RemoveProductCartDTO {
   @IsNotEmpty()
   cartId: string;
 }
+
+export class ClearCartDTO {
+  @IsString()
+  @IsNotEmpty()
+  cartId: string;
+}

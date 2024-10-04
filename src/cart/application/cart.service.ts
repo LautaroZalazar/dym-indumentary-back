@@ -52,4 +52,12 @@ export class CartService implements ICartService {
       throw new BaseErrorException(error.message, error.statusCode);
     }
   }
+
+  async clearCart(cartId: string): Promise<CartModel> {
+    try {
+      return await this.cartRepository.clearCart(cartId);
+    } catch (error) {
+      throw new BaseErrorException(error.message, error.statusCode);
+    }
+  }
 }

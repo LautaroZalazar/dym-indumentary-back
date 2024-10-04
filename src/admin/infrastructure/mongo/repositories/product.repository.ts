@@ -9,7 +9,6 @@ import { CatColorSchema } from '../schemas/cat-color.schema';
 import { CatSizeSchema } from '../schemas/cat-size.schema';
 import { ProductModel } from '../../../domain/models/product.model';
 import {
-  GetProductsDTO,
   GetProductsWithFiltersDTO,
   ProductRelationDTO,
   ProductUpdateDTO,
@@ -29,7 +28,7 @@ export class ProductRepository implements IProductRepository {
     @InjectModel('CatSize') private readonly catSizeDB: Model<CatSizeSchema>,
     @InjectModel('CatSubCategory')
     private readonly catSubCategory: Model<CatSubCategorySchema>,
-  ) { }
+  ) {}
 
   async create(
     product: ProductModel,
@@ -85,11 +84,13 @@ export class ProductRepository implements IProductRepository {
     }
   }
 
-  async findAllWithFilters(filters: GetProductsWithFiltersDTO): Promise<IGetProductsWithFilters> {
+  async findAllWithFilters(
+    filters: GetProductsWithFiltersDTO,
+  ): Promise<IGetProductsWithFilters> {
     try {
       const { sort, isActive, stock, page, limit, productName } = filters;
-      const pageInt = Number(page)
-      const limitInt = Number(limit)
+      const pageInt = Number(page);
+      const limitInt = Number(limit);
       const where: any = {};
 
       if (isActive !== undefined) {
@@ -119,9 +120,12 @@ export class ProductRepository implements IProductRepository {
         .populate('inventory.stock.color')
         .where(where)
         .skip((pageInt - 1) * limitInt)
-        .limit(limitInt)
+        .limit(limitInt);
 
-      return { totalCount: count, products: products.map((product) => ProductModel.hydrate(product)) };
+      return {
+        totalCount: count,
+        products: products.map((product) => ProductModel.hydrate(product)),
+      };
     } catch (error) {
       throw new BaseErrorException(
         error.message,
@@ -151,16 +155,16 @@ export class ProductRepository implements IProductRepository {
           : existingProduct.category,
         inventory: product.inventory
           ? await Promise.all(
-            product.inventory.map(async (item) => ({
-              size: await this.catSizeDB.findById(item.size),
-              stock: await Promise.all(
-                item.stock.map(async (stockItem) => ({
-                  quantity: stockItem.quantity,
-                  color: await this.catColorDB.findById(stockItem.color),
-                })),
-              ),
-            })),
-          )
+              product.inventory.map(async (item) => ({
+                size: await this.catSizeDB.findById(item.size),
+                stock: await Promise.all(
+                  item.stock.map(async (stockItem) => ({
+                    quantity: stockItem.quantity,
+                    color: await this.catColorDB.findById(stockItem.color),
+                  })),
+                ),
+              })),
+            )
           : existingProduct.inventory,
       };
 

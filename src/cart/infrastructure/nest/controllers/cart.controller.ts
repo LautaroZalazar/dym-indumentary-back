@@ -17,6 +17,7 @@ import {
   AddProductToCartDTO,
   UpdateProductInCartDTO,
   RemoveProductCartDTO,
+  ClearCartDTO,
 } from '../dtos/cart.dto';
 
 @Controller('cart')
@@ -49,5 +50,11 @@ export class CartController {
   @Delete()
   async removeProductFromCart(@Body() body: RemoveProductCartDTO) {
     return await this.cartService.removeProductFromCart(body);
+  }
+
+  @UseGuards(AuthGuards)
+  @Put('clear')
+  async clearCart(@Body() body: ClearCartDTO) {
+    return await this.cartService.clearCart(body.cartId);
   }
 }

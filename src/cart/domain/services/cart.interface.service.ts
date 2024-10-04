@@ -10,4 +10,5 @@ export interface ICartService {
   addProductToCart(product: IAddProductToCart): Promise<CartModel>;
   updateProductInCart(product: IUpdateProductInCart): Promise<CartModel>;
   removeProductFromCart(product: IRemoveProductFromCart): Promise<CartModel>;
+  clearCart(cartId: string): Promise<CartModel>;
 }
