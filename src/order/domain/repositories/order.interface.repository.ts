@@ -1,4 +1,4 @@
-import { CreateOrderDTO } from "src/order/infrastructure/nest/dtos/order.dto";
+import { CreateOrderDTO } from "../../../order/infrastructure/nest/dtos/order.dto";
 import { OrderModel } from "../model/order.model";
 
 export interface IOrderRepository {

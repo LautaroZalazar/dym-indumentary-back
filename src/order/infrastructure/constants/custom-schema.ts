@@ -1,5 +1,5 @@
-import { Order, OrderSchema } from "src/database/schemas/public/order.schema";
-import { User, UserSchema } from "src/database/schemas/public/user.schema";
+import { Order, OrderSchema } from "../../../database/schemas/public/order.schema";
+import { User, UserSchema } from "../../../database/schemas/public/user.schema";
 
 export const userSchema = {
     name: User.name,

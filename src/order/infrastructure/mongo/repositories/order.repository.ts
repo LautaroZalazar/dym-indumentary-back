@@ -1,10 +1,10 @@
 import { HttpStatus, Injectable } from "@nestjs/common";
-import { BaseErrorException } from "src/core/domain/exceptions/base/base.error.exception";
+import { BaseErrorException } from "../../../../core/domain/exceptions/base/base.error.exception";
 import { OrderSchema } from "../schemas/order.schema";
 import { Model } from "mongoose";
 import { InjectModel } from "@nestjs/mongoose";
-import { IOrderRepository } from "src/order/domain/repositories/order.interface.repository";
-import { OrderModel } from "src/order/domain/model/order.model";
+import { IOrderRepository } from "../../../../order/domain/repositories/order.interface.repository";
+import { OrderModel } from "../../../../order/domain/model/order.model";
 import { UserSchema } from "../schemas/user.schema";
 import { CreateOrderDTO } from "../../nest/dtos/order.dto";
 

@@ -1,6 +1,6 @@
-import SymbolsOrder from "src/order/symbols-order";
+import SymbolsOrder from "../../../order/symbols-order";
 import { OrderRepository } from "../mongo/repositories/order.repository";
-import { OrderService } from "src/order/application/services/order.service";
+import { OrderService } from "../../../order/application/services/order.service";
 
 export const orderRepository = {
     provide: SymbolsOrder.IOrderRepository,
