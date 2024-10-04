@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Inject, Param, Post, Req, UseGuards } from "@nestjs/common";
-import { IOrderService } from "src/order/domain/services/order.interface.service";
-import SymbolsOrder from "src/order/symbols-order";
+import { IOrderService } from "../../../../order/domain/services/order.interface.service";
+import SymbolsOrder from "../../../../order/symbols-order";
 import { CreateOrderDTO } from "../dtos/order.dto";
-import { IUserRequest } from "src/core/infrastructure/nest/dtos/custom-request/user.request";
-import { AuthGuards } from "src/auth/infrastructure/nest/guards/auth.guard";
+import { IUserRequest } from "../../../../core/infrastructure/nest/dtos/custom-request/user.request";
+import { AuthGuards } from "../../../../auth/infrastructure/nest/guards/auth.guard";
 
 @Controller('order')
 export class OrderController {
