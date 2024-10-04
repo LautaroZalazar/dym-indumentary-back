@@ -12,4 +12,5 @@ export interface ICartRepository {
     updateProductDto: IUpdateProductInCart,
   ): Promise<CartModel>;
   removeProductFromCart(product: IRemoveProductFromCart): Promise<CartModel>;
+  clearCart(cartId: string): Promise<CartModel>;
 }

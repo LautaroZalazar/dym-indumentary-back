@@ -69,7 +69,7 @@ export class CartRepository implements ICartRepository {
 
       for (const prod of product.products) {
         const existingProductIndex = findCart.products.findIndex(
-          (p) =>
+          (p: any) =>
             p.product.toString() === prod.productId.toString() &&
             p.size.toString() === prod.sizeId.toString() &&
             p.color.toString() === prod.colorId.toString(),
@@ -147,9 +147,9 @@ export class CartRepository implements ICartRepository {
 
       for (const prod of updateProductDto.products) {
         const existingProductIndex = findCart.products.findIndex(
-          (p) =>
-            p.product.toString() === prod.productId.toString() &&
-            p.size.toString() === prod.sizeId.toString() &&
+          (p: any) =>
+            p.product.toString() === prod.productId.toString() ||
+            p.size.toString() === prod.sizeId.toString() ||
             p.color.toString() === prod.colorId.toString(),
         );
 
@@ -240,6 +240,27 @@ export class CartRepository implements ICartRepository {
           HttpStatus.BAD_REQUEST,
         );
       }
+
+      return CartModel.hydrate(updateCart);
+    } catch (error) {
+      throw new BaseErrorException(error.message, error.statusCode);
+    }
+  }
+
+  async clearCart(cartId: string): Promise<CartModel> {
+    try {
+      const findCart = await this.cartModel.findById(cartId);
+
+      if (!findCart) {
+        throw new BaseErrorException(
+          'Could not find the cart',
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
+      findCart.products = [];
+
+      const updateCart = await findCart.save();
 
       return CartModel.hydrate(updateCart);
     } catch (error) {
