@@ -58,6 +58,14 @@ export class RemoveProductCartDTO {
   @IsString()
   @IsNotEmpty()
   cartId: string;
+
+  @IsString()
+  @IsNotEmpty()
+  colorId: string;
+
+  @IsString()
+  @IsNotEmpty()
+  sizeId: string;
 }
 
 export class ClearCartDTO {

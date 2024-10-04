@@ -207,21 +207,25 @@ export class CartRepository implements ICartRepository {
     try {
       const findCart = await this.cartModel.findById(product.cartId);
 
-      if (!findCart)
+      if (!findCart) {
         throw new BaseErrorException(
           'Could not find the cart',
           HttpStatus.NOT_FOUND,
         );
+      }
 
       const existingProductIndex = findCart.products.findIndex(
-        (p) => p.product.toString() === product.productId.toString(),
+        (p: any) =>
+          p.product._id.toString() === product.productId.toString() &&
+          p.size._id.toString() === product.sizeId.toString() &&
+          p.color._id.toString() === product.colorId.toString(),
       );
 
       if (existingProductIndex !== -1) {
         findCart.products.splice(existingProductIndex, 1);
       } else {
         throw new BaseErrorException(
-          `Product with ID ${product.productId} is not in the cart`,
+          `Product with ID ${product.productId}, size ${product.sizeId}, and color ${product.colorId} is not in the cart`,
           HttpStatus.NOT_FOUND,
         );
       }

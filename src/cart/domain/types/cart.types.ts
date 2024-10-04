@@ -24,4 +24,6 @@ export interface IProductCart {
 export interface IRemoveProductFromCart {
   cartId: string;
   productId: string;
+  colorId: string;
+  sizeId: string;
 }
