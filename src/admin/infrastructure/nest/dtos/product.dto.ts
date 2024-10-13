@@ -1,4 +1,36 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
+import {
+  IsArray,
+  IsBoolean,
+  IsIn,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
+
+class StockItemUpdateDTO {
+  @IsNumber()
+  @IsOptional()
+  quantity?: number;
+
+  @IsString()
+  @IsOptional()
+  color?: string;
+}
+
+class InventoryItemUpdateDTO {
+  @IsString()
+  @IsOptional()
+  size?: string;
+
+  @ValidateNested({ each: true })
+  @Type(() => StockItemUpdateDTO)
+  @IsArray()
+  @IsOptional()
+  stock?: StockItemUpdateDTO[];
+}
 
 export class ProductUpdateDTO {
   @IsString()
@@ -13,17 +45,17 @@ export class ProductUpdateDTO {
   @IsOptional()
   description?: string;
 
-  @IsOptional()
-  @IsNumber()
-  stock?: number;
-
   @IsString()
   @IsOptional()
   gender?: string;
 
-  @IsString({ each: true })
+  @ValidateNested({ each: true })
+  @Type(() => ImageDTO)
+  image?: ImageDTO[];
+
+  @IsBoolean()
   @IsOptional()
-  image?: string[];
+  isActive?: boolean;
 
   @IsString()
   @IsOptional()
@@ -33,13 +65,33 @@ export class ProductUpdateDTO {
   @IsOptional()
   category?: string;
 
-  @IsString({ each: true })
+  @ValidateNested({ each: true })
+  @Type(() => InventoryItemUpdateDTO)
+  @IsArray()
   @IsOptional()
-  size?: string[];
+  inventory?: InventoryItemUpdateDTO[];
+}
 
-  @IsString({ each: true })
-  @IsOptional()
-  color?: string[];
+class StockItemDTO {
+  @IsString()
+  @IsNotEmpty()
+  color: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  quantity: number;
+}
+
+class InventoryItemDTO {
+  @IsString()
+  @IsNotEmpty()
+  size: string;
+
+  @IsArray()
+  @IsNotEmpty()
+  @ValidateNested({ each: true })
+  @Type(() => StockItemDTO)
+  stock: StockItemDTO[];
 }
 
 export class ProductRelationDTO {
@@ -51,13 +103,25 @@ export class ProductRelationDTO {
   @IsNotEmpty()
   category: string;
 
-  @IsString({ each: true })
+  @IsString()
   @IsNotEmpty()
-  size: string[];
+  subCategory: string;
 
-  @IsString({ each: true })
+  @IsArray()
   @IsNotEmpty()
-  color: string[];
+  @ValidateNested({ each: true })
+  @Type(() => InventoryItemDTO)
+  inventory: InventoryItemDTO[];
+}
+
+class ImageDTO {
+  @IsString()
+  @IsNotEmpty()
+  url: string;
+
+  @IsString()
+  @IsNotEmpty()
+  public_id: string;
 }
 
 export class ProductCreateDTO extends ProductRelationDTO {
@@ -73,14 +137,49 @@ export class ProductCreateDTO extends ProductRelationDTO {
   @IsNotEmpty()
   description: string;
 
-  @IsNotEmpty()
-  @IsNumber()
-  stock: number;
-
   @IsString()
   @IsNotEmpty()
   gender: string;
 
-  @IsString({ each: true })
-  image: string[];
+  @ValidateNested({ each: true })
+  @Type(() => ImageDTO)
+  image: ImageDTO[];
+}
+
+export class GetProductsDTO {
+  @IsString()
+  @IsOptional()
+  page: string = '1';
+
+  @IsString()
+  @IsOptional()
+  limit: string = '10';
+}
+
+export class GetProductsWithFiltersDTO {
+  @IsBoolean()
+  @IsOptional()
+  @Transform(({ value }) => value === 'true' || value === true)
+  isActive?: boolean;
+
+  @IsString()
+  @IsOptional()
+  stock?: string;
+
+  @IsString()
+  @IsOptional()
+  productName?: string;
+
+  @IsString()
+  @IsOptional()
+  @IsIn(['ASC', 'DESC'])
+  sort: string = 'ASC';
+
+  @IsString()
+  @IsOptional()
+  page: string = '1';
+
+  @IsString()
+  @IsOptional()
+  limit: string = '10';
 }

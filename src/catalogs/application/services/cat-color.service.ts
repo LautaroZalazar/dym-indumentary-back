@@ -1,3 +1,4 @@
+import { BaseErrorException } from '../../../core/domain/exceptions/base/base.error.exception';
 import { CatColorModel } from '../../domain/models/cat-color.model';
 import { ICatColorRepository } from '../../domain/repositories/cat-color.interface.repository';
 import { ICatColorService } from '../../domain/services/cat-color.interface.service';
@@ -11,15 +12,15 @@ export class CatColorService implements ICatColorService {
     private readonly catColorRepository: ICatColorRepository,
   ) {}
 
-  async create(color: string): Promise<CatColorModel> {
+  async create(color: string, hex: string): Promise<CatColorModel> {
     try {
-      const colorModel = CatColorModel.create({ name: color });
+      const colorModel = CatColorModel.create({ name: color, hex });
 
       const colorSaved = await this.catColorRepository.create(colorModel);
 
       return colorSaved;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -29,7 +30,7 @@ export class CatColorService implements ICatColorService {
 
       return colors;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -39,7 +40,7 @@ export class CatColorService implements ICatColorService {
 
       return color;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 }

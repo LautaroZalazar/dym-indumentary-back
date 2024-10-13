@@ -1,14 +1,15 @@
+import { BaseErrorException } from 'src/core/domain/exceptions/base/base.error.exception';
 import { IEmailAdapter } from '../../../notification/domain/adapter/email.interface.adapter';
 import { INotificationService } from '../../../notification/domain/services/notification.interface.service';
 import SymbolsNotification from '../../../notification/symbols-notification';
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class NotificationService implements INotificationService {
   constructor(
     @Inject(SymbolsNotification.IEmailAdapter)
     private readonly emailAdapter: IEmailAdapter,
-  ) { }
+  ) {}
 
   async newsletterSuscriptionNotification(
     email: string,
@@ -17,7 +18,10 @@ export class NotificationService implements INotificationService {
     try {
       return await this.emailAdapter.newsletterSuscriptionEmail(email, name);
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(
+        error.message,
+        error.statusCode || HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -31,7 +35,25 @@ export class NotificationService implements INotificationService {
         paymentOrderNumber,
       );
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(
+        error.message,
+        error.statusCode || HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  async recoveryPasswordNotification(
+    name: string,
+    email: string,
+    token: string,
+  ): Promise<any> {
+    try {
+      return await this.emailAdapter.recoveryPasswordEmail(name, email, token);
+    } catch (error) {
+      throw new BaseErrorException(
+        error.message,
+        error.statusCode || HttpStatus.BAD_REQUEST,
+      );
     }
   }
 }

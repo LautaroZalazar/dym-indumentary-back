@@ -7,8 +7,6 @@ import {
   Body,
   Controller,
   Get,
-  HttpException,
-  HttpStatus,
   Inject,
   Post,
   Query,
@@ -25,23 +23,13 @@ export class CatCategoryController {
   @UseGuards(AuthGuards, RoleGuards)
   @Post()
   async create(@Body() body: CreateCategoryDTO) {
-    try {
-      return await this.catCategoryService.create(body);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    return await this.catCategoryService.create(body);
   }
 
   @Get()
   async findAll(@Query() query: GetCategoryrDTO) {
-    try {
-      const { id } = query;
-
-      if (id) return await this.catCategoryService.findCategoryById(id);
-
-      return await this.catCategoryService.findAll();
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    const { id } = query;
+    if (id) return await this.catCategoryService.findCategoryById(id);
+    return await this.catCategoryService.findAll();
   }
 }

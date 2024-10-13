@@ -4,4 +4,9 @@ export interface INotificationService {
     name: string,
     paymentOrderNumber: string,
   ): Promise<any>;
+  recoveryPasswordNotification(
+    name: string,
+    email: string,
+    token: string,
+  ): Promise<any>;
 }

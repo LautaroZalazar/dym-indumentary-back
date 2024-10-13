@@ -1,4 +1,4 @@
-import { Product } from '../../../database/schemas/product.schema';
+import { Product } from '../../../database/schemas/public/product.schema';
 import { Identifier } from '../../../core/domain/value-objects/identifier';
 import { BaseModel } from '../../../core/domain/models/base.model';
 

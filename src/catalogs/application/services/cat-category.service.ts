@@ -1,3 +1,4 @@
+import { BaseErrorException } from '../../../core/domain/exceptions/base/base.error.exception';
 import { CatCategoryModel } from '../../domain/models/cat-category.model';
 import { ICatCategoryRepository } from '../../domain/repositories/cat-category.interface.repository';
 import { ICatCategoryService } from '../../domain/services/cat-category.interface.service';
@@ -21,7 +22,7 @@ export class CatCategoryService implements ICatCategoryService {
 
       return caterogySaved;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -31,7 +32,7 @@ export class CatCategoryService implements ICatCategoryService {
 
       return categories;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 
@@ -41,7 +42,7 @@ export class CatCategoryService implements ICatCategoryService {
 
       return category;
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 }

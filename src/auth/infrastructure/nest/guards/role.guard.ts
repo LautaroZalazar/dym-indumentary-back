@@ -2,12 +2,13 @@ import { TypeRoles } from '../../../../core/domain/enums/type-roles.enum';
 import {
   CanActivate,
   ExecutionContext,
+  HttpStatus,
   Inject,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
 import SymbolsUser from '../../../../user/symbols-user';
 import { IUserService } from '../../../domain/services/user.interface.service';
+import { BaseErrorException } from '../../../../core/domain/exceptions/base/base.error.exception';
 
 @Injectable()
 export class RoleGuards implements CanActivate {
@@ -20,7 +21,7 @@ export class RoleGuards implements CanActivate {
     const user = request.user;
 
     if (!user) {
-      throw new UnauthorizedException('User doesn´t exist');
+      throw new BaseErrorException('User doesn´t exist', HttpStatus.NOT_FOUND);
     }
 
     const findRole = await this.userService.findById(user._id);
@@ -28,7 +29,10 @@ export class RoleGuards implements CanActivate {
     if (findRole.toJSON().role.name === TypeRoles.ADMIN) {
       return true;
     } else {
-      throw new UnauthorizedException('Insufficient permissions');
+      throw new BaseErrorException(
+        'Insufficient permissions',
+        HttpStatus.UNAUTHORIZED,
+      );
     }
   }
 }

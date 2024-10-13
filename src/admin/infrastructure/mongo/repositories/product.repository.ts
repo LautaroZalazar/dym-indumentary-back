@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { IProductRepository } from '../../../domain/repositories/product.interface.repository';
@@ -9,9 +9,13 @@ import { CatColorSchema } from '../schemas/cat-color.schema';
 import { CatSizeSchema } from '../schemas/cat-size.schema';
 import { ProductModel } from '../../../domain/models/product.model';
 import {
+  GetProductsWithFiltersDTO,
   ProductRelationDTO,
   ProductUpdateDTO,
 } from '../../nest/dtos/product.dto';
+import { BaseErrorException } from '../../../../core/domain/exceptions/base/base.error.exception';
+import { CatSubCategorySchema } from '../schemas/cat-sub-category.schema';
+import { IGetProductsWithFilters } from 'src/admin/domain/types/product.response.type';
 
 @Injectable()
 export class ProductRepository implements IProductRepository {
@@ -22,6 +26,8 @@ export class ProductRepository implements IProductRepository {
     private readonly catCategoryDB: Model<CatCategorySchema>,
     @InjectModel('CatColor') private readonly catColorDB: Model<CatColorSchema>,
     @InjectModel('CatSize') private readonly catSizeDB: Model<CatSizeSchema>,
+    @InjectModel('CatSubCategory')
+    private readonly catSubCategory: Model<CatSubCategorySchema>,
   ) {}
 
   async create(
@@ -30,34 +36,101 @@ export class ProductRepository implements IProductRepository {
   ): Promise<ProductModel> {
     try {
       const schema = new this.productDB(product.toJSON());
-      const { brand, category, size, color } = productRelation;
+      const { brand, category, subCategory, inventory } = productRelation;
 
-      if (brand && category && size && color) {
+      if (brand && category && subCategory && inventory) {
         const foundBrand = await this.catBrandDB.findById(brand);
         const foundCategory = await this.catCategoryDB.findById(category);
-        const foundSizes = await Promise.all(
-          size.map(async (sizeId) => {
-            return await this.catSizeDB.findById(sizeId);
-          }),
-        );
-        const foundColors = await Promise.all(
-          color.map(async (colorId) => {
-            return await this.catColorDB.findById(colorId);
+        const foundSubCategory =
+          await this.catSubCategory.findById(subCategory);
+
+        const foundInventory = await Promise.all(
+          inventory.map(async (item) => {
+            const foundSize = await this.catSizeDB.findById(item.size);
+            const foundStock = await Promise.all(
+              item.stock.map(async (stockItem) => {
+                const foundColor = await this.catColorDB.findById(
+                  stockItem.color,
+                );
+                return { ...stockItem, color: foundColor };
+              }),
+            );
+            return { size: foundSize, stock: foundStock };
           }),
         );
         schema.brand = foundBrand;
         schema.category = foundCategory;
-        schema.size = foundSizes;
-        schema.color = foundColors;
+        schema.subCategory = foundSubCategory;
+        schema.inventory = foundInventory.map((item) => ({
+          size: item.size._id,
+          stock: item.stock.map((stockItem) => ({
+            quantity: stockItem.quantity,
+            color: stockItem.color._id,
+          })),
+        }));
       }
 
       const saved = await schema.save();
 
-      if (!saved) throw new Error('Error creating the product');
+      if (!saved)
+        throw new BaseErrorException(
+          'Error creating the product',
+          HttpStatus.BAD_REQUEST,
+        );
 
       return ProductModel.hydrate(saved);
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
+    }
+  }
+
+  async findAllWithFilters(
+    filters: GetProductsWithFiltersDTO,
+  ): Promise<IGetProductsWithFilters> {
+    try {
+      const { sort, isActive, stock, page, limit, productName } = filters;
+      const pageInt = Number(page);
+      const limitInt = Number(limit);
+      const where: any = {};
+
+      if (isActive !== undefined) {
+        where.isActive = isActive;
+      }
+
+      if (stock !== undefined) {
+        if (stock === 'true') {
+          where['inventory.stock.quantity'] = { $gt: 0 };
+        } else {
+          where['inventory.stock.quantity'] = { $eq: 0 };
+        }
+      }
+
+      if (productName) {
+        where.name = { $regex: productName, $options: 'i' };
+      }
+
+      const count = await this.productDB.countDocuments(where);
+      const products = await this.productDB
+        .find()
+        .sort({ price: sort === 'DESC' ? -1 : 1 })
+        .populate('brand')
+        .populate('category')
+        .populate('subCategory')
+        .populate('inventory.size')
+        .populate('inventory.stock.color')
+        .where(where)
+        .skip((pageInt - 1) * limitInt)
+        .limit(limitInt);
+
+      return {
+        totalCount: count,
+        products: products.map((product) => ProductModel.hydrate(product)),
+      };
+    } catch (error) {
+      throw new BaseErrorException(
+        error.message,
+        error.statusCode || HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -66,26 +139,33 @@ export class ProductRepository implements IProductRepository {
       const existingProduct = await this.productDB.findById(id);
 
       if (!existingProduct) throw new Error('Product not found');
-
+      const active = Object.keys(product).find((key) => key === 'isActive');
       const updatedFields = {
         name: product.name || existingProduct.name,
         description: product.description || existingProduct.description,
         price: product.price || existingProduct.price,
-        stock: product.stock || existingProduct.stock,
         gender: product.gender || existingProduct.gender,
         image: product.image || existingProduct.image,
+        isActive: active ? product.isActive : existingProduct.isActive,
         brand: product.brand
           ? await this.catBrandDB.findById(product.brand)
           : existingProduct.brand,
         category: product.category
           ? await this.catCategoryDB.findById(product.category)
           : existingProduct.category,
-        size: product.size
-          ? product.size.map(async (s) => await this.catSizeDB.findById(s))
-          : existingProduct.size,
-        color: product.color
-          ? product.color.map(async (c) => await this.catColorDB.findById(c))
-          : existingProduct.color,
+        inventory: product.inventory
+          ? await Promise.all(
+              product.inventory.map(async (item) => ({
+                size: await this.catSizeDB.findById(item.size),
+                stock: await Promise.all(
+                  item.stock.map(async (stockItem) => ({
+                    quantity: stockItem.quantity,
+                    color: await this.catColorDB.findById(stockItem.color),
+                  })),
+                ),
+              })),
+            )
+          : existingProduct.inventory,
       };
 
       const updated = await this.productDB.findByIdAndUpdate(
@@ -94,11 +174,16 @@ export class ProductRepository implements IProductRepository {
         { new: true },
       );
 
-      if (!updated) throw new Error('Error updating the product');
+      if (!updated) {
+        throw new BaseErrorException(
+          'Error updating the product',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
 
       return ProductModel.hydrate(updated);
     } catch (error) {
-      throw new Error(error);
+      throw new BaseErrorException(error.message, error.statusCode);
     }
   }
 }

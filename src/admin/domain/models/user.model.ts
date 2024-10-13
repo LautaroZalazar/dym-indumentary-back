@@ -3,6 +3,7 @@ import { Identifier } from "../../../core/domain/value-objects/identifier";
 import { BaseModel } from "../../../core/domain/models/base.model";
 import { AddressModel } from './address.model';
 import { CatRoleModel } from './cat-role.model';
+import { OrderModel } from './order.model';
 
 export class UserModel extends BaseModel {
   private _name: string;
@@ -14,6 +15,7 @@ export class UserModel extends BaseModel {
   private _address: AddressModel;
   private _role: CatRoleModel;
   private _cart: CartModel;
+  private _orders: OrderModel[];
 
   public toJSON() {
     const aggregate = this._id ? { _id: this._id.toValue() } : {};
@@ -28,6 +30,7 @@ export class UserModel extends BaseModel {
       address: this._address ? this._address.toJSON() : null,
       role: this._role ? this._role.toJSON() : null,
       cart: this._cart ? this._cart.toJSON() : null,
+      orders: this._orders ? this._orders.map((order) => order.toJSON()) : null,
     };
   }
 
@@ -60,6 +63,7 @@ export class UserModel extends BaseModel {
     newUser._address = user.address ? AddressModel.hydrate(user.address) : null;
     newUser._role = user.role ? CatRoleModel.hydrate(user.role) : null;
     newUser._cart = user.cart ? CartModel.hydrate(user.cart) : null;
+    newUser._orders = user.orders ? user.orders.map((order) => OrderModel.hydrate(order)) : null;
 
     return newUser;
   }

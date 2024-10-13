@@ -7,6 +7,9 @@ export type CatColorDocument = HydratedDocument<CatColor>;
 export class CatColor {
   @Prop({ unique: true })
   name: string;
+
+  @Prop()
+  hex: string;
 }
 
 export const CatColorSchema = SchemaFactory.createForClass(CatColor);

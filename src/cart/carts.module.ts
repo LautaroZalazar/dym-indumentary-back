@@ -9,10 +9,20 @@ import {
   cartSchema,
   userSchema,
   productSchema,
+  colorSchema,
+  sizeSchema,
 } from './infrastructure/constants/custom-schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([cartSchema, userSchema, productSchema])],
+  imports: [
+    MongooseModule.forFeature([
+      cartSchema,
+      userSchema,
+      productSchema,
+      colorSchema,
+      sizeSchema,
+    ]),
+  ],
   controllers: [CartController],
   providers: [cartService, cartRepository],
   exports: [],

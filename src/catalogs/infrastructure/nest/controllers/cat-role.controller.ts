@@ -10,8 +10,6 @@ import {
   Inject,
   Post,
   Query,
-  HttpException,
-  HttpStatus,
   UseGuards,
 } from '@nestjs/common';
 
@@ -20,26 +18,18 @@ export class CatRoleController {
   constructor(
     @Inject(SymbolsCatalogs.ICatRoleService)
     private readonly catRoleService: ICatRoleService,
-  ) {}
-
+  ) { }
+  @UseGuards(AuthGuards, RoleGuards)
   @Get()
   async getByName(@Query() query: GetRoleByNameDTO) {
-    try {
-      const { name } = query;
-      return await this.catRoleService.getByName(name);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    const { name } = query;
+    return await this.catRoleService.getByName(name);
   }
 
   @UseGuards(AuthGuards, RoleGuards)
   @Post()
   async createRole(@Body() body: CreateRoleDTO) {
-    try {
-      const { role } = body;
-      return await this.catRoleService.create(role);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    const { role } = body;
+    return await this.catRoleService.create(role);
   }
 }

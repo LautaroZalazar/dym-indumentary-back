@@ -2,20 +2,23 @@ import {
   Body,
   Controller,
   Get,
-  HttpException,
-  HttpStatus,
   Inject,
   Param,
+  Patch,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import SymbolsAdmin from '../../../symbols-admin';
 import { IProductService } from '../../../domain/services/product.interface.service';
 import { IUserService } from '../../../domain/services/user.interface.service';
-import { ProductCreateDTO, ProductUpdateDTO } from '../dtos/product.dto';
+import { GetProductsWithFiltersDTO, ProductCreateDTO, ProductUpdateDTO } from '../dtos/product.dto';
 import { AuthGuards } from '../../../../auth/infrastructure/nest/guards/auth.guard';
 import { RoleGuards } from '../../../../auth/infrastructure/nest/guards/role.guard';
+import { GetUserDTO, GetUsersWithFiltersDTO, UpdateUserDTO } from '../dtos/user.dto';
+import SymbolsOrder from 'src/order/symbols-order';
+import { IOrderService } from 'src/admin/domain/services/order.interface.service';
 
 @Controller('admin')
 export class AdminController {
@@ -24,35 +27,47 @@ export class AdminController {
     private readonly productService: IProductService,
     @Inject(SymbolsAdmin.IUserService)
     private readonly userService: IUserService,
-  ) {}
+    @Inject(SymbolsOrder.IOrderService)
+    private readonly orderService: IOrderService,
+  ) { }
+
+  @UseGuards(AuthGuards, RoleGuards)
+  @Get('product')
+  async findAllWithFilters(@Query() filters: GetProductsWithFiltersDTO) {
+    return await this.productService.findAllWithFilters(filters);
+  }
 
   @UseGuards(AuthGuards, RoleGuards)
   @Post('product')
   async create(@Body() product: ProductCreateDTO) {
-    try {
-      return await this.productService.create(product);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+    return await this.productService.create(product);
   }
 
   @UseGuards(AuthGuards, RoleGuards)
   @Put('product/:id')
-  async update(@Param('id') id: string, @Body() product: ProductUpdateDTO) {
-    try {
-      return await this.productService.update(id, product);
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+  async productUpdate(
+    @Param('id') id: string,
+    @Body() product: ProductUpdateDTO,
+  ) {
+    return await this.productService.update(id, product);
   }
 
   @UseGuards(AuthGuards, RoleGuards)
   @Get('user')
-  async findUser() {
-    try {
-      return await this.userService.findAll();
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }
+  async findUser(@Query() filters: GetUsersWithFiltersDTO) {
+    return await this.userService.findAll(filters);
+  }
+
+  @UseGuards(AuthGuards, RoleGuards)
+  @Patch('user')
+  async userUpdate(@Query() query: GetUserDTO, @Body() body: UpdateUserDTO) {
+    const { userId } = query;
+    return await this.userService.update(userId, body);
+  }
+
+  @UseGuards(AuthGuards, RoleGuards)
+  @Get('order')
+  async findAllOrders() {
+    return await this.orderService.findAll()
   }
 }

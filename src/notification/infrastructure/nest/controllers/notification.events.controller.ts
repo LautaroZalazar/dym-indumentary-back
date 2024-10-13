@@ -8,7 +8,7 @@ export class NotificationEventController {
   constructor(
     @Inject(SymbolsNotification.INotificationService)
     private readonly notificationService: INotificationService,
-  ) { }
+  ) {}
 
   @OnEvent('newslatter-suscription-notification.created')
   async welcomeNotification({ email, name }: { email: string; name: string }) {
@@ -29,6 +29,23 @@ export class NotificationEventController {
     await this.notificationService.newsletterWithdrawalNotification(
       name,
       paymentOrderNumber,
+    );
+  }
+
+  @OnEvent('recovery-password.created')
+  async recoveryPasswordTemplate({
+    name,
+    email,
+    token,
+  }: {
+    name: string;
+    email: string;
+    token: string;
+  }) {
+    await this.notificationService.recoveryPasswordNotification(
+      name,
+      email,
+      token,
     );
   }
 }

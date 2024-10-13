@@ -1,29 +1,38 @@
 import {
   CatBrand,
   CatBrandSchema,
-} from '../../../database/schemas/cat-brand.schema';
+} from '../../../database/schemas/catalogs/cat-brand.schema';
 import {
   CatCategory,
   CatCategorySchema,
-} from '../../../database/schemas/cat-category.schema';
+} from '../../../database/schemas/catalogs/cat-category.schema';
 import {
   CatColor,
   CatColorSchema,
-} from '../../../database/schemas/cat-color.schema';
+} from '../../../database/schemas/catalogs/cat-color.schema';
 import {
   CatSize,
   CatSizeSchema,
-} from '../../../database/schemas/cat-size.schema';
+} from '../../../database/schemas/catalogs/cat-size.schema';
 import {
   CatRole,
   CatRoleSchema,
-} from '../../../database/schemas/cat-role.schema';
+} from '../../../database/schemas/catalogs/cat-role.schema';
 import {
   Product,
   ProductSchema,
-} from '../../../database/schemas/product.schema';
-import { User, UserSchema } from '../../../database/schemas/user.schema';
-import { Cart, CartSchema } from '../../../database/schemas/cart.schema';
+} from '../../../database/schemas/public/product.schema';
+import { User, UserSchema } from '../../../database/schemas/public/user.schema';
+import { Cart, CartSchema } from '../../../database/schemas/public/cart.schema';
+import {
+  CatSubCategory,
+  CatSubCategorySchema,
+} from '../../../database/schemas/catalogs/cat-sub-category.schema';
+import {
+  Address,
+  AddressSchema,
+} from '../../../database/schemas/public/address.schema';
+import { Order, OrderSchema } from 'src/database/schemas/public/order.schema';
 
 export const productSchema = {
   name: Product.name,
@@ -63,4 +72,19 @@ export const userSchema = {
 export const cartSchema = {
   name: Cart.name,
   schema: CartSchema,
+};
+
+export const subCategorySchema = {
+  name: CatSubCategory.name,
+  schema: CatSubCategorySchema,
+};
+
+export const addressSchema = {
+  name: Address.name,
+  schema: AddressSchema,
+};
+
+export const orderSchema = {
+  name: Order.name,
+  schema: OrderSchema,
 };
