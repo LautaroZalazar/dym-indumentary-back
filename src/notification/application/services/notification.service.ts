@@ -1,4 +1,4 @@
-import { BaseErrorException } from 'src/core/domain/exceptions/base/base.error.exception';
+import { BaseErrorException } from '../../../core/domain/exceptions/base/base.error.exception';
 import { IEmailAdapter } from '../../../notification/domain/adapter/email.interface.adapter';
 import { INotificationService } from '../../../notification/domain/services/notification.interface.service';
 import SymbolsNotification from '../../../notification/symbols-notification';
@@ -9,7 +9,7 @@ export class NotificationService implements INotificationService {
   constructor(
     @Inject(SymbolsNotification.IEmailAdapter)
     private readonly emailAdapter: IEmailAdapter,
-  ) {}
+  ) { }
 
   async newsletterSuscriptionNotification(
     email: string,

@@ -4,7 +4,7 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UserModel } from '../../../domain/models/user.model';
-import { BaseErrorException } from 'src/core/domain/exceptions/base/base.error.exception';
+import { BaseErrorException } from '../../../../core/domain/exceptions/base/base.error.exception';
 import { GetUsersWithFiltersDTO, UpdateUserDTO } from '../../nest/dtos/user.dto';
 import { CatRoleSchema } from '../schemas/cat-role.schema';
 import { AddressSchema } from '../schemas/address.schema';

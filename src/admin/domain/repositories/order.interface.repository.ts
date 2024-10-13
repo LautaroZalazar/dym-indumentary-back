@@ -1,4 +1,4 @@
-import { OrderModel } from "src/admin/domain/models/order.model";
+import { OrderModel } from "../../../admin/domain/models/order.model";
 
 export interface IOrderRepository {
     findAll(): Promise<OrderModel[]>;

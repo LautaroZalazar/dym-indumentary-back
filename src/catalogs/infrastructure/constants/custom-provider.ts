@@ -15,7 +15,7 @@ import { CatBrandRepository } from '../mongo/repositories/cat-brand.repository';
 import { CatShippingRepository } from '../mongo/repositories/cat-shipping.repository';
 import { UserRepository } from '../../../user/infrastructure/mongo/repositories/user.repository';
 import { CatSubCategoryRepository } from '../mongo/repositories/cat-sub-category.repository';
-import { CatSubCategoryService } from 'src/catalogs/application/services/cat-sub-category.service';
+import { CatSubCategoryService } from '../../../catalogs/application/services/cat-sub-category.service';
 
 export const catRoleService = {
   provide: SymbolsCatalogs.ICatRoleService,
