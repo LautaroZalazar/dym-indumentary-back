@@ -8,8 +8,7 @@ import { BaseErrorException } from 'src/core/domain/exceptions/base/base.error.e
 import { GetUsersWithFiltersDTO, UpdateUserDTO } from '../../nest/dtos/user.dto';
 import { CatRoleSchema } from '../schemas/cat-role.schema';
 import { AddressSchema } from '../schemas/address.schema';
-import { IGetUsersWithFilters } from 'src/admin/domain/types/user.response.type';
-import { IPagination, IUserFilters } from 'src/admin/domain/types/user.type';
+import { IGetUsersWithFilters } from '../../../../admin/domain/types/user.response.type';
 
 @Injectable()
 export class UserRepository implements IUserRepository {

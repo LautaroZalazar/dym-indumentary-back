@@ -9,7 +9,7 @@ import {
   IProductUpdate,
 } from '../../domain/types/product.type';
 import { BaseErrorException } from '../../../core/domain/exceptions/base/base.error.exception';
-import { IGetProductsWithFilters } from 'src/admin/domain/types/product.response.type';
+import { IGetProductsWithFilters } from '../../../admin/domain/types/product.response.type';
 
 @Injectable()
 export class ProductService implements IProductService {

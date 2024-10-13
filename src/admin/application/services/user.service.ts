@@ -5,7 +5,7 @@ import { IUserRepository } from '../../domain/repositories/user.interface.reposi
 import { IUserService } from '../../domain/services/user.interface.service';
 import SymbolsAdmin from '../../symbols-admin';
 import { Inject, Injectable } from '@nestjs/common';
-import { IGetUsersWithFilters } from 'src/admin/domain/types/user.response.type';
+import { IGetUsersWithFilters } from '../../../admin/domain/types/user.response.type';
 
 @Injectable()
 export class UserService implements IUserService {

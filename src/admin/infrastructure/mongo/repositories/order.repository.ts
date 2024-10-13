@@ -2,8 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { OrderSchema } from "../schemas/order.schema";
-import { OrderModel } from "src/admin/domain/models/order.model";
-import { IOrderRepository } from "src/admin/domain/repositories/order.interface.repository";
+import { OrderModel } from "../../../../admin/domain/models/order.model";
+import { IOrderRepository } from "../../../../admin/domain/repositories/order.interface.repository";
 
 @Injectable()
 export class OrderRepository implements IOrderRepository {
