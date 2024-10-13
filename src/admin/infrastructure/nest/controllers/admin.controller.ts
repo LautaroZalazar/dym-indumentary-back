@@ -17,8 +17,8 @@ import { GetProductsWithFiltersDTO, ProductCreateDTO, ProductUpdateDTO } from '.
 import { AuthGuards } from '../../../../auth/infrastructure/nest/guards/auth.guard';
 import { RoleGuards } from '../../../../auth/infrastructure/nest/guards/role.guard';
 import { GetUserDTO, GetUsersWithFiltersDTO, UpdateUserDTO } from '../dtos/user.dto';
-import SymbolsOrder from 'src/order/symbols-order';
-import { IOrderService } from 'src/admin/domain/services/order.interface.service';
+import SymbolsOrder from '../../../../order/symbols-order';
+import { IOrderService } from '../../../../admin/domain/services/order.interface.service';
 
 @Controller('admin')
 export class AdminController {

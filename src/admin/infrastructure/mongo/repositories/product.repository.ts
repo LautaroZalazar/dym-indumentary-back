@@ -15,7 +15,7 @@ import {
 } from '../../nest/dtos/product.dto';
 import { BaseErrorException } from '../../../../core/domain/exceptions/base/base.error.exception';
 import { CatSubCategorySchema } from '../schemas/cat-sub-category.schema';
-import { IGetProductsWithFilters } from 'src/admin/domain/types/product.response.type';
+import { IGetProductsWithFilters } from '../../../../admin/domain/types/product.response.type';
 
 @Injectable()
 export class ProductRepository implements IProductRepository {
@@ -28,7 +28,7 @@ export class ProductRepository implements IProductRepository {
     @InjectModel('CatSize') private readonly catSizeDB: Model<CatSizeSchema>,
     @InjectModel('CatSubCategory')
     private readonly catSubCategory: Model<CatSubCategorySchema>,
-  ) {}
+  ) { }
 
   async create(
     product: ProductModel,
@@ -155,16 +155,16 @@ export class ProductRepository implements IProductRepository {
           : existingProduct.category,
         inventory: product.inventory
           ? await Promise.all(
-              product.inventory.map(async (item) => ({
-                size: await this.catSizeDB.findById(item.size),
-                stock: await Promise.all(
-                  item.stock.map(async (stockItem) => ({
-                    quantity: stockItem.quantity,
-                    color: await this.catColorDB.findById(stockItem.color),
-                  })),
-                ),
-              })),
-            )
+            product.inventory.map(async (item) => ({
+              size: await this.catSizeDB.findById(item.size),
+              stock: await Promise.all(
+                item.stock.map(async (stockItem) => ({
+                  quantity: stockItem.quantity,
+                  color: await this.catColorDB.findById(stockItem.color),
+                })),
+              ),
+            })),
+          )
           : existingProduct.inventory,
       };
 
