@@ -5,7 +5,7 @@ import { IProductService } from '../../../product/domain/services/product.interf
 import SymbolsProduct from '../../../product/symbols-product';
 import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { IProductFind } from '../../domain/types/product.types';
-import { IGetProductsWithFiltersResponse } from 'src/product/domain/types/product.response.types';
+import { IGetProductsWithFiltersResponse } from '../../../product/domain/types/product.response.types';
 
 @Injectable()
 export class ProductService implements IProductService {

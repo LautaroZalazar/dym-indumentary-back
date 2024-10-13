@@ -5,9 +5,9 @@ import { UserService } from '../../application/services/user.service';
 import { UserRepository } from '../../infrastructure/mongo/repositories/user.repository';
 import SymbolsCatalogs from '../../../catalogs/symbols-catalogs';
 import { CatRoleRepository } from '../../../catalogs/infrastructure/mongo/repositories/cat-role.repository';
-import SymbolsOrder from 'src/order/symbols-order';
+import SymbolsOrder from '../../../order/symbols-order';
 import { OrderRepository } from '../mongo/repositories/order.repository';
-import { OrderService } from 'src/admin/application/services/order.service';
+import { OrderService } from '../../../admin/application/services/order.service';
 
 export const productService = {
   provide: SymbolsAdmin.IProductService,

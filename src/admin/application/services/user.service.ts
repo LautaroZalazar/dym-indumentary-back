@@ -1,4 +1,4 @@
-import { IPagination, IUpdateUser, IUserFilters } from 'src/admin/domain/types/user.type';
+import { IPagination, IUpdateUser, IUserFilters } from '../../../admin/domain/types/user.type';
 import { BaseErrorException } from '../../../core/domain/exceptions/base/base.error.exception';
 import { UserModel } from '../../domain/models/user.model';
 import { IUserRepository } from '../../domain/repositories/user.interface.repository';

@@ -6,7 +6,7 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { GetProductsDTO } from '../../nest/dtos/product.dto';
-import { IGetProductsWithFiltersResponse } from 'src/product/domain/types/product.response.types';
+import { IGetProductsWithFiltersResponse } from '../../../../product/domain/types/product.response.types';
 
 @Injectable()
 export class ProductRepository implements IProductRepository {

@@ -1,4 +1,4 @@
-import { GetProductsDTO } from 'src/product/infrastructure/nest/dtos/product.dto';
+import { GetProductsDTO } from '../../../product/infrastructure/nest/dtos/product.dto';
 import { ProductModel } from '../models/product.model';
 import { IGetProductsWithFiltersResponse } from '../types/product.response.types';
 

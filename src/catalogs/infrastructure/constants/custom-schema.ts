@@ -29,7 +29,7 @@ import { Cart, CartSchema } from '../../../database/schemas/public/cart.schema';
 import {
   CatSubCategory,
   CatSubCategorySchema,
-} from 'src/database/schemas/catalogs/cat-sub-category.schema';
+} from '../../../database/schemas/catalogs/cat-sub-category.schema';
 
 export const roleSchema = {
   name: CatRole.name,

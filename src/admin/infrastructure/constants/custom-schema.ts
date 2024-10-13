@@ -32,7 +32,7 @@ import {
   Address,
   AddressSchema,
 } from '../../../database/schemas/public/address.schema';
-import { Order, OrderSchema } from 'src/database/schemas/public/order.schema';
+import { Order, OrderSchema } from '../../../database/schemas/public/order.schema';
 
 export const productSchema = {
   name: Product.name,
