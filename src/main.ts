@@ -12,13 +12,23 @@ const server = express();
 let appReady: Promise<express.Express> | null = null;
 
 async function bootstrap(): Promise<express.Express> {
-  const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
+  console.log('[bootstrap] start');
+  console.log('[bootstrap] MONGO_URI set?', !!process.env.MONGO_URI);
+  console.log('[bootstrap] APP_GLOBAL_PREFIX:', process.env.APP_GLOBAL_PREFIX);
+
+  const t0 = Date.now();
+  const app = await NestFactory.create(AppModule, new ExpressAdapter(server), {
+    logger: ['error', 'warn', 'log'],
+  });
+  console.log('[bootstrap] NestFactory.create done in', Date.now() - t0, 'ms');
 
   app.enableCors(corsOptions);
   app.use(express.json({ limit: '5mb' }));
   app.use(express.urlencoded({ extended: true, limit: '5mb' }));
   app.useGlobalPipes(new ValidationPipe());
-  app.setGlobalPrefix(process.env.APP_GLOBAL_PREFIX);
+  if (process.env.APP_GLOBAL_PREFIX) {
+    app.setGlobalPrefix(process.env.APP_GLOBAL_PREFIX);
+  }
 
   if (process.env.NODE_ENV !== 'production') {
     const documentationConfig = new DocumentBuilder()
@@ -32,18 +42,37 @@ async function bootstrap(): Promise<express.Express> {
     SwaggerModule.setup('api/documentation', app, document);
   }
 
+  const t1 = Date.now();
   await app.init();
+  console.log('[bootstrap] app.init done in', Date.now() - t1, 'ms');
+  console.log('[bootstrap] total', Date.now() - t0, 'ms');
   return server;
 }
 
 function getApp() {
-  if (!appReady) appReady = bootstrap();
+  if (!appReady) {
+    appReady = bootstrap().catch((err) => {
+      console.error('[bootstrap] FAILED:', err);
+      appReady = null;
+      throw err;
+    });
+  }
   return appReady;
 }
 
 export default async function handler(req: express.Request, res: express.Response) {
-  const app = await getApp();
-  app(req, res);
+  try {
+    const app = await getApp();
+    app(req, res);
+  } catch (err) {
+    console.error('[handler] bootstrap failed:', err);
+    if (!res.headersSent) {
+      res.status(500).json({
+        error: 'Bootstrap failed',
+        message: err?.message || String(err),
+      });
+    }
+  }
 }
 
 if (!process.env.VERCEL) {
