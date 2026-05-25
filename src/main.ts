@@ -20,15 +20,17 @@ async function bootstrap(): Promise<express.Express> {
   app.useGlobalPipes(new ValidationPipe());
   app.setGlobalPrefix(process.env.APP_GLOBAL_PREFIX);
 
-  const documentationConfig = new DocumentBuilder()
-    .setTitle('Mercado Pago')
-    .setDescription('')
-    .setVersion('1.0')
-    .addBearerAuth()
-    .build();
+  if (process.env.NODE_ENV !== 'production') {
+    const documentationConfig = new DocumentBuilder()
+      .setTitle('Mercado Pago')
+      .setDescription('')
+      .setVersion('1.0')
+      .addBearerAuth()
+      .build();
 
-  const document = SwaggerModule.createDocument(app, documentationConfig);
-  SwaggerModule.setup('api/documentation', app, document);
+    const document = SwaggerModule.createDocument(app, documentationConfig);
+    SwaggerModule.setup('api/documentation', app, document);
+  }
 
   await app.init();
   return server;
