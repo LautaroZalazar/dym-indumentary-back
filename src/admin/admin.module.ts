@@ -13,6 +13,7 @@ import {
   subCategorySchema,
   addressSchema,
   orderSchema,
+  productVariantSchema,
 } from './infrastructure/constants/custom-schema';
 import {
   productRepository,
@@ -22,10 +23,18 @@ import {
   catRoleRepository,
   orderRepository,
   orderService,
+  reportService,
+  reportRepository,
 } from './infrastructure/constants/custom-provider';
+import { ProductTemplateService } from './application/services/product-template.service';
+import { ProductImportService } from './application/services/product-import.service';
+import { CatalogsModule } from '../catalogs/catalogs.module';
+import { VariantModule } from '../variant/variant.module';
 
 @Module({
   imports: [
+    CatalogsModule,
+    VariantModule,
     MongooseModule.forFeature([
       productSchema,
       userSchema,
@@ -37,7 +46,8 @@ import {
       catSizeSchema,
       subCategorySchema,
       addressSchema,
-      orderSchema
+      orderSchema,
+      productVariantSchema,
     ]),
   ],
   controllers: [AdminController],
@@ -48,7 +58,11 @@ import {
     userRepository,
     catRoleRepository,
     orderRepository,
-    orderService
+    orderService,
+    reportService,
+    reportRepository,
+    ProductTemplateService,
+    ProductImportService,
   ],
   exports: [],
 })

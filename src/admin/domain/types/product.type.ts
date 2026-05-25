@@ -1,13 +1,3 @@
-export interface IStockItemCreate {
-  quantity: number;
-  color: string;
-}
-
-export interface IInventoryItemCreate {
-  size: string;
-  stock: IStockItemCreate[];
-}
-
 export interface IImage {
   url: string;
   public_id: string;
@@ -22,17 +12,6 @@ export interface IProductCreate {
   brand: string;
   category: string;
   subCategory: string;
-  inventory: IInventoryItemCreate[];
-}
-
-export interface IStockItemUpdate {
-  quantity?: number;
-  color?: string;
-}
-
-export interface IInventoryItemUpdate {
-  size?: string;
-  stock?: IStockItemUpdate[];
 }
 
 export interface IProductUpdate {
@@ -43,8 +22,8 @@ export interface IProductUpdate {
   image?: IImage[];
   brand?: string;
   category?: string;
+  subCategory?: string;
   isActive?: boolean;
-  inventory?: IInventoryItemUpdate[];
 }
 
 export interface IPagination {

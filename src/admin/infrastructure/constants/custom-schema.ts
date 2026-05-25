@@ -33,6 +33,10 @@ import {
   AddressSchema,
 } from '../../../database/schemas/public/address.schema';
 import { Order, OrderSchema } from '../../../database/schemas/public/order.schema';
+import {
+  ProductVariant,
+  ProductVariantSchema,
+} from '../../../database/schemas/public/product-variant.schema';
 
 export const productSchema = {
   name: Product.name,
@@ -87,4 +91,9 @@ export const addressSchema = {
 export const orderSchema = {
   name: Order.name,
   schema: OrderSchema,
+};
+
+export const productVariantSchema = {
+  name: ProductVariant.name,
+  schema: ProductVariantSchema,
 };

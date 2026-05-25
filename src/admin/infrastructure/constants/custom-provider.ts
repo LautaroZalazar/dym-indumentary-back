@@ -8,6 +8,8 @@ import { CatRoleRepository } from '../../../catalogs/infrastructure/mongo/reposi
 import SymbolsOrder from '../../../order/symbols-order';
 import { OrderRepository } from '../mongo/repositories/order.repository';
 import { OrderService } from '../../../admin/application/services/order.service';
+import { ReportService } from '../../application/services/reports.service';
+import { ReportRepository } from '../mongo/repositories/reports.repository';
 
 export const productService = {
   provide: SymbolsAdmin.IProductService,
@@ -42,4 +44,14 @@ export const orderRepository = {
 export const orderService = {
   provide: SymbolsOrder.IOrderService,
   useClass: OrderService,
+};
+
+export const reportService = {
+  provide: SymbolsAdmin.IReportService,
+  useClass: ReportService,
+};
+
+export const reportRepository = {
+  provide: SymbolsAdmin.IReportRepository,
+  useClass: ReportRepository,
 };

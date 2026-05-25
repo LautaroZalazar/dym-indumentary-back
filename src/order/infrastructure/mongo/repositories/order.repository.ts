@@ -7,12 +7,14 @@ import { IOrderRepository } from "../../../../order/domain/repositories/order.in
 import { OrderModel } from "../../../../order/domain/model/order.model";
 import { UserSchema } from "../schemas/user.schema";
 import { CreateOrderDTO } from "../../nest/dtos/order.dto";
+import { Counter } from "../../../../database/schemas/public/counter.schema";
 
 @Injectable()
 export class OrderRepository implements IOrderRepository {
     constructor(
         @InjectModel('Order') private readonly orderDB: Model<OrderSchema>,
         @InjectModel('User') private readonly userDB: Model<UserSchema>,
+        @InjectModel('Counter') private readonly counterDB: Model<Counter>,
     ) { }
 
     async findById(id: string): Promise<OrderModel> {
@@ -30,7 +32,13 @@ export class OrderRepository implements IOrderRepository {
 
     async create(order: CreateOrderDTO, userId: string): Promise<OrderModel> {
         try {
-            const schema = new this.orderDB(order);
+            const counter = await this.counterDB.findOneAndUpdate(
+                { _id: 'orderNumber' },
+                { $inc: { seq: 1 } },
+                { new: true, upsert: true },
+            );
+
+            const schema = new this.orderDB({ ...order, orderNumber: counter.seq });
             const user = await this.userDB.findById(userId);
             const saved = await schema.save();
 

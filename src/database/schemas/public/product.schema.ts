@@ -35,27 +35,6 @@ export class Product {
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'CatSubCategory' })
   subCategory: CatSubCategory;
-
-  @Prop({
-    type: [
-      {
-        size: { type: mongoose.Schema.Types.ObjectId, ref: 'CatSize' },
-        stock: [
-          {
-            quantity: Number,
-            color: { type: mongoose.Schema.Types.ObjectId, ref: 'CatColor' },
-          },
-        ],
-      },
-    ],
-  })
-  inventory: Array<{
-    size: mongoose.Types.ObjectId;
-    stock: Array<{
-      quantity: number;
-      color: mongoose.Types.ObjectId;
-    }>;
-  }>;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

@@ -1,11 +1,11 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import { orderSchema, userSchema } from "./infrastructure/constants/custom-schema";
+import { orderSchema, userSchema, counterSchema } from "./infrastructure/constants/custom-schema";
 import { orderRepository, orderService } from "./infrastructure/constants/custom-provider";
 import { OrderController } from "./infrastructure/nest/controllers/order.controller";
 
 @Module({
-    imports: [MongooseModule.forFeature([orderSchema, userSchema])],
+    imports: [MongooseModule.forFeature([orderSchema, userSchema, counterSchema])],
     controllers: [OrderController],
     providers: [orderRepository, orderService],
     exports: []
