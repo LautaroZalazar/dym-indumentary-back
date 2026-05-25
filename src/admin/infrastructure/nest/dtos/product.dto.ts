@@ -1,6 +1,5 @@
 import { Transform, Type } from 'class-transformer';
 import {
-  IsArray,
   IsBoolean,
   IsIn,
   IsNotEmpty,
@@ -9,28 +8,6 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
-
-class StockItemUpdateDTO {
-  @IsNumber()
-  @IsOptional()
-  quantity?: number;
-
-  @IsString()
-  @IsOptional()
-  color?: string;
-}
-
-class InventoryItemUpdateDTO {
-  @IsString()
-  @IsOptional()
-  size?: string;
-
-  @ValidateNested({ each: true })
-  @Type(() => StockItemUpdateDTO)
-  @IsArray()
-  @IsOptional()
-  stock?: StockItemUpdateDTO[];
-}
 
 export class ProductUpdateDTO {
   @IsString()
@@ -65,33 +42,9 @@ export class ProductUpdateDTO {
   @IsOptional()
   category?: string;
 
-  @ValidateNested({ each: true })
-  @Type(() => InventoryItemUpdateDTO)
-  @IsArray()
+  @IsString()
   @IsOptional()
-  inventory?: InventoryItemUpdateDTO[];
-}
-
-class StockItemDTO {
-  @IsString()
-  @IsNotEmpty()
-  color: string;
-
-  @IsNumber()
-  @IsNotEmpty()
-  quantity: number;
-}
-
-class InventoryItemDTO {
-  @IsString()
-  @IsNotEmpty()
-  size: string;
-
-  @IsArray()
-  @IsNotEmpty()
-  @ValidateNested({ each: true })
-  @Type(() => StockItemDTO)
-  stock: StockItemDTO[];
+  subCategory?: string;
 }
 
 export class ProductRelationDTO {
@@ -106,12 +59,6 @@ export class ProductRelationDTO {
   @IsString()
   @IsNotEmpty()
   subCategory: string;
-
-  @IsArray()
-  @IsNotEmpty()
-  @ValidateNested({ each: true })
-  @Type(() => InventoryItemDTO)
-  inventory: InventoryItemDTO[];
 }
 
 class ImageDTO {

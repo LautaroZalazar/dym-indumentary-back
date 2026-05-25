@@ -14,6 +14,7 @@ import {
   catColorSchema,
   catSizeSchema,
   productSchema,
+  productVariantSchema,
   userSchema,
   cartSchema,
   catRoleSchema,
@@ -23,6 +24,7 @@ import {
   imports: [
     MongooseModule.forFeature([
       productSchema,
+      productVariantSchema,
       catBrandSchema,
       catCategorySchema,
       catSizeSchema,

@@ -1,5 +1,6 @@
 import { BaseErrorException } from '../../../../core/domain/exceptions/base/base.error.exception';
 import { Product } from '../../../../database/schemas/public/product.schema';
+import { ProductVariant } from '../../../../database/schemas/public/product-variant.schema';
 import { ProductModel } from '../../../../product/domain/models/product.model';
 import { IProductRepository } from '../../../../product/domain/repositories/product.interface.repository';
 import { HttpStatus, Injectable } from '@nestjs/common';
@@ -12,6 +13,8 @@ import { IGetProductsWithFiltersResponse } from '../../../../product/domain/type
 export class ProductRepository implements IProductRepository {
   constructor(
     @InjectModel('Product') private readonly productDB: Model<Product>,
+    @InjectModel('ProductVariant')
+    private readonly variantDB: Model<ProductVariant>,
   ) { }
 
   async findById(id: string): Promise<ProductModel> {
@@ -20,9 +23,7 @@ export class ProductRepository implements IProductRepository {
         .findById(id)
         .populate('brand')
         .populate('category')
-        .populate('subCategory')
-        .populate('inventory.size')
-        .populate('inventory.stock.color');
+        .populate('subCategory');
 
       if (!product)
         throw new BaseErrorException('Product not found', HttpStatus.NOT_FOUND);
@@ -56,9 +57,7 @@ export class ProductRepository implements IProductRepository {
         .limit(parsedLimit)
         .populate('brand')
         .populate('category')
-        .populate('subCategory')
-        .populate('inventory.size')
-        .populate('inventory.stock.color');
+        .populate('subCategory');
 
       return found.map((product) => ProductModel.hydrate(product));
     } catch (error) {
@@ -101,7 +100,11 @@ export class ProductRepository implements IProductRepository {
       }
 
       if (Array.isArray(parsedSize) && parsedSize.length > 0) {
-        query['inventory.size'] = { $in: parsedSize };
+        const productIds = await this.variantDB.distinct('productId', {
+          size: { $in: parsedSize },
+          quantity: { $gt: 0 },
+        });
+        query._id = { $in: productIds };
       }
 
       if (Array.isArray(parsedGender) && parsedGender.length > 0) {
@@ -120,9 +123,7 @@ export class ProductRepository implements IProductRepository {
         .sort({ price: sort === 'ASC' ? 1 : -1 })
         .populate('brand')
         .populate('category')
-        .populate('subCategory')
-        .populate('inventory.size')
-        .populate('inventory.stock.color');
+        .populate('subCategory');
 
       return { totalCount: count, products: products.map((product) => ProductModel.hydrate(product)) };
     } catch (error) {

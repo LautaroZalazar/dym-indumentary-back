@@ -28,13 +28,12 @@ export class ProductService implements IProductService {
 
   async create(product: IProductCreate): Promise<ProductModel> {
     try {
-      const { brand, category, subCategory, inventory } = product;
+      const { brand, category, subCategory } = product;
       const productModel = ProductModel.create(product);
       return await this.productRepository.create(productModel, {
         brand,
         category,
         subCategory,
-        inventory,
       });
     } catch (error) {
       throw new BaseErrorException(error.message, error.statusCode);

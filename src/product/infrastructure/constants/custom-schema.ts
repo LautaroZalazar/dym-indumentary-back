@@ -22,12 +22,21 @@ import {
   Product,
   ProductSchema,
 } from '../../../database/schemas/public/product.schema';
+import {
+  ProductVariant,
+  ProductVariantSchema,
+} from '../../../database/schemas/public/product-variant.schema';
 import { User, UserSchema } from '../../../database/schemas/public/user.schema';
 import { Cart, CartSchema } from '../../../database/schemas/public/cart.schema';
 
 export const productSchema = {
   name: Product.name,
   schema: ProductSchema,
+};
+
+export const productVariantSchema = {
+  name: ProductVariant.name,
+  schema: ProductVariantSchema,
 };
 
 export const catBrandSchema = {

@@ -70,3 +70,33 @@ export class GetUsersWithFiltersDTO {
   @IsNotEmpty()
   limit: string = '10';
 }
+
+export class CreateUserAdminDTO {
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  password: string;
+
+  @IsString()
+  @IsOptional()
+  phone: string;
+
+  @IsString()
+  @IsNotEmpty()
+  roleId: string;
+
+  @IsBoolean()
+  @IsOptional()
+  isActive: boolean = true;
+
+  @IsBoolean()
+  @IsOptional()
+  newsletter: boolean = false;
+}

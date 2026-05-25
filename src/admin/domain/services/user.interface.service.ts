@@ -6,4 +6,5 @@ export interface IUserService {
   findAll(filters: IUserFilters): Promise<IGetUsersWithFilters>
   findById(id: string): Promise<UserModel>;
   update(userId: string, user: IUpdateUser): Promise<UserModel>;
+  createUserWithRole(userData: any): Promise<UserModel>;
 }

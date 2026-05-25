@@ -5,20 +5,20 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UserModel } from '../../../domain/models/user.model';
 import { BaseErrorException } from '../../../../core/domain/exceptions/base/base.error.exception';
-import { GetUsersWithFiltersDTO, UpdateUserDTO } from '../../nest/dtos/user.dto';
+import { GetUsersWithFiltersDTO, UpdateUserDTO, CreateUserAdminDTO } from '../../nest/dtos/user.dto';
 import { CatRoleSchema } from '../schemas/cat-role.schema';
 import { AddressSchema } from '../schemas/address.schema';
+import { CartDocument } from '../schemas/cart.schema';
 import { IGetUsersWithFilters } from '../../../../admin/domain/types/user.response.type';
+import { hashPassword } from '../../../../core/domain/utils/bcrypt.util';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
   constructor(
     @InjectModel('User') private readonly userModel: Model<UserSchema>,
-
     @InjectModel('CatRole') private readonly catRoleModel: Model<CatRoleSchema>,
-
-    @InjectModel('Address')
-    private readonly addressModel: Model<AddressSchema>,
+    @InjectModel('Address') private readonly addressModel: Model<AddressSchema>,
+    @InjectModel('Cart') private readonly cartModel: Model<CartDocument>,
   ) { }
 
   async findAll(filters: GetUsersWithFiltersDTO): Promise<IGetUsersWithFilters> {
@@ -146,6 +146,56 @@ export class UserRepository implements IUserRepository {
       }
 
       return UserModel.hydrate(updated);
+    } catch (error) {
+      throw new BaseErrorException(
+        error.message || 'Internal server error',
+        error.statusCode || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  async create(userData: CreateUserAdminDTO): Promise<UserModel> {
+    try {
+      const existingUser = await this.userModel.findOne({ email: userData.email });
+      if (existingUser) {
+        throw new BaseErrorException(
+          'This email is already in use',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      const role = await this.catRoleModel.findById(userData.roleId);
+      if (!role) {
+        throw new BaseErrorException(
+          `The role with ID ${userData.roleId} does not exist`,
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
+      const hashedPassword = await hashPassword(userData.password);
+
+      const cart = new this.cartModel({
+        products: [],
+        total: 0,
+        shippingCost: 0,
+      });
+      const savedCart = await cart.save();
+
+      const user = new this.userModel({
+        name: userData.name,
+        email: userData.email,
+        password: hashedPassword,
+        phone: userData.phone || null,
+        isActive: userData.isActive ?? true,
+        newsletter: userData.newsletter ?? false,
+        role: role._id,
+        cart: savedCart._id,
+        orders: [],
+      });
+
+      const saved = await user.save();
+
+      return UserModel.hydrate(await saved.populate(['role', 'cart']));
     } catch (error) {
       throw new BaseErrorException(
         error.message || 'Internal server error',

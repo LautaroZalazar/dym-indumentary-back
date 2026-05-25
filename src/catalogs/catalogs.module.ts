@@ -78,6 +78,11 @@ import { CatSubCategoryController } from './infrastructure/nest/controllers/cat-
     catSubCategoryRepository,
     catSubCategorySerivce,
   ],
-  exports: [],
+  exports: [
+    catSizeRepository,
+    catColorRepository,
+    catCategoryRepository,
+    catBrandRepository,
+  ],
 })
 export class CatalogsModule {}

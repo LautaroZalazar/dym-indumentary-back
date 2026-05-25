@@ -13,6 +13,8 @@ import { CartModule } from './cart/carts.module';
 import { AdminModule } from './admin/admin.module';
 import { CustomCorsMiddleware } from './config/cors';
 import { OrderModule } from './order/order.module';
+import { VariantModule } from './variant/variant.module';
+import { SaleModule } from './sale/sale.module';
 
 @Module({
   imports: [
@@ -26,7 +28,9 @@ import { OrderModule } from './order/order.module';
     ProductModule,
     CartModule,
     AdminModule,
-    OrderModule
+    OrderModule,
+    VariantModule,
+    SaleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

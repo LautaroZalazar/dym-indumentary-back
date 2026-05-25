@@ -6,4 +6,5 @@ export interface IUserRepository {
   findAll(filters: IUserFilters): Promise<IGetUsersWithFilters>;
   findById(id: string): Promise<UserModel>;
   update(userId: string, user: IUpdateUser): Promise<UserModel>;
+  create(user: any): Promise<UserModel>;
 }

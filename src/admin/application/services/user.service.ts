@@ -43,4 +43,13 @@ export class UserService implements IUserService {
       throw new BaseErrorException(error.message, error.statusCode);
     }
   }
+
+  async createUserWithRole(userData: any): Promise<UserModel> {
+    try {
+      const created = await this.userRepository.create(userData);
+      return created;
+    } catch (error) {
+      throw new BaseErrorException(error.message, error.statusCode);
+    }
+  }
 }
